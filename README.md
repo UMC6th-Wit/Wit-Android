@@ -1,4 +1,4 @@
-<h1 align="center">SMUMC 6th Team C Frontend</h1>
+<h1 align="center">UMC 6th Wit Android</h1>
 <div align="center"></div>
 
 <div align="center">
