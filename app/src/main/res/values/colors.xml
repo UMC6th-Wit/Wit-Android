@@ -9,4 +9,6 @@
     <color name="classic_rose">#F5BBDC</color>
     <color name="white_linen">#EEE8DB</color>
     <color name="floral_white">#FFFCF4</color>
+    <color name="color_translate">#00000000</color>
+    <color name="bottom_nav">#232323</color>
 </resources>
