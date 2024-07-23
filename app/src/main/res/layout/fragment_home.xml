@@ -4,7 +4,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="20dp">
+        android:paddingTop="20dp"
+        android:background="#FFFFFF">
 
         <ImageView
             android:id="@+id/logo"
@@ -84,6 +85,7 @@
             android:id="@+id/home_tb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             app:tabIndicatorFullWidth="true"
             app:tabSelectedTextColor="#000000"
             app:tabTextColor="#868686"
@@ -95,14 +97,15 @@
             app:tabTextAppearance="@style/tab_text_appearance"
             app:tabIndicatorHeight="2dp"
             android:layout_marginTop="20dp"/>
-    
-    
+
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@id/home_tb"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="vertical">
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

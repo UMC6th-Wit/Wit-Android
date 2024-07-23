@@ -4,32 +4,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/list"
+        android:id="@+id/listFragment"
         android:icon="@drawable/ic_bottom_list_no_select"
         app:showAsAction="always"
         android:enabled="true"
         android:title=""/>
     <item
-        android:id="@+id/search"
+        android:id="@+id/searchFragment"
         android:icon="@drawable/ic_bottom_search_no_select"
         app:showAsAction="always"
         android:enabled="true"
         android:title=""/>
     <item
-        android:id="@+id/home"
+        android:id="@+id/homeFragment"
         android:icon="@drawable/ic_bottom_home_select"
         app:showAsAction="always"
         android:enabled="true"
         tools:ignore="AlwaysShowAction"
         android:title=""/>
     <item
-        android:id="@+id/wish"
+        android:id="@+id/wishFragment"
         android:icon="@drawable/ic_bottom_wish_no_select"
         app:showAsAction="always"
         android:enabled="true"
         android:title=""/>
     <item
-        android:id="@+id/my"
+        android:id="@+id/myFragment"
         android:icon="@drawable/ic_bottom_my_select"
         app:showAsAction="always"
         android:enabled="true"

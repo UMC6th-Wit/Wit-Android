@@ -19,7 +19,6 @@ class HomeFragment : Fragment(){
 
     private val title = arrayListOf("홈", "랭킹")
 
-
     private val timer = Timer()
     private val handler = Handler(Looper.getMainLooper())
     override fun onCreateView(

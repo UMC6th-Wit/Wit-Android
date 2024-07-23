@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#FFFFFF">
 
     <FrameLayout
         android:id="@+id/main_frm"
@@ -15,34 +16,30 @@
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp" />
 
-<!--    <androidx.cardview.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_margin="20dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="10dp"
-        >-->
+        app:layout_constraintStart_toStartOf="parent">
 
-
-
-<!--        <com.google.android.material.bottomnavigation.BottomNavigationView-->
-<!--            android:id="@+id/main_bnv"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:itemIconSize="30dp"-->
-<!--            app:itemIconTint="@drawable/btm_color_selector"-->
-<!--            app:itemTextColor="@drawable/btm_color_selector"-->
-<!--            app:labelVisibilityMode="unlabeled"-->
-<!--            app:menu="@menu/bottom_nav_menu"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            android:layout_margin="10dp"-->
-<!--            android:background="@color/bottom_nav"-->
-<!--            />-->
-<!--    </androidx.cardview.widget.CardView>-->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/main_bnv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bottom_nav"
+            app:itemIconSize="30dp"
+            app:itemIconTint="@drawable/btm_color_selector"
+            app:labelVisibilityMode="unlabeled"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/bottom_nav_menu"
+            app:itemBackground="@color/color_translate"
+            app:itemRippleColor="@color/color_translate"/>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
