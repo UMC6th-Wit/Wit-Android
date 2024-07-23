@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/product_detail_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sample_image"
+            app:layout_constraintBottom_toTopOf="@id/product_name_tv"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/product_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="27dp"
+            android:text="간자이치고 스낵"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/product_detail_img" />
+
+        <ImageView
+            android:id="@+id/currency_yen_iv"
+            android:layout_width="30dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="@+id/product_name_tv"
+            app:layout_constraintTop_toBottomOf="@+id/product_name_tv"
+            app:srcCompat="@drawable/currency_yen_image" />
+
+        <TextView
+            android:id="@+id/currency_yen_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¥380"
+            android:textSize="13sp"
+            android:textColor="#FF5555"
+            android:layout_marginStart="7dp"
+            app:layout_constraintBottom_toBottomOf="@+id/currency_yen_iv"
+            app:layout_constraintStart_toEndOf="@+id/currency_yen_iv" />
+
+        <ImageView
+            android:id="@+id/currency_won_iv"
+            android:layout_width="30dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintBottom_toBottomOf="@+id/currency_yen_iv"
+            app:layout_constraintStart_toEndOf="@+id/currency_yen_tv"
+            app:layout_constraintTop_toBottomOf="@+id/product_name_tv"
+            app:srcCompat="@drawable/currency_won_image" />
+
+        <TextView
+            android:id="@+id/currency_won_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3,267원"
+            android:textSize="13sp"
+            android:layout_marginStart="7dp"
+            app:layout_constraintBottom_toBottomOf="@+id/currency_won_iv"
+            app:layout_constraintStart_toEndOf="@+id/currency_won_iv" />
+
+        <ImageView
+            android:id="@+id/heart_btn_iv"
+            android:layout_width="18dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="28dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.985"
+            app:layout_constraintStart_toEndOf="@+id/product_name_tv"
+            app:layout_constraintTop_toBottomOf="@+id/product_detail_img"
+            app:srcCompat="@drawable/heart_btn_image" />
+
+        <TextView
+            android:id="@+id/heart_btn_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="34개"
+            android:textSize="11sp"
+            android:textColor="#FF5555"
+            android:layout_marginTop="2dp"
+            app:layout_constraintEnd_toEndOf="@+id/heart_btn_iv"
+            app:layout_constraintStart_toStartOf="@+id/heart_btn_iv"
+            app:layout_constraintTop_toBottomOf="@+id/heart_btn_iv" />
+
+        <ImageView
+            android:id="@+id/vector_bar_iv"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/heart_btn_iv"
+            app:layout_constraintStart_toStartOf="@+id/currency_yen_iv"
+            app:layout_constraintTop_toBottomOf="@+id/currency_yen_iv"
+            app:srcCompat="@drawable/vector_image" />
+
+        <ImageView
+            android:id="@+id/where_widget1_iv"
+            android:layout_width="10dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="17dp"
+            app:layout_constraintStart_toStartOf="@+id/currency_yen_iv"
+            app:layout_constraintTop_toBottomOf="@+id/vector_bar_iv"
+            app:srcCompat="@drawable/where_widget_image" />
+
+        <TextView
+            android:id="@+id/where_widget1_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:textSize="10sp"
+            android:text="일본 돈키호테"
+            app:layout_constraintBottom_toBottomOf="@+id/where_widget1_iv"
+            app:layout_constraintStart_toEndOf="@+id/where_widget1_iv" />
+
+        <ImageView
+            android:id="@+id/where_widget2_iv"
+            android:layout_width="10dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="60dp"
+            app:layout_constraintBottom_toBottomOf="@+id/where_widget1_iv"
+            app:layout_constraintStart_toEndOf="@+id/where_widget1_tv"
+            app:srcCompat="@drawable/where_widget_image" />
+
+        <TextView
+            android:id="@+id/where_widget2_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textSize="10sp"
+            android:text="일본 돈키호테"
+            app:layout_constraintBottom_toBottomOf="@+id/where_widget2_iv"
+            app:layout_constraintStart_toEndOf="@+id/where_widget2_iv" />
+
+        <ImageView
+            android:id="@+id/keep_btn_iv"
+            android:layout_width="171dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintStart_toStartOf="@+id/where_widget1_iv"
+            app:layout_constraintTop_toBottomOf="@+id/where_widget1_iv"
+            app:srcCompat="@drawable/keep_btn_image" />
+
+        <ImageView
+            android:id="@+id/comparison_btn_iv"
+            android:layout_width="163dp"
+            android:layout_height="42dp"
+            app:layout_constraintBottom_toBottomOf="@+id/keep_btn_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.392"
+            app:layout_constraintStart_toEndOf="@+id/keep_btn_iv"
+            app:srcCompat="@drawable/comparison_btn_image" />
+
+        <ImageView
+            android:id="@+id/vectar_back_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/keep_btn_iv"
+            app:layout_constraintWidth_percent="0.5"
+            app:srcCompat="@drawable/back_image" />
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="203dp"
+            android:layout_height="55dp"
+            app:layout_constraintEnd_toStartOf="@id/imageView12"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vectar_back_iv"
+            app:layout_constraintWidth_percent="0.5"
+            app:srcCompat="@drawable/detail_btn_image" />
+
+        <ImageView
+            android:id="@+id/imageView12"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageView11"
+            app:layout_constraintTop_toTopOf="@+id/imageView11"
+            app:layout_constraintWidth_percent="0.5"
+            app:srcCompat="@drawable/review_btn_image" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+
+
+
