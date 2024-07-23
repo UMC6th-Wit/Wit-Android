@@ -2,7 +2,7 @@
 <resources>
     <color name="black">#111111</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="old_lace">#FCF4E7</color>
+    <color name="old_lace">#FBF5E7</color>
     <color name="sweet_corn">#F7DB71</color>
     <color name="periwinkle">#BBCBEC</color>
     <color name="green_smoke">#9AAB65</color>
@@ -11,4 +11,6 @@
     <color name="floral_white">#FFFCF4</color>
     <color name="background_yellow">#FEFBF1</color>
     <color name="gray">#CFCCC4</color>
+    <color name="selectedTextColor">#111111</color>
+    <color name="unselectedTextColor">#888888</color>
 </resources>
