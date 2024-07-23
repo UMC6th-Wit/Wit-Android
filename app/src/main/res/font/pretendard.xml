@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--regular-->
+    <font
+        android:font="@font/pretendardmedium"
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        app:font="@font/pretendardmedium"
+        app:fontStyle="normal" />
+
+    <font
+        android:font="@font/pretendardsemibold"
+        android:fontStyle="normal"
+        android:fontWeight="700"
+        app:font="@font/pretendardsemibold"
+        app:fontStyle="normal" />
+
+
+</font-family>
