@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingEnd="10dp">
+    <!--    둥그렇게 하는 효과-->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/item_cover_img_cv"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        app:cardCornerRadius="7dp"
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/item_cover_img_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/rv1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/item_title_tv"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="긴자이치고 딸기(딸기빵)"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@id/item_cover_img_cv"
+        app:layout_constraintTop_toBottomOf="@id/item_cover_img_cv"/>
+
+
+    <TextView
+        android:id="@+id/item_yen_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="367¥"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@id/item_title_tv"
+        app:layout_constraintTop_toBottomOf="@id/item_title_tv"/>
+
+    <ImageView
+        android:id="@+id/item_star_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/item_star_tv"
+        app:layout_constraintBottom_toBottomOf="@id/item_star_tv"
+        app:layout_constraintStart_toStartOf="@id/item_cover_img_cv"
+        android:src="@drawable/ic_star"/>
+    <TextView
+        android:id="@+id/item_star_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="4.40"
+        android:textColor="#7E878F"
+        android:textSize="13sp"
+        android:layout_marginStart="2dp"
+        app:layout_constraintStart_toEndOf="@id/item_star_iv"
+        app:layout_constraintTop_toBottomOf="@id/item_yen_tv"/>
+
+    <TextView
+        android:id="@+id/item_review_num_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="(273)"
+        android:textColor="#95A0AA"
+        android:textSize="11sp"
+        android:layout_marginStart="2dp"
+        app:layout_constraintStart_toEndOf="@id/item_star_tv"
+        app:layout_constraintBottom_toBottomOf="@id/item_star_tv"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

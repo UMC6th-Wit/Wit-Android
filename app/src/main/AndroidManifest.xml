@@ -25,11 +25,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
+
+        <activity
+            android:name=".DetailActivity"
+            android:exported="true">
+        </activity>
+
         <activity android:name=".home.ProductDetailActivity"
             android:exported="false"/>
-=======
->>>>>>> 111293436a43295d6bf4908500093cb87de66786
+
     </application>
 
 </manifest>
