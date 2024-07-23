@@ -3,7 +3,6 @@ package com.umc.umc_6th_wit_android.wish
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.databinding.ItemWishBinding
 
 class WishAdapter(private val items: List<WishItem>) : RecyclerView.Adapter<WishAdapter.WishViewHolder>() {
