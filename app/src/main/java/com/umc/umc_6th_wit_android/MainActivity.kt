@@ -4,6 +4,9 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.umc.umc_6th_wit_android.home.HomeFragment
 import androidx.appcompat.app.AppCompatActivity
 import com.umc.umc_6th_wit_android.databinding.ActivityMainBinding
+import com.umc.umc_6th_wit_android.home.SearchFragment
+import com.umc.umc_6th_wit_android.list.ListFragment
+import com.umc.umc_6th_wit_android.mypage.MypageFragment
 import com.umc.umc_6th_wit_android.wish.WishFragment
 
 class MainActivity : AppCompatActivity() {
@@ -32,43 +35,45 @@ class MainActivity : AppCompatActivity() {
 
         binding.mainBnv.setSelectedItemId(R.id.homeFragment)
 
-        binding.mainBnv.setOnItemSelectedListener{ item ->
+        binding.mainBnv.setOnItemSelectedListener { item ->
             when (item.itemId) {
 
                 R.id.listFragment -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frm, HomeFragment())
+                        .replace(R.id.main_frm, ListFragment())
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
 
                 R.id.searchFragment -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frm, HomeFragment())
+                        .replace(R.id.main_frm, SearchFragment())
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.homeFragment -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_frm, HomeFragment())
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
+
                 R.id.wishFragment -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frm, HomeFragment())
+                        .replace(R.id.main_frm, WishFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
+                }
+                R.id.myFragment -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_frm, MypageFragment())
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
             }
             false
-
-        supportActionBar?.hide()
-        // WishFragment를 FragmentContainerView에 추가
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, WishFragment())
-                .commitNow()
         }
+        supportActionBar?.hide()
     }
 }

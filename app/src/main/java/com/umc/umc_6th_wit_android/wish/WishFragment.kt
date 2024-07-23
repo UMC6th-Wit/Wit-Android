@@ -11,14 +11,13 @@ import com.umc.umc_6th_wit_android.databinding.FragmentWishBinding
 
 
 class WishFragment : Fragment() {
-    private var _binding: FragmentWishBinding? = null
-    private val binding get() = _binding!!
+    lateinit var binding: FragmentWishBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentWishBinding.inflate(inflater, container, false)
+        binding = FragmentWishBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -58,7 +57,6 @@ class WishFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
     }
 
     private fun getWishItems(): List<WishItem> {
