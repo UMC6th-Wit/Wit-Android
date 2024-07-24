@@ -5,56 +5,116 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.viewpager2.widget.ViewPager2
 import com.umc.umc_6th_wit_android.R
+import com.umc.umc_6th_wit_android.databinding.FragmentOnboarding1Binding
+import com.umc.umc_6th_wit_android.databinding.FragmentOnboarding2Binding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [OnboardingFragment2.newInstance] factory method to
- * create an instance of this fragment.
- */
 class OnboardingFragment2 : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var viewPager: ViewPager2
+    private lateinit var binding: FragmentOnboarding2Binding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val selectedImages = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_onboarding2, container, false)
+        binding = FragmentOnboarding2Binding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment OnboardingFragment2.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            OnboardingFragment2().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewPager = requireActivity().findViewById(R.id.onboarding_viewpager)
+        val nextButton = binding.onboarding2Next
+        updateNextButtonState()
+
+        nextButton.setOnClickListener {
+            if (nextButton.isClickable) {
+                //선택한 정보 백엔드에 전송 처리 부분
+
+                val currentItem = viewPager.currentItem
+                viewPager.currentItem = currentItem + 1
             }
+        }
+
+        nextButton.setOnClickListener {
+            val currentItem = viewPager.currentItem
+            viewPager.currentItem = currentItem + 1
+        }
+
+        val imageViews = listOf(
+            binding.onboarding2Img1,
+            binding.onboarding2Img2,
+            binding.onboarding2Img3,
+            binding.onboarding2Img4,
+            binding.onboarding2Img5,
+            binding.onboarding2Img6,
+            binding.onboarding2Img7,
+            binding.onboarding2Img8,
+            binding.onboarding2Img9,
+        )
+
+        val imageNames = listOf("img1", "img2", "img3", "img4",
+            "img5", "img6", "img7", "img8", "img9")
+        val imageResources = listOf(
+            R.drawable.onboarding2_img1,
+            R.drawable.onboarding2_img2,
+            R.drawable.onboarding2_img3,
+            R.drawable.onboarding2_img4,
+            R.drawable.onboarding2_img5,
+            R.drawable.onboarding2_img6,
+            R.drawable.onboarding2_img7,
+            R.drawable.onboarding2_img8,
+            R.drawable.onboarding2_img9,
+        )
+        val selectedImageResources = listOf(
+            R.drawable.onboarding2_img1_selected,
+            R.drawable.onboarding2_img2_selected,
+            R.drawable.onboarding2_img3_selected,
+            R.drawable.onboarding2_img4_selected,
+            R.drawable.onboarding2_img5_selected,
+            R.drawable.onboarding2_img6_selected,
+            R.drawable.onboarding2_img7_selected,
+            R.drawable.onboarding2_img8_selected,
+            R.drawable.onboarding2_img9_selected,
+
+        )
+
+        imageViews.forEachIndexed { index, imageView ->
+            imageView.setOnClickListener {
+                val imageName = imageNames[index]
+                if (selectedImages.contains(imageName)) {
+                    selectedImages.remove(imageName)
+                    imageView.setImageResource(imageResources[index])
+                } else {
+                    if (selectedImages.size < 3) {
+                        selectedImages.add(imageName)
+                        imageView.setImageResource(selectedImageResources[index])
+                    } else {
+                        // 선택할 수 있는 이미지 수가 초과되었음을 사용자에게 알림
+                        Toast.makeText(context, "최대 3개의 이미지만 선택할 수 있습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                updateNextButtonState()
+            }
+        }
+    }
+
+    private fun updateNextButtonState() {
+        val nextButton = binding.onboarding2Next
+        if (selectedImages.isNotEmpty()) {
+            nextButton.setImageResource(R.drawable.next_button_on) // 활성화된 상태의 이미지 리소스
+            nextButton.isClickable = true
+        } else {
+            nextButton.setImageResource(R.drawable.next_button_off) // 비활성화된 상태의 이미지 리소스
+            nextButton.isClickable = false
+        }
     }
 }
