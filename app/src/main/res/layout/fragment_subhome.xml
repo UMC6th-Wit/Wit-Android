@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            >
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:src="@drawable/food"
+                android:padding="0dp"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/color_translate" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:text="식품"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            >
+            <ImageButton
+                android:id="@+id/cosmetic_iv"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/cosmetic"
+                android:backgroundTint="@color/color_translate" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:text="화장품"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            >
+            <ImageButton
+                android:id="@+id/medicine_iv"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/medicine"
+                android:backgroundTint="@color/color_translate" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:text="의약품"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            >
+            <ImageButton
+                android:id="@+id/daily_iv"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/daily"
+                android:backgroundTint="@color/color_translate" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:text="생활용품"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/recommend_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/list"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:text="지영님을 위한 추천템"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/recommend_title"
+        app:layout_constraintTop_toTopOf="@id/recommend_title"
+        app:layout_constraintBottom_toBottomOf="@id/recommend_title"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/ic_heart"/>
+
+    <TextView
+        android:id="@+id/recommend_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/recommend_title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:text="지영님의 여행지에 찰떡인 기념품을 살펴보세요"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:textColor="#56534B80"
+        />
+    <!--스크롤 중첩 방지-->
+    <com.umc.umc_6th_wit_android.home.NestedScrollableHost
+        android:id="@+id/personal_ns"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/recommend_detail"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:paddingEnd="10dp"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/personal_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/item_home_personal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            android:paddingEnd="10dp"
+            />
+
+    </com.umc.umc_6th_wit_android.home.NestedScrollableHost>
+
+    <!--<ImageButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_ns"
+        android:src="@drawable/personal_more"
+        android:backgroundTint="@color/color_translate"
+        android:scaleType="fitXY"
+        android:padding="0dp"/>-->
+    <android.widget.Button
+        android:id="@+id/personal_btn"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/personal_more"
+        android:text="맞춤 추천템 더보기"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_ns" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_personal_more"
+        app:layout_constraintEnd_toEndOf="@id/personal_btn"
+        app:layout_constraintTop_toTopOf="@id/personal_btn"
+        app:layout_constraintBottom_toBottomOf="@id/personal_btn"
+        android:translationZ="2dp"
+        />
+
+    <TextView
+        android:id="@+id/ranking_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/personal_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
+        android:text="카테고리 랭킹"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/ranking_title"
+        app:layout_constraintTop_toTopOf="@id/ranking_title"
+        app:layout_constraintBottom_toBottomOf="@id/ranking_title"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/ic_ranking"/>
+
+    <com.umc.umc_6th_wit_android.home.NestedScrollableHost
+        android:id="@+id/template_select_category_ns"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/ranking_title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:paddingEnd="10dp"
+        >
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/template_select_category_tl"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:paddingEnd="10dp"
+            android:overScrollMode="never"
+            android:background="@color/color_translate"
+            app:tabBackground="@drawable/style_template_tab"
+            app:tabPadding="0dp"
+            app:tabTextAppearance="@style/template_tab_text"
+            app:tabTextColor="#66111111"
+            app:tabSelectedTextColor="@color/white"
+            app:tabIndicatorColor="@color/color_translate"
+            app:tabIndicator="@color/color_translate"
+            app:tabMode="scrollable"
+            app:tabGravity="start"
+            app:tabRippleColor="@color/color_translate"
+            />
+
+    </com.umc.umc_6th_wit_android.home.NestedScrollableHost>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/template_category_vp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/color_translate"
+        android:overScrollMode="never"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/template_select_category_ns"
+/>
+</androidx.constraintlayout.widget.ConstraintLayout>

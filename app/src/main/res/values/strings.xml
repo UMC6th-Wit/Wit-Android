@@ -2,4 +2,11 @@
     <string name="app_name">UMC-6th-Wit</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="CATEGORY">
+        <item name="all">전체</item>
+        <item name="food">식품</item>
+        <item name="cosmetic">뷰티코스메틱</item>
+        <item name="medicine">의약품</item>
+        <item name="life_goods">생활용품</item>
+    </string-array>
 </resources>

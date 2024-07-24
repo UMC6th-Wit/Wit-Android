@@ -6,9 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentOnboarding4Binding
-import com.umc.umc_6th_wit_android.home.HomeActivity
 
 class OnboardingFragment4 : Fragment() {
     private lateinit var binding:FragmentOnboarding4Binding
@@ -26,7 +26,7 @@ class OnboardingFragment4 : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.onboarding4Start.setOnClickListener {
-            val intent = Intent(requireContext(), HomeActivity::class.java)
+            val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
             requireActivity().finish() // 현재 프래그먼트를 포함한 액티비티 종료
         }
