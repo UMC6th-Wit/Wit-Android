@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".login.OnboardingFragment4"
+    android:fitsSystemWindows="true"
+    android:background="@color/background_yellow">
+
+    <ImageView
+        android:layout_width="91dp"
+        android:layout_height="174dp"
+        android:src="@drawable/onboarding4_img1"
+        app:layout_constraintBottom_toTopOf="@id/onboarding4_linear"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="99dp"
+        android:layout_marginEnd="13dp" />
+
+    <LinearLayout
+        android:id="@+id/onboarding4_linear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/onboarding4_start">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이제"
+            android:textSize="24sp"
+            android:fontFamily="@font/suitregular"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 위트를"
+            android:textSize="24sp"
+            android:fontFamily="@font/suitbold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 시작할 수 있어요!"
+            android:textSize="24sp"
+            android:fontFamily="@font/suitregular"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="전 세계 기념품을 한 눈에 둘러보세요."
+        android:fontFamily="@font/suitregular"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/onboarding4_linear"
+        android:layout_marginTop="10dp"/>
+    <ImageView
+        android:layout_width="91dp"
+        android:layout_height="174dp"
+        android:src="@drawable/oboarding4_img2"
+        app:layout_constraintTop_toBottomOf="@id/onboarding4_linear"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="128dp"
+        android:layout_marginStart="27dp"/>
+    <ImageView
+        android:id="@+id/onboarding4_start"
+        android:layout_width="321dp"
+        android:layout_height="47dp"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/onboarding4_start" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
