@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,78 +20,78 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_weight="1"
-            >
+            android:orientation="vertical">
+
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:src="@drawable/food"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/color_translate"
                 android:padding="0dp"
                 android:scaleType="fitCenter"
-                android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/color_translate" />
+                android:src="@drawable/food" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_gravity="center_horizontal"
+                android:gravity="center"
                 android:text="식품"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
         </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_weight="1"
-            >
+            android:orientation="vertical">
+
             <ImageButton
                 android:id="@+id/cosmetic_iv"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:backgroundTint="@color/color_translate"
                 android:padding="0dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/cosmetic"
-                android:backgroundTint="@color/color_translate" />
+                android:src="@drawable/cosmetic" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_gravity="center_horizontal"
+                android:gravity="center"
                 android:text="화장품"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_weight="1"
-            >
+            android:orientation="vertical">
+
             <ImageButton
                 android:id="@+id/medicine_iv"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:backgroundTint="@color/color_translate"
                 android:padding="0dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/medicine"
-                android:backgroundTint="@color/color_translate" />
+                android:src="@drawable/medicine" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_gravity="center_horizontal"
+                android:gravity="center"
                 android:text="의약품"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
 
         </LinearLayout>
@@ -100,26 +99,26 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_weight="1"
-            >
+            android:orientation="vertical">
+
             <ImageButton
                 android:id="@+id/daily_iv"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:backgroundTint="@color/color_translate"
                 android:padding="0dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/daily"
-                android:backgroundTint="@color/color_translate" />
+                android:src="@drawable/daily" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_gravity="center_horizontal"
+                android:gravity="center"
                 android:text="생활용품"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -129,73 +128,72 @@
         android:id="@+id/recommend_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/list"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
-        android:textColor="@color/black"
         android:text="지영님을 위한 추천템"
-        android:textStyle="bold"
+        android:textColor="@color/black"
         android:textSize="16sp"
-        />
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/list" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/recommend_title"
-        app:layout_constraintTop_toTopOf="@id/recommend_title"
-        app:layout_constraintBottom_toBottomOf="@id/recommend_title"
         android:layout_marginStart="5dp"
-        android:src="@drawable/ic_heart"/>
+        android:src="@drawable/ic_heart"
+        app:layout_constraintBottom_toBottomOf="@id/recommend_title"
+        app:layout_constraintStart_toEndOf="@id/recommend_title"
+        app:layout_constraintTop_toTopOf="@id/recommend_title" />
 
     <TextView
         android:id="@+id/recommend_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/recommend_title"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:text="지영님의 여행지에 찰떡인 기념품을 살펴보세요"
+        android:textColor="#56534B80"
         android:textSize="11sp"
         android:textStyle="bold"
-        android:textColor="#56534B80"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recommend_title" />
     <!--스크롤 중첩 방지-->
     <com.umc.umc_6th_wit_android.home.NestedScrollableHost
         android:id="@+id/personal_ns"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/recommend_detail"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:paddingEnd="10dp"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recommend_detail">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/personal_rv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:listitem="@layout/item_home_personal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="horizontal"
             android:paddingEnd="10dp"
-            />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_home_personal" />
 
     </com.umc.umc_6th_wit_android.home.NestedScrollableHost>
 
-    <!--<ImageButton
+    <ImageButton
+        android:id="@+id/personal_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_margin="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/personal_ns"
+        android:background="@color/color_translate"
+        android:padding="0dp"
+        android:scaleType="centerInside"
         android:src="@drawable/personal_more"
-        android:backgroundTint="@color/color_translate"
-        android:scaleType="fitXY"
-        android:padding="0dp"/>-->
-    <android.widget.Button
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_ns" />
+    <!--    <android.widget.Button
         android:id="@+id/personal_btn"
         android:layout_width="match_parent"
         android:layout_height="43dp"
@@ -204,67 +202,69 @@
         android:text="맞춤 추천템 더보기"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/personal_ns" />
+        app:layout_constraintTop_toBottomOf="@id/personal_ns"
+        android:translationZ="0dp" />-->
+    <!--
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="43dp"
+        android:layout_height="43dp"
         android:src="@drawable/ic_personal_more"
         app:layout_constraintEnd_toEndOf="@id/personal_btn"
         app:layout_constraintTop_toTopOf="@id/personal_btn"
         app:layout_constraintBottom_toBottomOf="@id/personal_btn"
         android:translationZ="2dp"
         />
+-->
 
     <TextView
         android:id="@+id/ranking_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/personal_btn"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
-        android:textColor="@color/black"
         android:text="카테고리 랭킹"
-        android:textStyle="bold"
+        android:textColor="@color/black"
         android:textSize="16sp"
-        />
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_btn" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/ranking_title"
-        app:layout_constraintTop_toTopOf="@id/ranking_title"
-        app:layout_constraintBottom_toBottomOf="@id/ranking_title"
         android:layout_marginStart="5dp"
-        android:src="@drawable/ic_ranking"/>
+        android:src="@drawable/ic_ranking"
+        app:layout_constraintBottom_toBottomOf="@id/ranking_title"
+        app:layout_constraintStart_toEndOf="@id/ranking_title"
+        app:layout_constraintTop_toTopOf="@id/ranking_title" />
 
     <com.umc.umc_6th_wit_android.home.NestedScrollableHost
         android:id="@+id/template_select_category_ns"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/ranking_title"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
         android:paddingEnd="10dp"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ranking_title">
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/template_select_category_tl"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:paddingEnd="10dp"
-            android:overScrollMode="never"
             android:background="@color/color_translate"
+            android:overScrollMode="never"
+            android:paddingEnd="10dp"
             app:tabBackground="@drawable/style_template_tab"
-            app:tabPadding="0dp"
-            app:tabTextAppearance="@style/template_tab_text"
-            app:tabTextColor="#66111111"
-            app:tabSelectedTextColor="@color/white"
-            app:tabIndicatorColor="@color/color_translate"
-            app:tabIndicator="@color/color_translate"
-            app:tabMode="scrollable"
             app:tabGravity="start"
+            app:tabIndicator="@color/color_translate"
+            app:tabIndicatorColor="@color/color_translate"
+            app:tabMode="scrollable"
+            app:tabPadding="0dp"
             app:tabRippleColor="@color/color_translate"
-            />
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/template_tab_text"
+            app:tabTextColor="#66111111" />
 
     </com.umc.umc_6th_wit_android.home.NestedScrollableHost>
 
@@ -272,12 +272,228 @@
         android:id="@+id/template_category_vp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:background="@color/color_translate"
         android:overScrollMode="never"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/template_select_category_ns"
-/>
+        app:layout_constraintTop_toBottomOf="@id/template_select_category_ns" />
+
+    <ImageButton
+        android:id="@+id/ranking_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:background="@color/color_translate"
+        android:padding="0dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ranking_more"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/template_category_vp" />
+
+    <TextView
+        android:id="@+id/food_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="냠냠 맛도리 추천템"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ranking_btn" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/candy"
+        app:layout_constraintBottom_toBottomOf="@id/food_title"
+        app:layout_constraintStart_toEndOf="@id/food_title"
+        app:layout_constraintTop_toTopOf="@id/food_title" />
+
+    <com.umc.umc_6th_wit_android.home.NestedScrollableHost
+        android:id="@+id/food_ns"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/food_title">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/food_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingEnd="10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_home_personal" />
+    </com.umc.umc_6th_wit_android.home.NestedScrollableHost>
+
+    <ImageButton
+        android:id="@+id/food_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:background="@color/color_translate"
+        android:padding="0dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/food_more"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/food_ns" />
+
+
+    <TextView
+        android:id="@+id/notice_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:text="위트의 공지톡톡"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/food_btn" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/notice"
+        app:layout_constraintBottom_toBottomOf="@id/notice_title"
+        app:layout_constraintStart_toEndOf="@id/notice_title"
+        app:layout_constraintTop_toTopOf="@id/notice_title" />
+
+    <TextView
+        android:id="@+id/notice_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="[시스템점검공지]"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notice_title" />
+
+    <TextView
+        android:id="@+id/notice_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="7/23(화)12:00~13:00"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/notice_tag"
+        app:layout_constraintStart_toEndOf="@id/notice_tag"
+        app:layout_constraintTop_toTopOf="@id/notice_tag" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E1E1E1"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@id/notice_content"
+        app:layout_constraintBottom_toTopOf="@id/notice_tag2"/>
+
+    <TextView
+        android:id="@+id/notice_tag2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="35dp"
+        android:text="[리뉴얼 공지]"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notice_tag" />
+
+    <TextView
+        android:id="@+id/notice_content2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="8월 19일 위트가 새로워집니다."
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/notice_tag"
+        app:layout_constraintStart_toEndOf="@id/notice_tag2"
+        app:layout_constraintTop_toTopOf="@id/notice_tag2" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E1E1E1"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@id/notice_content2"
+        app:layout_constraintBottom_toTopOf="@id/notice_tag3"/>
+
+    <TextView
+        android:id="@+id/notice_tag3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="35dp"
+        android:text="[이용 가이드]"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notice_tag2" />
+
+    <TextView
+        android:id="@+id/notice_content3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="위트(wit)서비스 및 이용가이드 안내"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/notice_tag3"
+        app:layout_constraintStart_toEndOf="@id/notice_tag3"
+        app:layout_constraintTop_toTopOf="@id/notice_tag3" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E1E1E1"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@id/notice_content2"
+        app:layout_constraintBottom_toTopOf="@id/notice_content3"/>
+
+    <ImageButton
+        android:id="@+id/notice_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="50dp"
+        android:background="@color/color_translate"
+        android:padding="0dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/notice_more"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notice_content3"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E1E1E1"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@id/notice_content3"
+        app:layout_constraintBottom_toTopOf="@id/notice_btn"/>
+
+
+
+
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

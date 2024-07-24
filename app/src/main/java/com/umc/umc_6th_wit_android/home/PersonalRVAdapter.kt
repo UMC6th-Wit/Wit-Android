@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.umc_6th_wit_android.databinding.ItemHomePersonalBinding
 import ddwu.com.mobile.finalreport.data.PersonalDto
 
-class PersonalRVAdapter(val items : ArrayList<PersonalDto>)
+class PersonalRVAdapter(val items : ArrayList<PersonalDto>, val rvType : String)
     : RecyclerView.Adapter<PersonalRVAdapter.PersonalViewHolder>() {
     val TAG = "PersonalRVAdapter"
 
@@ -21,6 +21,15 @@ class PersonalRVAdapter(val items : ArrayList<PersonalDto>)
     }
 
     override fun onBindViewHolder(holder: PersonalViewHolder, position: Int) {
+        val context = holder.itemBinding.root.context
+        val heightInDp = 160
+        val heightInPx = (heightInDp * context.resources.displayMetrics.density).toInt()
+
+        if (rvType == "food") {
+            val layoutParams = holder.itemBinding.itemCoverImgCv.layoutParams
+            layoutParams.height = heightInPx
+            holder.itemBinding.itemCoverImgCv.layoutParams = layoutParams
+        }
         holder.itemBinding.itemTitleTv.text = items[position].title
         holder.itemBinding.itemYenTv.text = items[position].yen + "¥"
         holder.itemBinding.itemStarTv.text = items[position].star

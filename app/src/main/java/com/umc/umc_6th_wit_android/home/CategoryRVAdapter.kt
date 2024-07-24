@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.umc_6th_wit_android.data.local.CategoryDto
 import com.umc.umc_6th_wit_android.databinding.ItemHomeCategoryBinding
 
-
 class CategoryRVAdapter (val items : ArrayList<CategoryDto>)
     : RecyclerView.Adapter<CategoryRVAdapter.CateogoryViewHolder>() {
     val TAG = "CategoryRVAdapter"
@@ -21,6 +20,7 @@ class CategoryRVAdapter (val items : ArrayList<CategoryDto>)
     }
 
     override fun onBindViewHolder(holder: CateogoryViewHolder, position: Int) {
+        holder.itemBinding.rankingNum.text = "${position + 1}"
         holder.itemBinding.itemCoverImgIv.setImageResource(items[position].image)
         holder.itemBinding.tvAddress.text = items[position].address
         holder.itemBinding.itemTitleTv.text = items[position].title

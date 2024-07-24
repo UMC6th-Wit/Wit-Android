@@ -30,10 +30,12 @@ class SubHomeFragment : Fragment(){
 
         val items = PersonalDao().items
 
-        val adapter = PersonalRVAdapter(items)
+        val adapter = PersonalRVAdapter(items, "personal")
         binding.personalRv.adapter = adapter
         binding.personalRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
 
+        binding.foodRv.adapter = PersonalRVAdapter(items, "food")
+        binding.foodRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
 
         adapter.setOnItemClickListener(object : PersonalRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
