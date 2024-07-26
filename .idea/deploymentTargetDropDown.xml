@@ -9,13 +9,13 @@
               <type value="RUNNING_DEVICE_TARGET" />
               <deviceKey>
                 <Key>
-                  <type value="SERIAL_NUMBER" />
-                  <value value="R3CR70HLK2R" />
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\click\.android\avd\FloTest.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-07-24T04:30:31.951911Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-07-26T13:34:39.109085Z" />
         </State>
       </entry>
     </value>

@@ -30,7 +30,7 @@
         android:title=""/>
     <item
         android:id="@+id/myFragment"
-        android:icon="@drawable/ic_bottom_my_select"
+        android:icon="@drawable/ic_bottom_my"
         app:showAsAction="always"
         android:enabled="true"
         android:title=""/>
