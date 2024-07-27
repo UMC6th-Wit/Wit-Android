@@ -1,5 +1,6 @@
 package com.umc.umc_6th_wit_android
 import android.os.Bundle
+import android.view.View
 import androidx.core.view.WindowInsetsControllerCompat
 import com.umc.umc_6th_wit_android.home.HomeFragment
 import androidx.appcompat.app.AppCompatActivity

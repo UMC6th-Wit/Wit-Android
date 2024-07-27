@@ -15,4 +15,5 @@
     <color name="gray">#CFCCC4</color>
     <color name="selectedTextColor">#111111</color>
     <color name="unselectedTextColor">#888888</color>
+    <color name="light_gray">#EEEEEE</color>
 </resources>

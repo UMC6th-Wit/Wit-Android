@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".mypage.BirthdateFragment">
+
+    <TextView
+        android:id="@+id/birthdate_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:fontFamily="@font/suitbold"
+        android:text="계정 정보"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/birthdate_back_iv"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="18dp"
+        android:src="@drawable/accountinfo_back"
+        app:layout_constraintBottom_toBottomOf="@id/birthdate_tv1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/birthdate_tv1" />
+
+    <TextView
+        android:id="@+id/birthdate_tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="38dp"
+        android:fontFamily="@font/suitmeduim"
+        android:text="생년월일을 선택해주세요"
+        android:textColor="#A9A9A9"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/birthdate_tv1" />
+    <!--데이터피커 들어갈부분-->
+    <TextView
+        android:id="@+id/birthdate_birth_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/birthdate_box"
+        android:fontFamily="@font/suitmeduim"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="12dp"
+        android:text="0000.00.00"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/birthdate_tv2" />
+
+    <ImageView
+        android:layout_width="13dp"
+        android:layout_height="6dp"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/birthdate_more"
+        app:layout_constraintBottom_toBottomOf="@id/birthdate_birth_tv"
+        app:layout_constraintEnd_toEndOf="@id/birthdate_birth_tv"
+        app:layout_constraintTop_toTopOf="@id/birthdate_birth_tv" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="15dp"
+        android:background="#E7E7E7"
+        app:layout_constraintBottom_toTopOf="@id/birthdate_save_btn" />
+
+    <Button
+        android:id="@+id/birthdate_save_btn"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/birthdate_button"
+        android:fontFamily="@font/suitbold"
+        android:text="저장하기"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:stateListAnimator="@null"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
