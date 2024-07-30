@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.CategoryDto
 import com.umc.umc_6th_wit_android.databinding.ItemRankingBinding
 
@@ -25,6 +26,23 @@ class RankingCategoryRVAdapter (val items : ArrayList<CategoryDto>)
         holder.itemBinding.itemTitleTv.text = items[position].title
         holder.itemBinding.itemYenTv2.text = items[position].yen
         holder.itemBinding.itemWonTv2.text = items[position].won
+
+        if(!items[position].isLike){
+            holder.itemBinding.likeIv.setImageResource(R.drawable.off_heart)
+        }else{
+            holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
+        }
+
+        //test
+        holder.itemBinding.likeIv.setOnClickListener {
+            if(!items[position].isLike){
+                items[position].isLike = true
+                holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
+            }else{
+                items[position].isLike = false
+                holder.itemBinding.likeIv.setImageResource(R.drawable.off_heart)
+            }
+        }
     }
 
     inner class RankingCateogoryViewHolder(val itemBinding: ItemRankingBinding)

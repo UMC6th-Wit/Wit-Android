@@ -26,14 +26,14 @@ class SubHomeFragment : Fragment(){
 
         val items = PersonalDao().items
 
-        val adapter = PersonalRVAdapter(items, "personal")
+        val adapter = HomeCustomRVAdapter(items, "personal")
         binding.personalRv.adapter = adapter
         binding.personalRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
 
-        binding.foodRv.adapter = PersonalRVAdapter(items, "food")
+        binding.foodRv.adapter = HomeCustomRVAdapter(items, "food")
         binding.foodRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
 
-        adapter.setOnItemClickListener(object : PersonalRVAdapter.OnItemClickListener{
+        adapter.setOnItemClickListener(object : HomeCustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(activity, DetailActivity::class.java)
                 startActivity(intent)
@@ -53,7 +53,25 @@ class SubHomeFragment : Fragment(){
 
         tabItemMargin(binding.templateSelectCategoryTl)
 
+        //맞춤 추천템 더보기
+        binding.customBtn.setOnClickListener {
+            val intent = Intent(activity, CustomActivity::class.java)
+            startActivity(intent)
+        }
+        //랭킹 더보기
+        binding.rankingBtn.setOnClickListener {
+            val parentFragment = parentFragment
+            if (parentFragment is HomeFragment) {
+                parentFragment.navigateToRanking()
+            }
+        }
 
+        //맛도리 추천템 더보기
+        binding.foodBtn.setOnClickListener {
+            val intent = Intent(activity, FoodActivity::class.java)
+            startActivity(intent)
+        }
+        
         return binding.root
     }
 //    private fun changeActivity(personal : PersonalDto) {

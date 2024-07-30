@@ -25,6 +25,7 @@ class HomeCategoryFragment : Fragment() {
         val adapter = CategoryRVAdapter(items)
         binding.categoryRv.adapter = adapter
         binding.categoryRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
+
         return binding.root
     }
 }

@@ -6,7 +6,6 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ScrollView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -38,6 +37,7 @@ class HomeFragment : Fragment(){
         binding.homeVp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                binding.homeSv.smoothScrollTo(0, 0)
                 updatePagerHeightForFragment(position)
             }
         })
@@ -50,6 +50,8 @@ class HomeFragment : Fragment(){
         binding.homeVp.post {
             updatePagerHeightForFragment(binding.homeVp.currentItem)
         }
+
+        //최상단 스크롤 이동
 
 
 
@@ -67,6 +69,13 @@ class HomeFragment : Fragment(){
 
         return binding.root
     }
+    override fun onResume() {
+        super.onResume()
+        // 프래그먼트가 화면에 표시될 때 스크롤 위치를 최상단으로 이동
+        binding.homeSv.smoothScrollTo(0, 0)
+        // 또는 부드럽게 이동하려면 다음을 사용:
+        // scrollView.smoothScrollTo(0, 0);
+    }
     /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // 예: 상단으로 스크롤을 이동하는 메서드 호출..안됨..
@@ -78,6 +87,11 @@ class HomeFragment : Fragment(){
         }
         binding.homeSv.fullScroll(ScrollView.FOCUS_UP);
     }*/
+    fun navigateToRanking() {
+        if ( binding.homeVp != null) {
+            binding.homeVp.setCurrentItem(1, true)
+        }
+    }
     private fun updatePagerHeightForFragment(position: Int) {
         val fragment = homeAdapter.getFragment(position)
         fragment?.view?.let { view ->
