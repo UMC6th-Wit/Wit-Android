@@ -7,16 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.internal.ViewUtils.dpToPx
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.umc_6th_wit_android.DetailActivity
-import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.PersonalDao
-import com.umc.umc_6th_wit_android.databinding.FragmentHomeBinding
 import com.umc.umc_6th_wit_android.databinding.FragmentSubhomeBinding
-import ddwu.com.mobile.finalreport.data.PersonalDto
 
 class SubHomeFragment : Fragment(){
     lateinit var binding: FragmentSubhomeBinding
@@ -30,12 +26,14 @@ class SubHomeFragment : Fragment(){
 
         val items = PersonalDao().items
 
-        val adapter = PersonalRVAdapter(items)
+        val adapter = HomeCustomRVAdapter(items, "personal")
         binding.personalRv.adapter = adapter
         binding.personalRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
 
+        binding.foodRv.adapter = HomeCustomRVAdapter(items, "food")
+        binding.foodRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
 
-        adapter.setOnItemClickListener(object : PersonalRVAdapter.OnItemClickListener{
+        adapter.setOnItemClickListener(object : HomeCustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(activity, DetailActivity::class.java)
                 startActivity(intent)
@@ -45,7 +43,7 @@ class SubHomeFragment : Fragment(){
 
         val category : Array<String> = resources.getStringArray(R.array.CATEGORY)
 
-        val rankingAdapter = TemplateCategoryVPAdapter(this)
+        val rankingAdapter = HomeCategoryVPAdapter(this)
         binding.templateCategoryVp.adapter = rankingAdapter
 
         TabLayoutMediator(binding.templateSelectCategoryTl, binding.templateCategoryVp){
@@ -55,7 +53,25 @@ class SubHomeFragment : Fragment(){
 
         tabItemMargin(binding.templateSelectCategoryTl)
 
+        //맞춤 추천템 더보기
+        binding.customBtn.setOnClickListener {
+            val intent = Intent(activity, CustomActivity::class.java)
+            startActivity(intent)
+        }
+        //랭킹 더보기
+        binding.rankingBtn.setOnClickListener {
+            val parentFragment = parentFragment
+            if (parentFragment is HomeFragment) {
+                parentFragment.navigateToRanking()
+            }
+        }
 
+        //맛도리 추천템 더보기
+        binding.foodBtn.setOnClickListener {
+            val intent = Intent(activity, FoodActivity::class.java)
+            startActivity(intent)
+        }
+        
         return binding.root
     }
 //    private fun changeActivity(personal : PersonalDto) {

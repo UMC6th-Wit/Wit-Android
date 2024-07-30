@@ -3,6 +3,9 @@
     <style name="Base.Theme.UMC6thWit" parent="Theme.AppCompat.Light">
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:textViewStyle">@style/customTextViewFontStyle</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="LoginTheme" parent="Base.Theme.UMC6thWit">
