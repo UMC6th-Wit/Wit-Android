@@ -66,7 +66,7 @@ class AccountinfoFragment : Fragment() {
             // AccountinfoFragment로 전환
             val birthdateFragment = BirthdateFragment()
             val transaction: FragmentTransaction = parentFragmentManager.beginTransaction()
-            transaction.add(R.id.fragment_container, birthdateFragment)
+            transaction.add(R.id.main_frm, birthdateFragment)
             transaction.addToBackStack(null)  // 백스택에 추가하여 뒤로 가기 버튼으로 돌아올 수 있게 함
             transaction.commit()
         }
