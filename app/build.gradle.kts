@@ -63,6 +63,8 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 
     implementation ("com.tbuonomo:dotsindicator:5.0")
+
+    implementation ("androidx.fragment:fragment-ktx:1.6.1")
     //Glide
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")

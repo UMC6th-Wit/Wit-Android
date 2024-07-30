@@ -1,0 +1,302 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".mypage.BirthdateFragment">
+
+    <TextView
+        android:id="@+id/birthdate_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:fontFamily="@font/suitbold"
+        android:text="회원탈퇴"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/DeleteAccount_back_iv"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="18dp"
+        android:src="@drawable/accountinfo_back"
+        app:layout_constraintBottom_toBottomOf="@id/birthdate_tv1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/birthdate_tv1" />
+
+    <View
+        android:id="@+id/deleteAccount_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="#E3E3E3"
+        app:layout_constraintTop_toBottomOf="@id/DeleteAccount_back_iv" />
+
+    <TextView
+        android:id="@+id/deleteAccount_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/suitbold"
+        android:text="탈퇴하는 이유를 알려주세요"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deleteAccount_divider" />
+
+    <RadioGroup
+        android:id="@+id/deleteAccount_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="15dp"
+        android:layout_margin="18dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deleteAccount_tv1">
+
+        <RadioButton
+            android:id="@+id/deleteAccount_rb1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/accountinfo_radiobutton"
+            android:button="@android:color/transparent"
+            android:fontFamily="@font/suitmeduim"
+            android:layout_marginVertical="20dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EEEEEE" />
+
+        <RadioButton
+            android:id="@+id/deleteAccount_rb2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/accountinfo_radiobutton"
+            android:button="@android:color/transparent"
+            android:fontFamily="@font/suitmeduim"
+            android:layout_marginVertical="20dp"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EEEEEE" />
+
+        <RadioButton
+            android:id="@+id/deleteAccount_rb3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/accountinfo_radiobutton"
+            android:button="@android:color/transparent"
+            android:fontFamily="@font/suitmeduim"
+            android:layout_marginVertical="20dp"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EEEEEE" />
+
+        <RadioButton
+            android:id="@+id/deleteAccount_rb4"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/accountinfo_radiobutton"
+            android:button="@android:color/transparent"
+            android:fontFamily="@font/suitmeduim"
+            android:layout_marginVertical="20dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EEEEEE" />
+
+        <RadioButton
+            android:id="@+id/deleteAccount_rb5"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/accountinfo_radiobutton"
+            android:button="@android:color/transparent"
+            android:fontFamily="@font/suitmeduim"
+            android:layout_marginVertical="20dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EEEEEE" />
+
+
+        <RadioButton
+            android:id="@+id/deleteAccount_rb6"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/accountinfo_radiobutton"
+            android:button="@android:color/transparent"
+            android:fontFamily="@font/suitmeduim"
+            android:layout_marginVertical="20dp"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#EEEEEE" />
+
+        <RadioButton
+            android:id="@+id/deleteAccount_rb7"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/accountinfo_radiobutton"
+            android:button="@android:color/transparent"
+            android:fontFamily="@font/suitmeduim"
+            android:layout_marginVertical="20dp"/>
+
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/deleteAccount_rg">
+
+        <EditText
+            android:id="@+id/deleteAccount_etc_ed"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginHorizontal="18dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/delete_account_box"
+            android:gravity="top"
+            android:hint="더 나은 위트가 될 수 있도록 의견을 남겨주세요."
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="15dp"
+            android:textColorHint="#9E9E9E"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="18dp"
+            android:background="#EEEEEE" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="@id/deleteAccount_rg"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="18dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="앱 사용이 불편해요"
+            android:textSize="16sp"
+            android:fontFamily="@font/suitmeduim"
+            android:textColor="#777777"
+            android:paddingVertical="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상품 탐색이 어려워요"
+            android:textSize="16sp"
+            android:fontFamily="@font/suitmeduim"
+            android:textColor="#777777"
+            android:paddingVertical="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="광고성 알림이 너무 많이 와요"
+            android:textSize="16sp"
+            android:fontFamily="@font/suitmeduim"
+            android:textColor="#777777"
+            android:layout_marginTop="1dp"
+            android:paddingVertical="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="쓰지 않는 앱이에요"
+            android:textSize="16sp"
+            android:fontFamily="@font/suitmeduim"
+            android:textColor="#777777"
+            android:paddingVertical="21dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="리뷰가 정확하지 않아요"
+            android:textSize="16sp"
+            android:fontFamily="@font/suitmeduim"
+            android:textColor="#777777"
+            android:paddingVertical="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="재가입할 거예요"
+            android:textSize="16sp"
+            android:fontFamily="@font/suitmeduim"
+            android:textColor="#777777"
+            android:paddingVertical="20dp"
+            android:layout_marginTop="1dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기타"
+            android:textSize="16sp"
+            android:fontFamily="@font/suitmeduim"
+            android:textColor="#777777"
+            android:paddingVertical="20dp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toTopOf="@id/deleteAccount_linear"
+        android:background="#E7E7E7"/>
+
+    <LinearLayout
+        android:id="@+id/deleteAccount_linear"
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:layout_marginHorizontal="18dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/deleteAccount_keep_btn"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/delete_account_button1"
+            android:fontFamily="@font/suitbold"
+            android:text="계속 사용하기"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/deleteAccount_delete_btn"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/delete_account_button2"
+            android:fontFamily="@font/suitbold"
+            android:stateListAnimator="@null"
+            android:text="회원 탈퇴하기"
+            android:textColor="#CCCCCC"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
