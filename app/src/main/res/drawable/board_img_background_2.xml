@@ -1,0 +1,5 @@
+<!-- res/drawable/board_img_background_2.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#E9E9E9" />
+    <corners android:topRightRadius="16dp" />
+</shape>
