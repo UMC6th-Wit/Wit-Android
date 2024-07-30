@@ -173,7 +173,7 @@ class WishListFragment : Fragment(), SelectionListener {
         val tvPopupTitle = dialogView.findViewById<TextView>(R.id.tv_popup_title)
         val tvPopupMessage = dialogView.findViewById<TextView>(R.id.tv_popup_message)
         tvPopupTitle.text = "내 폴더에서 삭제할까요?"
-        tvPopupMessage.text = "현재 폴더에서 해당 제품이 삭제됩니다."
+        tvPopupMessage.text = "현재 폴더에서 선택한 제품이 삭제됩니다."
 
         // 팝업 창을 중앙에 배치하고 가로 넓이를 300dp로 설정
         val metrics = resources.displayMetrics
