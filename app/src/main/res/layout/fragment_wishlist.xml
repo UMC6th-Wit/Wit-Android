@@ -55,11 +55,10 @@
     <LinearLayout
         android:id="@+id/wish_list_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:visibility="visible"
         app:layout_constraintTop_toBottomOf="@id/wish_list_line"
-        app:layout_constraintBottom_toTopOf="@+id/wish_list_recyclerView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
         <TextView
@@ -98,20 +97,20 @@
             android:layout_marginRight="-10dp"/>
     </LinearLayout>
 
+    <!-- 편집 모드용 버튼들 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/wish_list_recyclerView"
-        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="600dp"
-        app:layout_constraintTop_toBottomOf="@id/wish_list_toolbar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/wish_list_edit_mode_buttons"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        tools:listitem="@layout/item_wish"/>
+        android:visibility="visible"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wish_list_toolbar"
+        tools:listitem="@layout/item_wish" />
 
-    <!-- 편집 모드용 버튼들 -->
     <LinearLayout
         android:id="@+id/wish_list_edit_mode_buttons"
         android:layout_width="match_parent"
@@ -120,11 +119,11 @@
         android:visibility="gone"
         android:background="@drawable/edit_menu_background"
         android:paddingBottom="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/wish_list_recyclerView"
         app:layout_constraintBottom_toBottomOf="parent"
         android:gravity="center">
 
         <FrameLayout
+            android:id="@+id/wish_list_add"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="1"
@@ -155,6 +154,7 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/wish_list_delete"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="1"

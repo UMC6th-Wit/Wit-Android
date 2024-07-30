@@ -65,7 +65,7 @@ class WishListAdapter(private var items: List<WishItem>, private val selectionLi
             binding.itemNop.text = item.nop.toString()
 
             if(!isEditMode && item.id == items.last().id){
-                binding.bottomItem.setPadding(0, 0, 0, 250)
+                binding.bottomItem.setPadding(0, 0, 0, 150)
             } else {
                 binding.bottomItem.setPadding(0, 0, 0, 10)
             }

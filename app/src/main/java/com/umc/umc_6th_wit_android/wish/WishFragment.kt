@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.umc.umc_6th_wit_android.MainActivity
@@ -149,7 +150,7 @@ class WishFragment : Fragment(), SelectionListener {
                 (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
                 // RecyclerView의 높이를 동적으로 변경
                 val layoutParams = binding.boardsRecyclerView.layoutParams
-                layoutParams.height = if (isEditMode) dpToPx(387) else dpToPx(487)
+                layoutParams.height = if (isEditMode) dpToPx(377) else dpToPx(477)
                 binding.boardsRecyclerView.layoutParams = layoutParams
             }
             // 장바구니 버튼의 텍스트 색상을 활성화 색상으로 변경
@@ -236,7 +237,7 @@ class WishFragment : Fragment(), SelectionListener {
         }
         // RecyclerView의 높이를 동적으로 변경
         val layoutParams = binding.boardsRecyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(387) else dpToPx(487)
+        layoutParams.height = if (isEditMode) dpToPx(377) else dpToPx(477)
         binding.boardsRecyclerView.layoutParams = layoutParams
     }
 
@@ -310,6 +311,12 @@ class WishFragment : Fragment(), SelectionListener {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(dialogView)
 
+        // 팝업 타이틀과 메시지 설정
+        val tvPopupTitle = dialogView.findViewById<TextView>(R.id.tv_popup_title)
+        val tvPopupMessage = dialogView.findViewById<TextView>(R.id.tv_popup_message)
+        tvPopupTitle.text = "해당 폴더를 삭제할까요?"
+        tvPopupMessage.text = "해당 폴더에 있는 제품이 모두 삭제됩니다."
+
         // 팝업 창을 중앙에 배치하고 가로 넓이를 300dp로 설정
         val metrics = resources.displayMetrics
         val width = (300 * metrics.density).toInt()
@@ -328,7 +335,7 @@ class WishFragment : Fragment(), SelectionListener {
         // 삭제 버튼 클릭 이벤트 리스너 설정
         dialogView.findViewById<Button>(R.id.btn_delete).setOnClickListener {
             // 폴더 삭제 로직 추가
-            deleteSelectedBoards()
+            deleteSelectedItems()
             dialog.dismiss()
         }
         dialog.show()

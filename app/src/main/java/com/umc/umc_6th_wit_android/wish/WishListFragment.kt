@@ -1,10 +1,16 @@
 package com.umc.umc_6th_wit_android.wish
 
+import android.app.Dialog
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -44,12 +50,22 @@ class WishListFragment : Fragment(), SelectionListener {
         // 아이템과 보드의 선택 상태에 따른 버튼 상태 업데이트
         updateItemButtonState(wishListAdapter.selectedItems.size)
 
+        binding.wishListEditModeButtons.setOnClickListener{
+
+        }
+
         binding.wishListBack.setOnClickListener {
+            if(isEditMode){
+                (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
+            }
             parentFragmentManager.popBackStack()
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                if(isEditMode){
+                    (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
+                }
                 parentFragmentManager.popBackStack()
             }
         })
@@ -61,7 +77,7 @@ class WishListFragment : Fragment(), SelectionListener {
 
         // 삭제 버튼 클릭 이벤트 설정
         binding.btnDelete.setOnClickListener {
-            deleteSelectedItems()
+            showDeletePopup()
         }
 
         // 폴더에 추가 버튼 클릭 이벤트 설정
@@ -95,7 +111,7 @@ class WishListFragment : Fragment(), SelectionListener {
         }
         // RecyclerView의 높이를 동적으로 변경
         val layoutParams = binding.wishListRecyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(500) else dpToPx(600)
+        layoutParams.height = if (isEditMode) dpToPx(540) else dpToPx(600)
         binding.wishListRecyclerView.layoutParams = layoutParams
     }
 
@@ -143,6 +159,44 @@ class WishListFragment : Fragment(), SelectionListener {
         binding.wishListRecyclerView.layoutParams = layoutParams
         // 남은 아이템 개수를 업데이트
         binding.wishListCount.text = wishListAdapter.itemCount.toString()
+    }
+
+    // 삭제 확인 팝업을 표시하는 함수
+    private fun showDeletePopup() {
+        // 삭제 확인 팝업 레이아웃을 인플레이트하고 다이얼로그를 생성
+        val dialogView = layoutInflater.inflate(R.layout.confirm_delete_popup, null)
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(dialogView)
+
+        // 팝업 타이틀과 메시지 설정
+        val tvPopupTitle = dialogView.findViewById<TextView>(R.id.tv_popup_title)
+        val tvPopupMessage = dialogView.findViewById<TextView>(R.id.tv_popup_message)
+        tvPopupTitle.text = "내 폴더에서 삭제할까요?"
+        tvPopupMessage.text = "현재 폴더에서 해당 제품이 삭제됩니다."
+
+        // 팝업 창을 중앙에 배치하고 가로 넓이를 300dp로 설정
+        val metrics = resources.displayMetrics
+        val width = (300 * metrics.density).toInt()
+
+        dialog.window?.setLayout(
+            width,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.attributes?.gravity = Gravity.CENTER
+
+        // 취소 버튼 클릭 이벤트 리스너 설정
+        dialogView.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+        // 삭제 버튼 클릭 이벤트 리스너 설정
+        dialogView.findViewById<Button>(R.id.btn_delete).setOnClickListener {
+            // 폴더 삭제 로직 추가
+            deleteSelectedItems()
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
     // 폴더에 추가하는 기능을 구현하는 함수 (현재 구현되지 않음)
