@@ -6,5 +6,6 @@ data class WishItem(
     val title: String,
     val jpy: String,
     val krw: String,
-    val rating: Double
+    val rating: Double,
+    val nop : Int
 )

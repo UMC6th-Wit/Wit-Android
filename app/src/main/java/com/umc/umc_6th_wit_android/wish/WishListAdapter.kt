@@ -8,20 +8,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.ItemWishBinding
 
-class WishAdapter(private var items: List<WishItem>, private val selectionListener: SelectionListener) : RecyclerView.Adapter<WishAdapter.WishViewHolder>() {
+class WishListAdapter(private var items: List<WishItem>, private val selectionListener: SelectionListener) : RecyclerView.Adapter<WishListAdapter.WishBoardViewHolder>() {
 
     val selectedItems = mutableSetOf<WishItem>()
     private var isEditMode = false
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WishViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):  WishBoardViewHolder{
         val binding = ItemWishBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return WishViewHolder(binding)
+        return WishBoardViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: WishViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: WishBoardViewHolder, position: Int) {
         holder.bind(items[position])
     }
-
     override fun getItemCount(): Int = items.size
 
     fun setEditMode(isEditMode: Boolean) {
@@ -53,7 +52,7 @@ class WishAdapter(private var items: List<WishItem>, private val selectionListen
         notifyDataSetChanged()
     }
 
-    inner class WishViewHolder(private val binding: ItemWishBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class WishBoardViewHolder(private val binding: ItemWishBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: WishItem) {
 //            Glide.with(binding.itemImage.context)
 //                .load(item.image)
@@ -66,7 +65,7 @@ class WishAdapter(private var items: List<WishItem>, private val selectionListen
             binding.itemNop.text = item.nop.toString()
 
             if(!isEditMode && item.id == items.last().id){
-                binding.bottomItem.setPadding(0, 0, 0, 300)
+                binding.bottomItem.setPadding(0, 0, 0, 150)
             } else {
                 binding.bottomItem.setPadding(0, 0, 0, 10)
             }

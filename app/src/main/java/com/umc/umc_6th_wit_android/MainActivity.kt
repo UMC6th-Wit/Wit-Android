@@ -1,5 +1,6 @@
 package com.umc.umc_6th_wit_android
 import android.os.Bundle
+import android.view.View
 import androidx.core.view.WindowInsetsControllerCompat
 import com.umc.umc_6th_wit_android.home.HomeFragment
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import com.umc.umc_6th_wit_android.home.SearchFragment
 import com.umc.umc_6th_wit_android.list.ListFragment
 import com.umc.umc_6th_wit_android.mypage.MypageFragment
 import com.umc.umc_6th_wit_android.wish.WishFragment
+import com.umc.umc_6th_wit_android.wish.WishListFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -75,5 +77,22 @@ class MainActivity : AppCompatActivity() {
             false
         }
         supportActionBar?.hide()
+    }
+
+    fun setBottomNavigationViewVisibility(isVisible: Boolean) {
+        binding.mainBnv.visibility = if (isVisible) View.VISIBLE else View.GONE
+        binding.mainCard.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
+
+    fun changeWishListFragment(boardTitle: String) {
+        val fragment = WishListFragment()
+        val bundle = Bundle()
+        bundle.putString("boardTitle", boardTitle)
+        fragment.arguments = bundle
+
+        supportFragmentManager.beginTransaction()
+            .add(R.id.main_frm, fragment)
+            .addToBackStack("WishFragment")
+            .commitAllowingStateLoss()
     }
 }
