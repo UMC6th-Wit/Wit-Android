@@ -18,6 +18,7 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/main_card"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_margin="20dp"
@@ -40,7 +41,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_nav_menu"
             app:itemBackground="@color/color_translate"
-            app:itemRippleColor="@color/color_translate"/>
+            app:itemRippleColor="@color/color_translate"
+            android:visibility="visible"/>
     </androidx.cardview.widget.CardView>
   /*<androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
@@ -50,7 +52,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />*/
-    
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
