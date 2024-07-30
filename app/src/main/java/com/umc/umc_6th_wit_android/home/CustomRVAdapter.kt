@@ -7,29 +7,27 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.CategoryDto
-import com.umc.umc_6th_wit_android.databinding.ItemHomeCategoryBinding
+import com.umc.umc_6th_wit_android.databinding.ItemCustomBinding
 
-class CategoryRVAdapter (val items : ArrayList<CategoryDto>)
-    : RecyclerView.Adapter<CategoryRVAdapter.CateogoryViewHolder>() {
-    val TAG = "CategoryRVAdapter"
+class CustomRVAdapter (val items : ArrayList<CategoryDto>)
+    : RecyclerView.Adapter<CustomRVAdapter.CustomViewHolder>() {
+    val TAG = "CustomRVAdapter"
 
     override fun getItemCount(): Int = items.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CateogoryViewHolder {
-        val itemBinding = ItemHomeCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CateogoryViewHolder(itemBinding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
+        val itemBinding = ItemCustomBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CustomViewHolder(itemBinding)
     }
 
-    override fun onBindViewHolder(holder: CateogoryViewHolder, position: Int) {
-        holder.itemBinding.rankingNum.text = "${position + 1}"
+    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.itemBinding.itemCoverImgIv.setImageResource(items[position].image)
-        holder.itemBinding.tvAddress.text = items[position].address
         holder.itemBinding.itemTitleTv.text = items[position].title
         holder.itemBinding.itemYenTv2.text = items[position].yen
         holder.itemBinding.itemWonTv2.text = items[position].won
 
         if(!items[position].isLike){
-            holder.itemBinding.likeIv.setImageResource(R.drawable.home_off_heart)
+            holder.itemBinding.likeIv.setImageResource(R.drawable.off_heart)
         }else{
             holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
         }
@@ -41,12 +39,12 @@ class CategoryRVAdapter (val items : ArrayList<CategoryDto>)
                 holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
             }else{
                 items[position].isLike = false
-                holder.itemBinding.likeIv.setImageResource(R.drawable.home_off_heart)
+                holder.itemBinding.likeIv.setImageResource(R.drawable.off_heart)
             }
         }
     }
 
-    inner class CateogoryViewHolder(val itemBinding: ItemHomeCategoryBinding)
+    inner class CustomViewHolder(val itemBinding: ItemCustomBinding)
         : RecyclerView.ViewHolder(itemBinding.root) {
         init {
             /*RecyclerView 항목 클릭 시 외부 click 이벤트 리스너 호출*/
@@ -79,13 +77,4 @@ class CategoryRVAdapter (val items : ArrayList<CategoryDto>)
     fun setOnItemClickListener(listener: OnItemClickListener?) {
         this.listener = listener
     }
-/*    fun setLike(isLike: Boolean){
-        if(!isLike){
-            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_on)
-            CustomToast(applicationContext, "좋아요 한 곡에 담겼습니다.").show()
-        }else{
-            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_off)
-            CustomToast(applicationContext, "좋아요 한 곡이 취소되었습니다.").show()
-        }
-    }*/
 }
