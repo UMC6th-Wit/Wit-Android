@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.umc_6th_wit_android.DetailActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.PersonalDao
+import com.umc.umc_6th_wit_android.home.notice.NoticeActivity
 import com.umc.umc_6th_wit_android.databinding.FragmentSubhomeBinding
 
 class SubHomeFragment : Fragment(){
@@ -71,7 +72,12 @@ class SubHomeFragment : Fragment(){
             val intent = Intent(activity, FoodActivity::class.java)
             startActivity(intent)
         }
-        
+        //공지 더보기
+        binding.noticeBtn.setOnClickListener{
+            val intent = Intent(activity, NoticeActivity::class.java)
+            startActivity(intent)
+        }
+
         return binding.root
     }
 //    private fun changeActivity(personal : PersonalDto) {
