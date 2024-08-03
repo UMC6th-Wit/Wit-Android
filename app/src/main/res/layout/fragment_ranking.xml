@@ -17,10 +17,12 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/ranking_category_tl"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="38dp"
             android:background="@color/color_translate"
             android:overScrollMode="never"
             android:paddingEnd="10dp"
+            app:tabMinWidth="30dp"
+            app:tabMaxWidth="150dp"
             app:tabBackground="@drawable/style_template_tab"
             app:tabGravity="start"
             app:tabIndicator="@color/color_translate"
@@ -28,9 +30,9 @@
             app:tabMode="scrollable"
             app:tabPadding="0dp"
             app:tabRippleColor="@color/color_translate"
-            app:tabSelectedTextColor="@color/white"
+            app:tabSelectedTextColor="@color/black"
             app:tabTextAppearance="@style/template_tab_text"
-            app:tabTextColor="#66111111" />
+            app:tabTextColor="#868686" />
     </com.umc.umc_6th_wit_android.home.NestedScrollableHost>
 
     <androidx.viewpager2.widget.ViewPager2

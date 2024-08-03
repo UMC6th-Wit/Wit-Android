@@ -42,6 +42,7 @@ class RankingFragment : Fragment() {
             val tab = (mTabLayout.getChildAt(0) as ViewGroup).getChildAt(i)
             val p = tab.layoutParams as ViewGroup.MarginLayoutParams
             p.setMargins(0, 0, 20,0)
+            tab.setPadding(40,0,40,0)
             tab.requestLayout()
         }
     }
