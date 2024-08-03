@@ -13,6 +13,9 @@
         android:theme="@style/Theme.UMC6thWit"
         tools:targetApi="31">
         <activity
+            android:name=".PriceActivity"
+            android:exported="false" />
+        <activity
             android:name=".home.notice.NoticeActivity"
             android:exported="false" />
         <activity
@@ -38,7 +41,7 @@
             android:exported="false" />
         <activity
             android:name=".wish.FolderActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".home.ProductDetailActivity"
             android:exported="false" />

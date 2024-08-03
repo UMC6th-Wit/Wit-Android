@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="15dp"
     android:background="@color/white"
     >
     <ImageView
@@ -24,6 +23,7 @@
         android:textColor="#898888"
         app:layout_constraintStart_toEndOf="@id/popup_iv"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="15dp"
         android:layout_marginStart="15dp"
         />
     <TextView
