@@ -1,9 +1,9 @@
 package com.umc.umc_6th_wit_android.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.transition.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
+import com.umc.umc_6th_wit_android.LocationActivity
 import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.data.local.PersonalDao
 import com.umc.umc_6th_wit_android.data.local.PopupDto
 import com.umc.umc_6th_wit_android.databinding.FragmentHomeBinding
-import ddwu.com.mobile.finalreport.data.PersonalDto
 import java.util.Timer
 import kotlin.concurrent.scheduleAtFixedRate
 
@@ -93,6 +92,10 @@ class HomeFragment : Fragment(), HomePopupRVAdapter.OnItemRemovedListener {
             togglePopupVisibility()
         }
 
+        binding.locationBtn.setOnClickListener {
+            val intent = Intent(activity, LocationActivity::class.java)
+            startActivity(intent)
+        }
 
 
         return binding.root
