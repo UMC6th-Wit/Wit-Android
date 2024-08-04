@@ -8,10 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.BoardWishBinding
-import com.umc.umc_6th_wit_android.home.HomeFragment
-import com.umc.umc_6th_wit_android.home.SearchFragment
-import com.umc.umc_6th_wit_android.list.ListFragment
-import com.umc.umc_6th_wit_android.mypage.MypageFragment
 
 // BoardsAdapter.kt
 
