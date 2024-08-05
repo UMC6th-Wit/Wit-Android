@@ -28,23 +28,34 @@ class SubHomeFragment : Fragment(){
         val items = PersonalDao().items
 
         val adapter = HomeCustomRVAdapter(items, "personal")
-        binding.personalRv.adapter = adapter
-        binding.personalRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-
-        binding.foodRv.adapter = HomeCustomRVAdapter(items, "food")
-        binding.foodRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-
         adapter.setOnItemClickListener(object : HomeCustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
-                val intent = Intent(activity, DetailActivity::class.java)
+                val intent = Intent(activity, ProductDetailActivity::class.java)
                 startActivity(intent)
 //                changeActivity(items[position])
             }
         })
 
+        binding.personalRv.adapter = adapter
+        binding.personalRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+
+        val foodAdapter = HomeCustomRVAdapter(items, "food")
+            foodAdapter.setOnItemClickListener(object : HomeCustomRVAdapter.OnItemClickListener{
+                override fun onItemClick(view: View, position: Int) {
+                    val intent = Intent(activity, ProductDetailActivity::class.java)
+                    startActivity(intent)
+//                changeActivity(items[position])
+                }
+            })
+        binding.foodRv.adapter = foodAdapter
+        binding.foodRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+
+
+
         val category : Array<String> = resources.getStringArray(R.array.CATEGORY)
 
         val rankingAdapter = HomeCategoryVPAdapter(this)
+
         binding.templateCategoryVp.adapter = rankingAdapter
 
         TabLayoutMediator(binding.templateSelectCategoryTl, binding.templateCategoryVp){
