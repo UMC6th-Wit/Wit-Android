@@ -84,4 +84,10 @@ class AccountinfoFragment : Fragment() {
         parentFragmentManager.popBackStack()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // 프래그먼트가 사라질 때 네비게이션 바 다시 표시
+        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true)
+    }
+
 }
