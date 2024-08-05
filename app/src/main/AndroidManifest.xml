@@ -49,6 +49,7 @@
             android:exported="false"/>
         <activity android:name=".home.ReviewMinActivity"
             android:exported="false"/>
+        <activity
             android:name=".home.CustomActivity"
             android:exported="true"
             android:theme="@style/Base.Theme.UMC6thWit" />
