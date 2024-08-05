@@ -10,12 +10,14 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="25dp"
+        android:layout_marginVertical="25dp"
+        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:weightSum="7">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -24,9 +26,10 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
                 android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
                 android:backgroundTint="@color/color_translate"
                 android:padding="0dp"
                 android:scaleType="fitCenter"
@@ -35,13 +38,18 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:text="식품"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:textColor="@color/black"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -52,9 +60,10 @@
             <ImageButton
                 android:id="@+id/cosmetic_iv"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:backgroundTint="@color/color_translate"
                 android:padding="0dp"
+                android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/cosmetic" />
 
@@ -64,10 +73,17 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:text="화장품"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:textColor="@color/black"/>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -78,10 +94,11 @@
             <ImageButton
                 android:id="@+id/medicine_iv"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:backgroundTint="@color/color_translate"
                 android:padding="0dp"
-                android:scaleType="fitCenter"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"
                 android:src="@drawable/medicine" />
 
             <TextView
@@ -90,12 +107,17 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:text="의약품"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:textColor="@color/black"/>
 
 
         </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,9 +127,10 @@
             <ImageButton
                 android:id="@+id/daily_iv"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:backgroundTint="@color/color_translate"
                 android:padding="0dp"
+                android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/daily" />
 
@@ -117,8 +140,9 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:text="생활용품"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:textColor="@color/black"/>
 
         </LinearLayout>
 
@@ -152,8 +176,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
-        android:text="지영님의 여행지에 찰떡인 기념품을 살펴보세요"
-        android:textColor="#56534B80"
+        android:text="지영님의 여행지에 찰떡인 기념품을 살펴보세요!"
+        android:textColor="#868686"
         android:textSize="11sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -195,7 +219,7 @@
         android:translationZ="0dp" />-->
 
 
-    <android.widget.Button
+<!--    <android.widget.Button
         android:id="@+id/custom_btn"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -207,8 +231,20 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_ns" />-->
+    <ImageButton
+        android:id="@+id/custom_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="20dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:backgroundTint="@color/color_translate"
+        android:padding="0dp"
+        android:src="@drawable/custom_more_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/personal_ns" />
-
     <TextView
         android:id="@+id/ranking_title"
         android:layout_width="wrap_content"
@@ -244,10 +280,12 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/template_select_category_tl"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="38dp"
             android:background="@color/color_translate"
             android:overScrollMode="never"
             android:paddingEnd="10dp"
+            app:tabMinWidth="30dp"
+            app:tabMaxWidth="150dp"
             app:tabBackground="@drawable/style_template_tab"
             app:tabGravity="start"
             app:tabIndicator="@color/color_translate"
@@ -255,9 +293,9 @@
             app:tabMode="scrollable"
             app:tabPadding="0dp"
             app:tabRippleColor="@color/color_translate"
-            app:tabSelectedTextColor="@color/white"
+            app:tabSelectedTextColor="@color/black"
             app:tabTextAppearance="@style/template_tab_text"
-            app:tabTextColor="#66111111" />
+            app:tabTextColor="#868686" />
 
     </com.umc.umc_6th_wit_android.home.NestedScrollableHost>
 
@@ -273,7 +311,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/template_select_category_ns" />
 
-    <android.widget.Button
+<!--    <android.widget.Button
         android:id="@+id/ranking_btn"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -284,8 +322,20 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/template_category_vp"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
+        app:layout_constraintEnd_toEndOf="parent"/>-->
+    <ImageButton
+        android:id="@+id/ranking_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="20dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="@color/color_translate"
+        android:padding="0dp"
+        android:src="@drawable/ranking_more"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/template_category_vp" />
     <TextView
         android:id="@+id/food_title"
         android:layout_width="wrap_content"
@@ -330,7 +380,7 @@
             tools:listitem="@layout/item_home_custom" />
     </com.umc.umc_6th_wit_android.home.NestedScrollableHost>
 
-    <android.widget.Button
+<!--    <android.widget.Button
         android:id="@+id/food_btn"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -341,8 +391,21 @@
         android:padding="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/food_ns"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"/>-->
 
+    <ImageButton
+        android:id="@+id/food_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="20dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="@color/color_translate"
+        android:src="@drawable/food_more"
+        android:scaleType="centerInside"
+        android:padding="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/food_ns"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/notice_title"
@@ -456,17 +519,18 @@
         app:layout_constraintTop_toBottomOf="@id/notice_content3"
         app:layout_constraintBottom_toTopOf="@id/notice_btn"/>
 
-    <android.widget.Button
+    <ImageButton
         android:id="@+id/notice_btn"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="35dp"
         android:layout_marginBottom="100dp"
-        android:background="@drawable/notice_more"
-        android:text="공지 더보기"
-        android:textStyle="bold"
+        android:adjustViewBounds="true"
+        android:backgroundTint="@color/color_translate"
         android:padding="0dp"
+        android:src="@drawable/notice_more"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/notice_content3"

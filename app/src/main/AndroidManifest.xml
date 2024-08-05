@@ -12,7 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UMC6thWit"
         tools:targetApi="31">
-
+        <activity
+            android:name=".LocationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PriceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".home.notice.NoticeActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -30,14 +38,13 @@
         <activity
             android:name=".login.LoginActivity"
             android:exported="false"
-            android:theme="@style/LoginTheme"></activity>
+            android:theme="@style/LoginTheme" />
         <activity
             android:name=".DetailActivity"
             android:exported="false" />
-
-        <activity android:name=".wish.FolderActivity"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
+        <activity
+            android:name=".wish.FolderActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".home.ProductDetailActivity"
             android:exported="false" />
