@@ -18,10 +18,13 @@ import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentWishlistBinding
 
+// WishListFragment 클래스 정의: 위시리스트를 관리하는 프래그먼트
 class WishListFragment : Fragment(), SelectionListener {
 
+    // ViewBinding 객체 선언
     lateinit var binding: FragmentWishlistBinding
 
+    // 어댑터 객체 선언
     private lateinit var wishListAdapter: WishListAdapter
     // 편집 모드 상태 변수
     private var isEditMode = false
@@ -40,30 +43,33 @@ class WishListFragment : Fragment(), SelectionListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 위시리스트와 보드의 레이아웃을 GridLayout으로 설정
+        // 위시리스트의 레이아웃을 GridLayout으로 설정
         binding.wishListRecyclerView.layoutManager = GridLayoutManager(context, 2)
 
         // 어댑터를 초기화하고 RecyclerView에 설정
         wishListAdapter = WishListAdapter(getWishListItems(), this)
         binding.wishListRecyclerView.adapter = wishListAdapter
 
-        // 아이템과 보드의 선택 상태에 따른 버튼 상태 업데이트
+        // 아이템의 선택 상태에 따른 버튼 상태 업데이트
         updateItemButtonState(wishListAdapter.selectedItems.size)
 
-        binding.wishListEditModeButtons.setOnClickListener{
-
+        // 편집 모드 버튼 클릭 이벤트 설정
+        binding.wishListEditModeButtons.setOnClickListener {
+            // 빈 클릭 이벤트 설정
         }
 
+        // 뒤로 가기 버튼 클릭 이벤트 설정
         binding.wishListBack.setOnClickListener {
-            if(isEditMode){
+            if (isEditMode) {
                 (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
             }
             parentFragmentManager.popBackStack()
         }
 
+        // 뒤로 가기 버튼 콜백 설정
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if(isEditMode){
+                if (isEditMode) {
                     (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
                 }
                 parentFragmentManager.popBackStack()
@@ -118,7 +124,7 @@ class WishListFragment : Fragment(), SelectionListener {
     // 아이템 선택 상태에 따라 버튼의 활성화를 업데이트하는 함수
     private fun updateItemButtonState(selectedItemCount: Int) {
         val isEnabled = selectedItemCount > 0
-        if(isEditMode){
+        if (isEditMode) {
             binding.wishListCount.text = selectedItemCount.toString()
         }
         // 선택된 아이템의 수에 따라 각 버튼의 활성화 상태와 투명도를 설정
@@ -140,7 +146,7 @@ class WishListFragment : Fragment(), SelectionListener {
 
     // 보드 선택 상태가 변경될 때 호출되는 콜백 메소드
     override fun onSelectionBoardChanged(count: Int) {
-
+        // 구현되지 않은 부분
     }
 
     // 선택된 아이템을 삭제하는 함수
@@ -213,18 +219,19 @@ class WishListFragment : Fragment(), SelectionListener {
     private fun getWishListItems(): List<WishItem> {
         // 예제 데이터를 생성
         val itemList = listOf(
-            WishItem(0, R.drawable.item_ex, "아이템 1", "367","3,151", 4.4, 1),
-            WishItem(1, R.drawable.item_ex, "아이템 2", "367","3,151", 4.4, 2),
-            WishItem(2, R.drawable.item_ex, "아이템 3", "367","3,151", 4.4, 3),
-            WishItem(3, R.drawable.item_ex, "아이템 4", "367","3,151", 4.4, 4),
-            WishItem(4, R.drawable.item_ex, "아이템 5", "367","3,151", 4.4, 5),
-            WishItem(5, R.drawable.item_ex, "아이템 6", "367","3,151", 4.4, 6),
+            WishItem(0, R.drawable.item_ex, "아이템 1", "367", "3,151", 4.4, 1),
+            WishItem(1, R.drawable.item_ex, "아이템 2", "367", "3,151", 4.4, 2),
+            WishItem(2, R.drawable.item_ex, "아이템 3", "367", "3,151", 4.4, 3),
+            WishItem(3, R.drawable.item_ex, "아이템 4", "367", "3,151", 4.4, 4),
+            WishItem(4, R.drawable.item_ex, "아이템 5", "367", "3,151", 4.4, 5),
+            WishItem(5, R.drawable.item_ex, "아이템 6", "367", "3,151", 4.4, 6),
         )
         // 아이템 개수를 설정
         binding.wishListCount.text = itemList.size.toString()
         Log.d("count", itemList.size.toString())
         return itemList
     }
+
     // dp를 px로 변환하는 함수
     private fun dpToPx(dp: Int): Int {
         val density = resources.displayMetrics.density
