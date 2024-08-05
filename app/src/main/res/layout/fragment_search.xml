@@ -4,99 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#FCFCFC"
     tools:context=".search.SearchFragment">
 
-    <EditText
-        android:id="@+id/et_search"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/sv_bg"
-        android:hint="상품, 브랜드 등"
-        android:paddingHorizontal="10dp"
-        android:textColor="@color/black"
-        android:textColorHint="#B4B4B4"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/ic_reset"
-        app:layout_constraintBottom_toBottomOf="@id/et_search"
-        app:layout_constraintEnd_toEndOf="@id/et_search"
-        app:layout_constraintTop_toTopOf="@id/et_search" />
-    <View
-        android:id="@+id/line"
+    <FrameLayout
+        android:id="@+id/search_frm"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#E1E1E1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_search"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp"/>
-
-    <TextView
-        android:id="@+id/recent_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/et_search"
-        app:layout_constraintTop_toBottomOf="@id/line"
-        android:layout_marginVertical="30dp"
-        android:text="최근 검색어"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"/>
-    <TextView
-        android:id="@+id/remove_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/et_search"
-        app:layout_constraintTop_toTopOf="@id/recent_tv"
-        app:layout_constraintBottom_toBottomOf="@id/recent_tv"
-        android:text="지우기"
-        android:textSize="13sp"
-        android:textColor="#4E4E4E"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_rv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingEnd="10dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@id/recent_tv"
-        app:layout_constraintTop_toBottomOf="@id/recent_tv"
-        android:layout_marginTop="10dp"
-        tools:listitem="@layout/item_search"
-        />
-    <TextView
-    android:id="@+id/recommend_tv"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:layout_constraintStart_toStartOf="@id/et_search"
-    app:layout_constraintTop_toBottomOf="@id/search_rv"
-    android:layout_marginVertical="30dp"
-    android:text="추천 검색어"
-    android:textSize="18sp"
-    android:textStyle="bold"
-    android:textColor="@color/black"/>
-
-    <com.google.android.flexbox.FlexboxLayout
-        android:id="@+id/flexboxLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="@id/recommend_tv"
-        app:layout_constraintTop_toBottomOf="@id/recommend_tv"
-        android:padding="16dp"
-        app:flexWrap="wrap"
-        app:justifyContent="flex_start"
-        app:alignItems="flex_start"
-        android:layout_marginHorizontal="20dp"/>
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
