@@ -20,4 +20,5 @@
     <color name="edit_blue">#2B8DFF</color>
     <color name="folderGray">#868686</color>
     <color name="folderBlack">#111111</color>
+    <color name="sv_gray">#F4F4F4</color>
 </resources>
