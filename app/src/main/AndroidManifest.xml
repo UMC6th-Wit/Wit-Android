@@ -49,9 +49,9 @@
             android:exported="false"/>
         <activity android:name=".home.ReviewMinActivity"
             android:exported="false"/>
-            android:name=".home.CustomActivity"
+        <activity android:name=".home.CustomActivity"
             android:exported="true"
-            android:theme="@style/Base.Theme.UMC6thWit" />
+            android:theme="@style/Base.Theme.UMC6thWit"/>
         <activity
             android:name=".home.FoodActivity"
             android:exported="false"

@@ -8,83 +8,115 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.ItemWishBinding
 
+// WishListAdapter 클래스 정의: RecyclerView.Adapter를 상속받아 WishItem 리스트를 관리합니다.
 class WishListAdapter(private var items: List<WishItem>, private val selectionListener: SelectionListener) : RecyclerView.Adapter<WishListAdapter.WishBoardViewHolder>() {
 
+    // 선택된 아이템들을 저장하는 MutableSet
     val selectedItems = mutableSetOf<WishItem>()
+    // 편집 모드 여부를 나타내는 변수
     private var isEditMode = false
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):  WishBoardViewHolder{
+    // ViewHolder를 생성합니다.
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WishBoardViewHolder {
         val binding = ItemWishBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return WishBoardViewHolder(binding)
     }
 
+    // ViewHolder와 데이터를 바인딩합니다.
     override fun onBindViewHolder(holder: WishBoardViewHolder, position: Int) {
         holder.bind(items[position])
     }
+
+    // 아이템 개수를 반환합니다.
     override fun getItemCount(): Int = items.size
 
+    // 편집 모드를 설정합니다.
     fun setEditMode(isEditMode: Boolean) {
         this.isEditMode = isEditMode
         notifyDataSetChanged()
     }
 
+    // 선택된 아이템들을 삭제합니다.
     fun deleteSelectedItems() {
-        // items를 MutableList로 변환하여 selectedItems 제거
+        // items를 MutableList로 변환하여 selectedItems를 제거합니다.
         val mutableItems = items.toMutableList()
         mutableItems.removeAll(selectedItems)
         selectedItems.clear()
-        // 새로운 리스트로 items 대체하고 어댑터에 변경 사항 알림
+        // 새로운 리스트로 items를 대체하고 어댑터에 변경 사항을 알립니다.
         updateItems(mutableItems)
     }
 
+    // 아이템을 선택합니다.
     fun selectItem(item: Any) {
         selectedItems.add(item as WishItem)
+        // 선택된 아이템 개수 변경을 리스너에 알림
         selectionListener.onSelectionItemChanged(selectedItems.size)
     }
 
+    // 아이템 선택을 해제합니다.
     fun deselectItem(item: Any) {
         selectedItems.remove(item)
+        // 선택된 아이템 개수 변경을 리스너에 알림
         selectionListener.onSelectionItemChanged(selectedItems.size)
     }
 
+    // 아이템 리스트를 업데이트합니다.
     private fun updateItems(newItems: List<WishItem>) {
         items = newItems
         notifyDataSetChanged()
     }
 
+    // ViewHolder 클래스 정의: 아이템의 뷰를 관리합니다.
     inner class WishBoardViewHolder(private val binding: ItemWishBinding) : RecyclerView.ViewHolder(binding.root) {
+        // 아이템을 바인딩합니다.
         fun bind(item: WishItem) {
-//            Glide.with(binding.itemImage.context)
-//                .load(item.image)
-//                .into(binding.itemImage)
+            // 아이템 이미지를 설정
             binding.itemImage.setImageResource(item.image!!)
+            // 아이템 제목을 설정
             binding.itemTitle.text = item.title
+            // 일본 엔화 가격을 설정
             binding.priceJpy.text = item.jpy
+            // 한국 원화 가격을 설정
             binding.priceKrw.text = item.krw
+            // 아이템 평점을 설정
             binding.itemRating.text = item.rating.toString()
+            // 아이템 리뷰 수를 설정
             binding.itemNop.text = item.nop.toString()
 
-            if(!isEditMode && item.id == items.last().id){
+            // 편집 모드 및 마지막 아이템 여부에 따라 패딩을 설정합니다.
+            if (!isEditMode && item.id == items.last().id) {
                 binding.bottomItem.setPadding(0, 0, 0, 150)
             } else {
                 binding.bottomItem.setPadding(0, 0, 0, 10)
             }
-            if(isEditMode){
+
+            // 편집 모드에 따른 UI 설정을 합니다.
+            if (isEditMode) {
+                // 편집 모드일 때 아이템 선택 아이콘을 보이게 합니다.
                 binding.icSelect.visibility = View.VISIBLE
             } else {
+                // 편집 모드가 아닐 때 아이템 선택 아이콘을 숨깁니다.
                 binding.icSelect.visibility = View.GONE
+                // 선택된 아이템 리스트에서 제거
                 selectedItems.remove(item)
+                // 아이템 선택 아이콘을 초기 상태로 설정
                 binding.icSelect.setImageResource(R.drawable.ic_unselected)
-                binding.itemImage.clearColorFilter() // 효과를 원래대로 되돌림
+                // 아이템 이미지의 색상 필터 제거
+                binding.itemImage.clearColorFilter()
             }
+
+            // 아이템 클릭 리스너를 설정합니다.
             itemView.setOnClickListener {
                 if (isEditMode) {
+                    // 편집 모드일 때
                     if (selectedItems.contains(item)) {
+                        // 선택된 아이템을 선택 해제합니다.
                         deselectItem(item)
                         selectedItems.remove(item)
                         binding.icSelect.setImageResource(R.drawable.ic_unselected)
                         binding.itemImage.clearColorFilter() // 효과를 원래대로 되돌림
                     } else {
+                        // 선택되지 않은 아이템을 선택합니다.
                         selectItem(item)
                         selectedItems.add(item)
                         binding.icSelect.setImageResource(R.drawable.ic_selected)

@@ -19,7 +19,7 @@ import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentWishBinding
 
-// WishFragment 클래스는 위시리스트 및 보드의 UI를 관리하는 프래그먼트입니다.
+// WishFragment 클래스: 위시리스트 및 보드의 UI를 관리하는 프래그먼트
 class WishFragment : Fragment(), SelectionListener {
     // ViewBinding 객체 선언
     lateinit var binding: FragmentWishBinding
@@ -60,18 +60,6 @@ class WishFragment : Fragment(), SelectionListener {
         updateBoardButtonState(boardsAdapter.selectedBoards.size)
 
         // 초기 버튼 상태 설정 (장바구니 버튼이 선택된 상태)
-        // 화면 전환 시 데이터 수신
-//        binding.btnCart.isSelected = true
-//        val selected = arguments?.getBoolean("selected")
-//        if (selected != null) {
-//            binding.btnCart.isSelected = selected
-//            binding.btnFolder.isSelected = !selected
-//        }
-//        if(binding.btnCart.isSelected == null){
-//            binding.btnCart.isSelected = true
-//        }
-//
-
         binding.btnCart.isSelected = true
         setView(binding.btnCart.isSelected)
 
@@ -98,23 +86,24 @@ class WishFragment : Fragment(), SelectionListener {
             addToFolder()
         }
 
-        // 보드 추가 버튼 클릭 이벤트 설정 (현재 구현되지 않음)
+        // 보드 추가 버튼 클릭 이벤트 설정
         binding.boardAdd.setOnClickListener {
             val intent = Intent(activity, FolderActivity::class.java)
             startActivityForResult(intent, ADD_FOLDER_REQUEST_CODE)
         }
 
         // 보드 편집 버튼 클릭 이벤트 설정
-        binding.boardEdit.setOnClickListener{
+        binding.boardEdit.setOnClickListener {
             toggleBoardEditMode()
         }
 
         // 보드 삭제 버튼 클릭 이벤트 설정
-        binding.btnBoardDelete.setOnClickListener{
+        binding.btnBoardDelete.setOnClickListener {
             showDeletePopup()
         }
     }
 
+    // Activity 결과 처리
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ADD_FOLDER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -137,10 +126,11 @@ class WishFragment : Fragment(), SelectionListener {
         setView(selectedButton.id == R.id.btn_cart)
     }
 
-    private fun setView(selected: Boolean){
-        if(selected){
+    // 뷰 상태 설정 함수
+    private fun setView(selected: Boolean) {
+        if (selected) {
             // 장바구니 버튼이 선택된 경우
-            if(isEditMode){
+            if (isEditMode) {
                 // 편집 모드 해제 및 보드 뷰 상태 초기화
                 isEditMode = !isEditMode
                 boardsAdapter.setEditMode(isEditMode)
@@ -168,7 +158,7 @@ class WishFragment : Fragment(), SelectionListener {
             binding.recyclerView.visibility = View.VISIBLE
         } else {
             // 폴더 버튼이 선택된 경우
-            if(isEditMode){
+            if (isEditMode) {
                 // 편집 모드 해제 및 장바구니 뷰 상태 초기화
                 isEditMode = !isEditMode
                 wishAdapter.setEditMode(isEditMode)
@@ -244,7 +234,7 @@ class WishFragment : Fragment(), SelectionListener {
     // 아이템 선택 상태에 따라 버튼의 활성화를 업데이트하는 함수
     private fun updateItemButtonState(selectedItemCount: Int) {
         val isEnabled = selectedItemCount > 0
-        if(isEditMode){
+        if (isEditMode) {
             binding.wishCount.text = selectedItemCount.toString()
         }
         // 선택된 아이템의 수에 따라 각 버튼의 활성화 상태와 투명도를 설정
@@ -359,10 +349,11 @@ class WishFragment : Fragment(), SelectionListener {
         binding.boardQuantity.text = boardsAdapter.itemCount.toString()
     }
 
-    // 폴더에 추가하는 기능을 구현하는 함수
-    private fun addToFolder(){
-
+    // 폴더에 추가하는 기능을 구현하는 함수 (현재 비어 있음)
+    private fun addToFolder() {
+        // 기능 구현 필요
     }
+
     // Fragment가 DestroyView될 때 호출되는 메소드
     override fun onDestroyView() {
         super.onDestroyView()
@@ -372,12 +363,12 @@ class WishFragment : Fragment(), SelectionListener {
     private fun getWishItems(): List<WishItem> {
         // 예제 데이터를 생성
         val itemList = listOf(
-            WishItem(0, R.drawable.item_ex, "아이템 1", "367","3,151", 4.4, 1),
-            WishItem(1, R.drawable.item_ex, "아이템 2", "367","3,151", 4.4, 2),
-            WishItem(2, R.drawable.item_ex, "아이템 3", "367","3,151", 4.4, 3),
-            WishItem(3, R.drawable.item_ex, "아이템 4", "367","3,151", 4.4, 4),
-            WishItem(4, R.drawable.item_ex, "아이템 5", "367","3,151", 4.4, 5),
-            WishItem(5, R.drawable.item_ex, "아이템 6", "367","3,151", 4.4, 6),
+            WishItem(0, R.drawable.item_ex, "아이템 1", "367", "3,151", 4.4, 1),
+            WishItem(1, R.drawable.item_ex, "아이템 2", "367", "3,151", 4.4, 2),
+            WishItem(2, R.drawable.item_ex, "아이템 3", "367", "3,151", 4.4, 3),
+            WishItem(3, R.drawable.item_ex, "아이템 4", "367", "3,151", 4.4, 4),
+            WishItem(4, R.drawable.item_ex, "아이템 5", "367", "3,151", 4.4, 5),
+            WishItem(5, R.drawable.item_ex, "아이템 6", "367", "3,151", 4.4, 6),
         )
         // 아이템 개수를 설정
         binding.wishCount.text = itemList.size.toString()
