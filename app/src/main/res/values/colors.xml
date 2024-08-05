@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#111111</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="old_lace">#FCF4E7</color>
+    <color name="old_lace">#FBF5E7</color>
     <color name="sweet_corn">#F7DB71</color>
     <color name="periwinkle">#BBCBEC</color>
     <color name="green_smoke">#9AAB65</color>
     <color name="classic_rose">#F5BBDC</color>
     <color name="white_linen">#EEE8DB</color>
     <color name="floral_white">#FFFCF4</color>
+    <color name="color_translate">#00000000</color>
+    <color name="bottom_nav">#232323</color>
+    <color name="background_yellow">#FEFBF1</color>
+    <color name="gray">#CFCCC4</color>
+    <color name="selectedTextColor">#111111</color>
+    <color name="unselectedTextColor">#888888</color>
+    <color name="light_gray">#EEEEEE</color>
+    <color name="edit_red">#FF6D6D</color>
+    <color name="edit_blue">#2B8DFF</color>
+    <color name="folderGray">#868686</color>
+    <color name="folderBlack">#111111</color>
+    <color name="sv_gray">#F4F4F4</color>
 </resources>

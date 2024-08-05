@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/birth_datepicker_box"
+        app:layout_constraintTop_toBottomOf="@id/birth_datepicker_linear"
+        app:layout_constraintBottom_toBottomOf="@id/birth_datepicker_linear2"
+        android:layout_marginHorizontal="8dp" />
+    <LinearLayout
+        android:id="@+id/birth_datepicker_linear"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#EEEEEE"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/cancel_button_datepicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="취소"
+            android:textColor="#2774F5"
+            android:layout_marginStart="20dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/save_button_datepicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="저장"
+            android:textColor="#2774F5"
+            android:layout_marginEnd="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/birth_datepicker_linear2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/birth_datepicker_linear"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <NumberPicker
+            android:id="@+id/birth_yearpicker"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="20dp"
+            android:selectionDividerHeight="0dp"
+            android:theme="@style/AppTheme.NumberPicker" />
+        <NumberPicker
+            android:id="@+id/birth_monthpicker"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:selectionDividerHeight="0dp"
+            android:theme="@style/AppTheme.NumberPicker" />
+        <NumberPicker
+            android:id="@+id/birth_daypicker"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="50dp"
+            android:selectionDividerHeight="0dp"
+            android:theme="@style/AppTheme.NumberPicker" />
+    </LinearLayout>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

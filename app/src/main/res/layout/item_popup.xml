@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingVertical="8dp"
+    android:background="@color/white"
+    >
+    <ImageView
+        android:id="@+id/popup_iv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ic_popup"/>
+    <TextView
+        android:id="@+id/popup_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="위트 서비스 및 이용 가이드 안내"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/popup_iv"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="10dp"
+        />
+    <TextView
+        android:id="@+id/popup_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="9시간 전"
+        android:textSize="8sp"
+        android:textColor="#898888"
+        app:layout_constraintStart_toEndOf="@id/popup_iv"
+        app:layout_constraintTop_toBottomOf="@id/popup_tv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        />
+    <ImageView
+        android:id="@+id/popup_delete_iv"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/popup_delete"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

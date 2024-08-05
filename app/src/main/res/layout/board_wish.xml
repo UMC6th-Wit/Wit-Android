@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="180dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="155dp">
+
+        <LinearLayout
+            android:id="@+id/board_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:background="@drawable/board_img_background"
+            android:orientation="horizontal">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/board_image_1"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:background="@drawable/board_img_background_1"
+                android:src="@drawable/empty"
+                app:shapeAppearanceOverlay="@style/TopLeftBottomLeft" />
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="155dp"
+                android:paddingLeft="2dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/board_image_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="77dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/board_img_background_2"
+                    android:src="@drawable/empty"
+                    app:shapeAppearanceOverlay="@style/TopRight" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/board_image_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="77dp"
+                    android:layout_marginTop="2dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/board_img_background_3"
+                    android:src="@drawable/empty"
+                    app:shapeAppearanceOverlay="@style/BottomRight" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ic_board_select"
+            android:visibility="gone"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center|center_horizontal"
+            android:src="@drawable/ic_board_selected"/>
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/board_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:text="보드 제목" />
+
+    <TextView
+        android:id="@+id/board_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:text="상품 23개" />
+
+</LinearLayout>
