@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/iv_reset"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginEnd="10dp"

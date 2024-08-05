@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/iv_reset"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginEnd="10dp"
@@ -52,12 +52,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="15dp"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false"
         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/rslt_rv"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-
+<!--clipToPadding을 false로 설정하면 스크롤할 때 패딩 영역이 함께 스크롤됩니다.-->
 </androidx.constraintlayout.widget.ConstraintLayout>

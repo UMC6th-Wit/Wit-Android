@@ -1,5 +1,6 @@
 package com.umc.umc_6th_wit_android.search
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,7 +66,7 @@ class SearchMainFragment  : Fragment() {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 // 사용자가 엔터를 눌렀을 때의 동작
                 val searchQuery = textView.text.toString()
-
+                binding.etSearch.setText(searchQuery)//다시 서치메인으로 돌아올 때 적혀있어야 함.
                 // SearchResultFragment로 이동
                 val fragment = SearchRsltFragment()
                 val bundle = Bundle().apply {
@@ -86,7 +88,32 @@ class SearchMainFragment  : Fragment() {
             }
         }
 
+        binding.ivReset.setOnClickListener {
+            binding.etSearch.setText("")
+        }
+
         return binding.root
+    }
+
+    //Fragment가 뷰를 생성할 때마다 실행
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // arguments에서 searchQuery 가져오기
+        val searchQuery = arguments?.getString("searchQuery") ?: ""
+        // et_search에 텍스트 설정
+        binding.etSearch.setText(searchQuery)
+        if(searchQuery.length > 0){
+            // 텍스트 끝에 커서 위치 설정 및 포커스 설정
+            binding.etSearch.post {
+                binding.etSearch.setSelection(searchQuery.length)
+                binding.etSearch.requestFocus()
+
+                // 키보드 표시
+                val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
+            }
+        }
     }
     private fun addButton(flexboxLayout: FlexboxLayout, buttonText: String) {
         val button = Button(requireActivity()).apply {
