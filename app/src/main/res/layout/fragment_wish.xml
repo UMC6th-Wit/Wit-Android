@@ -36,7 +36,7 @@
         android:background="@drawable/wish_menu_background"
         android:padding="10dp">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_cart"
             android:layout_width="165dp"
             android:layout_height="40dp"
@@ -48,7 +48,7 @@
             android:paddingRight="10dp"
             android:textSize="16sp"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_folder"
             android:layout_width="165dp"
             android:layout_height="40dp"
@@ -95,7 +95,7 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/wish_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/wish_menu">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:layout_marginLeft="15dp"
@@ -130,7 +130,7 @@
             android:textColor="#FFFFFF"
             android:textSize="15sp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:layout_marginLeft="15dp"
@@ -139,7 +139,7 @@
             android:textColor="#66111111"
             android:textSize="15sp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:layout_marginLeft="15dp"
@@ -224,7 +224,7 @@
 
         </FrameLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/board_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -292,7 +292,7 @@
                 android:layout_marginStart="40dp"
                 android:src="@drawable/ic_folder_add"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_add_to_folder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -322,7 +322,7 @@
                 android:layout_marginStart="58dp"
                 android:src="@drawable/ic_trash"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -365,7 +365,7 @@
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/ic_trash"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_board_delete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
