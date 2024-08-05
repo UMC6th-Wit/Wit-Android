@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/fragment_product_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/product_detail_select_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="상품설명"
+        android:textColor="#8C8C8C"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/product_review_select_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fragment_product_detail"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <TextView
+        android:id="@+id/product_review_select_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="리뷰(0)"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/product_detail_select_tv"
+        app:layout_constraintTop_toBottomOf="@id/fragment_product_detail"
+        app:layout_constraintWidth_percent="0.5" />
+
+    <ImageView
+        android:id="@+id/vector_black_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="상품설명"
+        android:textColor="#8C8C8C"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/product_review_select_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/product_detail_select_tv"
+        app:layout_constraintWidth_percent="0.5"
+        app:srcCompat="@drawable/vector_image" />
+
+    <ImageView
+        android:id="@+id/vector_gray_iv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:text="리뷰(0)"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vector_black_iv"
+        app:layout_constraintTop_toBottomOf="@id/product_review_select_tv"
+        app:srcCompat="@drawable/vector_image_black" />
+
+    <TextView
+        android:id="@+id/review_page_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="리뷰"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vector_gray_iv" />
+
+    <TextView
+        android:id="@+id/review_rate_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="4.5"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/review_rate_btn"
+        app:layout_constraintStart_toStartOf="@+id/review_page_tv"
+        app:layout_constraintTop_toBottomOf="@+id/review_page_tv" />
+
+    <androidx.appcompat.widget.AppCompatRatingBar
+        android:id="@+id/review_rate_btn"
+        style="@style/Widget.AppCompat.RatingBar.Indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/review_rate_tv"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@id/review_rate_tv" />
+
+    <TextView
+        android:id="@+id/reciew_num_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="(18)"
+        android:textColor="#8C8C8C"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/review_rate_tv"
+        app:layout_constraintStart_toEndOf="@+id/review_rate_btn" />
+
+    <ImageView
+        android:id="@+id/go_to_review_btn_image"
+        android:layout_width="8dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/reciew_num_tv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/go_to_review_btn_image" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/review_rate_tv"
+        tools:ignore="MissingConstraints">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="100dp">
+
+            <ImageView
+                android:id="@+id/review_sample1_iv"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/review_sample1_image"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <ImageView
+                android:id="@+id/review_sample2_iv"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/review_sample2_image"
+                app:layout_constraintStart_toEndOf="@+id/review_sample1_iv"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <ImageView
+                android:id="@+id/review_sample3_iv"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/review_sample3_image"
+                app:layout_constraintStart_toEndOf="@+id/review_sample2_iv"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <ImageView
+                android:id="@+id/review_sample4_iv"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="20dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/review_sample4_image"
+                app:layout_constraintStart_toEndOf="@+id/review_sample3_iv"
+                tools:layout_editor_absoluteY="0dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="380dp"
+        android:layout_height="66dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+        app:srcCompat="@drawable/look_more_image" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

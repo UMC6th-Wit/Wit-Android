@@ -45,10 +45,10 @@
         <activity
             android:name=".wish.FolderActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".home.ProductDetailActivity"
-            android:exported="false" />
-        <activity
+        <activity android:name=".home.ProductDetailActivity"
+            android:exported="false"/>
+        <activity android:name=".home.ReviewMinActivity"
+            android:exported="false"/>
             android:name=".home.CustomActivity"
             android:exported="true"
             android:theme="@style/Base.Theme.UMC6thWit" />
