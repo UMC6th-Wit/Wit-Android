@@ -54,54 +54,40 @@ class SearchRsltFragment : Fragment() {
 
 
         binding.ivReset.setOnClickListener {
-            binding.etSearch.setText("")
+            changeFragment("","ivReset")
         }
 
-/*        binding.etSearch.setOnEditorActionListener { textView, actionId, keyEvent ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                // 사용자가 엔터를 눌렀을 때의 동작
-                // SearchMainFragment로 이동
-                val fragment = SearchMainFragment()
-                *//*  val bundle = Bundle().apply {
-                      putString("searchQuery", searchQuery)
-                  }
-                  fragment.arguments = bundle
-  *//*
-                parentFragmentManager.beginTransaction()
-                    .replace(
-                        R.id.main_frm,
-                        fragment
-                    )
-                    .addToBackStack(null)
-                    .commit()
+        binding.tvCancel.setOnClickListener {
+            changeFragment("","")
+        }
 
 
-                true
-            } else {
-                false
-            }
-        }*/
         binding.etSearch.setOnTouchListener { v, event ->
-            // 검색 쿼리를 전달할 SearchMainFragment를 생성
-            val fragment = SearchMainFragment()
-
-            // 전달할 데이터를 담을 Bundle을 생성
-            val bundle = Bundle().apply {
-                putString("searchQuery", searchQuery)
-            }
-
-            // Bundle을 Fragment의 arguments로 설정
-            fragment.arguments = bundle
-
-            // FragmentManager를 사용하여 SearchMainFragment로 이동
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.main_frm, fragment) // 프래그먼트를 교체할 컨테이너의 ID
-                .addToBackStack(null) // 백스택에 추가하여 뒤로가기 시 이전 화면으로 돌아감
-                .commit()
+            changeFragment(searchQuery, "")
 
             // true를 반환하여 이벤트를 소비하고, false를 반환하여 이벤트를 계속 처리할지 결정
             true
         }
         return binding.root
+    }
+
+    private fun changeFragment(searchQuery : String?, btn:String?){
+        // 검색 쿼리를 전달할 SearchMainFragment를 생성
+        val fragment = SearchMainFragment()
+
+        // 전달할 데이터를 담을 Bundle을 생성
+        val bundle = Bundle().apply {
+            putString("searchQuery", searchQuery)
+            putString("btn", btn)
+        }
+
+        // Bundle을 Fragment의 arguments로 설정
+        fragment.arguments = bundle
+
+        // FragmentManager를 사용하여 SearchMainFragment로 이동
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.main_frm, fragment) // 프래그먼트를 교체할 컨테이너의 ID
+            .addToBackStack(null) // 백스택에 추가하여 뒤로가기 시 이전 화면으로 돌아감
+            .commit()
     }
 }

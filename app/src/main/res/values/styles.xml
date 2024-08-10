@@ -38,4 +38,13 @@
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">13sp</item>
     </style>
+    <style name="CommonTextViewStyle">
+        <item name="android:paddingVertical">7dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="BoldCenteredTextStyle" parent="CommonTextViewStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+    </style>
 </resources>

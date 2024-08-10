@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/recent_btn_bg"
-    android:paddingHorizontal="15dp"
-    android:paddingVertical="8dp"
+    android:paddingStart="15dp"
+    android:paddingVertical="9dp"
     android:layout_marginEnd="10dp">
     <TextView
         android:id="@+id/tv"
@@ -18,9 +18,9 @@
         android:textStyle="bold"
         android:textSize="13sp"
         android:textColor="@color/black"/>
-    <ImageButton
+    <ImageView
         android:id="@+id/delete_btn"
-        android:layout_width="11dp"
+        android:layout_width="26dp"
         android:layout_height="11dp"
         android:src="@drawable/ic_search_delete"
         android:background="@color/color_translate"
@@ -29,6 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tv"
         android:layout_marginStart="5dp"
-        android:scaleType="fitXY"
+        android:scaleType="fitStart"
+        android:translationZ="2dp"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

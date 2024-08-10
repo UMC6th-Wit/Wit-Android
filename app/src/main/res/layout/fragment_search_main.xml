@@ -11,7 +11,8 @@
         android:id="@+id/et_search"
         android:layout_width="0dp"
         android:layout_height="45dp"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="55dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/sv_bg"
         android:hint="상품, 브랜드 등"
@@ -27,13 +28,23 @@
 
     <ImageButton
         android:id="@+id/iv_reset"
-        android:layout_width="20dp"
+        android:layout_width="19dp"
         android:layout_height="20dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/ic_reset"
         app:layout_constraintBottom_toBottomOf="@id/et_search"
         app:layout_constraintEnd_toEndOf="@id/et_search"
         app:layout_constraintTop_toTopOf="@id/et_search" />
+    <ImageButton
+        android:id="@+id/iv_search"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/ic_search"
+        app:layout_constraintBottom_toBottomOf="@id/et_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/et_search"
+        />
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
@@ -45,52 +56,62 @@
         android:layout_marginTop="10dp"/>
 
 
-    <TextView
-        android:id="@+id/recent_tv"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/recent_cl"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/et_search"
-        app:layout_constraintTop_toBottomOf="@id/line"
-        android:layout_marginVertical="30dp"
-        android:text="최근 검색어"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"/>
-    <TextView
-        android:id="@+id/remove_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/et_search"
-        app:layout_constraintTop_toTopOf="@id/recent_tv"
-        app:layout_constraintBottom_toBottomOf="@id/recent_tv"
-        android:text="지우기"
-        android:textSize="13sp"
-        android:textColor="#4E4E4E"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_rv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingEnd="10dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@id/recent_tv"
-        app:layout_constraintTop_toBottomOf="@id/recent_tv"
-        android:layout_marginTop="10dp"
-        tools:listitem="@layout/item_search"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line">
+        <TextView
+            android:id="@+id/recent_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginVertical="30dp"
+            android:text="최근 검색어"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/remove_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/recent_tv"
+            app:layout_constraintBottom_toBottomOf="@id/recent_tv"
+            android:text="지우기"
+            android:textSize="13sp"
+            android:textColor="#4E4E4E"
+            android:layout_marginEnd="20dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/recent_tv"
+            app:layout_constraintTop_toBottomOf="@id/recent_tv"
+            android:layout_marginTop="10dp"
+            tools:listitem="@layout/item_search"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <TextView
         android:id="@+id/recommend_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/et_search"
-        app:layout_constraintTop_toBottomOf="@id/search_rv"
+        app:layout_constraintTop_toBottomOf="@id/recent_cl"
         android:layout_marginVertical="30dp"
         android:text="추천 검색어"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/black"/>
 
-    <com.google.android.flexbox.FlexboxLayout
+<!--    <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/flexboxLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -100,7 +121,127 @@
         app:flexWrap="wrap"
         app:justifyContent="flex_start"
         app:alignItems="flex_start"
-        android:layout_marginHorizontal="20dp"/>
+        android:layout_marginHorizontal="20dp">
+
+    </com.google.android.flexbox.FlexboxLayout>-->
+    <LinearLayout
+        android:id="@+id/flexboxLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/recommend_tv"
+        app:layout_constraintTop_toBottomOf="@id/recommend_tv"
+        android:orientation="vertical"
+        android:padding="0dp">
+
+        <!-- 첫째 줄 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/search_rcm_bg"
+                android:text="동전파스"
+                android:textColor="@color/black"
+                android:paddingVertical="9dp"
+                android:paddingHorizontal="14dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/search_rcm_bg"
+                android:text="안약"
+                android:textColor="@android:color/black"
+                android:paddingVertical="9dp"
+                android:paddingHorizontal="14dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/search_rcm_bg"
+                android:text="피로회복제"
+                android:textColor="@android:color/black"
+                android:paddingVertical="9dp"
+                android:paddingHorizontal="14dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"/>
+
+
+        </LinearLayout>
+
+        <!-- 둘째 줄 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/search_rcm_bg"
+                android:text="킷캣"
+                android:textColor="@android:color/black"
+                android:paddingVertical="9dp"
+                android:paddingHorizontal="14dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/search_rcm_bg"
+                android:text="해열패치"
+                android:textColor="@android:color/black"
+                android:paddingVertical="9dp"
+                android:paddingHorizontal="14dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/search_rcm_bg"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="9dp"
+                android:text="휴족시간"
+                android:textColor="@android:color/black" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/search_rcm_bg"
+                android:text="곤약젤리"
+                android:textColor="@android:color/black"
+                android:paddingVertical="9dp"
+                android:paddingHorizontal="14dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
     <TextView
         android:id="@+id/popular_tv"
         android:layout_width="wrap_content"
@@ -116,12 +257,12 @@
         android:id="@+id/popular_time_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/et_search"
+        app:layout_constraintEnd_toEndOf="@id/iv_search"
         app:layout_constraintTop_toTopOf="@id/popular_tv"
         app:layout_constraintBottom_toBottomOf="@id/popular_tv"
         android:text="08.26 02:00 기준"
         android:textSize="13sp"
-        android:textColor="#4E4E4E"/>
+        android:textColor="#A5A5A5"/>
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -133,184 +274,172 @@
         android:columnCount="4"
         android:orientation="horizontal"
         >
+
+        <!-- Row 1 -->
         <TextView
             android:id="@+id/num1"
+            style="@style/BoldCenteredTextStyle"
+            android:text="1"
             android:layout_rowWeight="1"
             android:layout_columnWeight="5"
-            android:textAlignment="center"
-            android:text="1"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:paddingVertical="5dp"
             />
 
         <TextView
             android:id="@+id/name1"
+            style="@style/CommonTextViewStyle"
+            android:text="초콜릿"
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
-            android:textColor="@color/black"
-            android:paddingVertical="5dp"
-            android:text="초콜릿" />
-
+            />
+        <!-- Row 6 -->
         <TextView
             android:id="@+id/num6"
-            android:layout_columnWeight="5"
-            android:paddingVertical="5dp"
+            style="@style/BoldCenteredTextStyle"
+            android:text="6"
             android:layout_rowWeight="1"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="6" />
+            android:layout_columnWeight="5"
+            />
 
         <TextView
-            android:paddingVertical="5dp"
             android:id="@+id/name6"
+            style="@style/CommonTextViewStyle"
+            android:text="커피"
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
-            android:textColor="@color/black"
-            android:text="커피" />
+            />
 
+
+        <!-- Row 2 -->
         <TextView
             android:id="@+id/num2"
-            android:paddingVertical="5dp"
+            style="@style/BoldCenteredTextStyle"
+            android:text="2"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="2" />
+            android:layout_columnWeight="5"
+            />
 
         <TextView
             android:id="@+id/name2"
+            style="@style/CommonTextViewStyle"
+            android:text="향수"
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
-            android:textColor="@color/black"
-            android:paddingVertical="5dp"
-            android:text="향수" />
+            />
 
+        <!-- Row 7 -->
         <TextView
             android:id="@+id/num7"
-            android:paddingVertical="5dp"
+            style="@style/BoldCenteredTextStyle"
+            android:text="7"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="7" />
+            android:layout_columnWeight="5"
+            />
 
         <TextView
             android:id="@+id/name7"
+            style="@style/CommonTextViewStyle"
+            android:text="7"
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
-            android:textColor="@color/black"
-            android:paddingVertical="5dp"
-            android:text="7" />
-
+            />
+        <!-- Row 3 -->
         <TextView
             android:id="@+id/num3"
-            android:paddingVertical="5dp"
+            style="@style/BoldCenteredTextStyle"
+            android:text="3"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="3" />
+            android:layout_columnWeight="5"
+            />
 
         <TextView
             android:id="@+id/name3"
-            android:paddingVertical="5dp"
+            style="@style/CommonTextViewStyle"
+            android:text="3"
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
-            android:textColor="@color/black"
-            android:text="3" />
-
+            />
+        <!-- Row 8 -->
         <TextView
             android:id="@+id/num8"
-            android:paddingVertical="5dp"
+            style="@style/BoldCenteredTextStyle"
+            android:text="8"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="8" />
+            android:layout_columnWeight="5"
+            />
 
         <TextView
             android:id="@+id/name8"
-            android:paddingVertical="5dp"
+            style="@style/CommonTextViewStyle"
+            android:text="8"
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
-            android:textColor="@color/black"
-            android:text="8" />
+            />
+
+        <!-- Row 4 -->
         <TextView
             android:id="@+id/num4"
+            style="@style/BoldCenteredTextStyle"
+            android:text="4"
             android:layout_rowWeight="1"
-            android:paddingVertical="5dp"
-            android:layout_columnWeight="1"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="4" />
+            android:layout_columnWeight="5"
+            />
 
         <TextView
             android:id="@+id/name4"
-            android:paddingVertical="5dp"
+            style="@style/CommonTextViewStyle"
+            android:text="4"
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
-            android:textColor="@color/black"
-            android:text="4" />
+            />
 
+
+        <!-- Row 9 -->
         <TextView
             android:id="@+id/num9"
-            android:paddingVertical="5dp"
+            style="@style/BoldCenteredTextStyle"
+            android:text="9"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="9" />
+            android:layout_columnWeight="5"
+            />
 
         <TextView
             android:id="@+id/name9"
-            android:paddingVertical="5dp"
+            style="@style/CommonTextViewStyle"
+            android:text="9"
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
-            android:textColor="@color/black"
-            android:text="9" />
+            />
+        <!-- Row 5 -->
         <TextView
             android:id="@+id/num5"
-            android:paddingVertical="5dp"
+            style="@style/BoldCenteredTextStyle"
+            android:text="5"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:text="5" />
+            android:layout_columnWeight="5"
+            />
 
         <TextView
             android:id="@+id/name5"
-            android:paddingVertical="5dp"
+            style="@style/CommonTextViewStyle"
+            android:text="5"
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
-            android:textColor="@color/black"
-            android:text="5" />
-
+            />
+        <!-- Row 10 -->
         <TextView
             android:id="@+id/num10"
-            android:paddingVertical="5dp"
+            style="@style/BoldCenteredTextStyle"
+            android:text="10"
             android:layout_rowWeight="1"
-            android:layout_columnWeight="1"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="10" />
+            android:layout_columnWeight="5"
+            />
 
         <TextView
             android:id="@+id/name10"
-            android:paddingVertical="5dp"
+            style="@style/CommonTextViewStyle"
+            android:text="10"
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
-            android:text="10"
-            android:textColor="@color/black"
             />
     </GridLayout>
 

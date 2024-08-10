@@ -71,4 +71,15 @@ dependencies {
 
     //FlexboxLayout
     implementation ("com.google.android.flexbox:flexbox:3.0.0")
+
+    //Retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
+
+    implementation("com.google.code.gson:gson:2.8.7")    //GSON
+
+    implementation ("com.google.android.material:material:1.10.0")
+
+
 }

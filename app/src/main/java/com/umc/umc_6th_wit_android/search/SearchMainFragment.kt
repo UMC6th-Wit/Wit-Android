@@ -1,6 +1,7 @@
 package com.umc.umc_6th_wit_android.search
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,6 +17,8 @@ import com.google.android.flexbox.FlexboxLayout
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentSearchBinding
 import com.umc.umc_6th_wit_android.databinding.FragmentSearchMainBinding
+import com.umc.umc_6th_wit_android.home.HomeCustomRVAdapter
+import com.umc.umc_6th_wit_android.home.ProductDetailActivity
 
 class SearchMainFragment  : Fragment() {
     lateinit var binding: FragmentSearchMainBinding
@@ -34,18 +37,23 @@ class SearchMainFragment  : Fragment() {
         items.add("이브 진통제")
 
         val adapter = SearchRVAdapter(items)
-
+        adapter.setOnItemClickListener(object : SearchRVAdapter.OnItemClickListener{
+            override fun onItemClick(view: View, position: Int) {
+                changedFragment(items[position])
+            }
+        })
         binding.searchRv.adapter = adapter
         binding.searchRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
 
+        binding.removeTv.setOnClickListener {
+            binding.recentCl.visibility = View.GONE
+        }
 
         val tags: List<String> = mutableListOf("동전패스", "안약", "피로회복제", "킷캣", "해열제", "휴직시간", "곤약젤리")
 
         // 버튼을 동적으로 추가
         for (i in 0 until tags.size) {
-            addButton(binding.flexboxLayout, "${tags[i]}")
-//            addButton(binding.flexboxLayout, "버튼 $i")
-
+//            addButton(binding.flexboxLayout, "${tags[i]}")
         }
 
         val popular_tags: List<String> = mutableListOf("초콜릿", "향수", "립스틱", "팔찌", "비누", "커피", "마스크팩","비타민","젤리","과자")
@@ -57,6 +65,9 @@ class SearchMainFragment  : Fragment() {
         for (i in popular_tags.indices) {
             if (i < nameViews.size) {
                 nameViews[i].text = popular_tags[i]
+                nameViews[i].setOnClickListener {
+                    changedFragment(popular_tags[i])
+                }
             }
         }
 
@@ -66,26 +77,16 @@ class SearchMainFragment  : Fragment() {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 // 사용자가 엔터를 눌렀을 때의 동작
                 val searchQuery = textView.text.toString()
-                binding.etSearch.setText(searchQuery)//다시 서치메인으로 돌아올 때 적혀있어야 함.
-                // SearchResultFragment로 이동
-                val fragment = SearchRsltFragment()
-                val bundle = Bundle().apply {
-                    putString("searchQuery", searchQuery)
-                }
-                fragment.arguments = bundle
-
-                parentFragmentManager.beginTransaction()
-                    .replace(
-                        R.id.main_frm,
-                        fragment
-                    )
-                    .addToBackStack(null)
-                    .commit()
+                changedFragment(searchQuery)
 
                 true
             } else {
                 false
             }
+        }
+        binding.ivSearch.setOnClickListener {
+            val searchQuery = binding.etSearch.text.toString()
+            changedFragment(searchQuery)
         }
 
         binding.ivReset.setOnClickListener {
@@ -94,16 +95,34 @@ class SearchMainFragment  : Fragment() {
 
         return binding.root
     }
+    private fun changedFragment(searchQuery : String){
+//        binding.etSearch.setText(searchQuery)//다시 서치메인으로 돌아올 때 적혀있어야 함.
+        // SearchResultFragment로 이동
+        val fragment = SearchRsltFragment()
+        val bundle = Bundle().apply {
+            putString("searchQuery", searchQuery)
+        }
+        fragment.arguments = bundle
 
+        parentFragmentManager.beginTransaction()
+            .replace(
+                R.id.main_frm,
+                fragment
+            )
+            .addToBackStack(null)
+            .commit()
+    }
     //Fragment가 뷰를 생성할 때마다 실행
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // arguments에서 searchQuery 가져오기
         val searchQuery = arguments?.getString("searchQuery") ?: ""
+        val btn = arguments?.getString("btn") ?: ""
+
         // et_search에 텍스트 설정
         binding.etSearch.setText(searchQuery)
-        if(searchQuery.length > 0){
+        if(searchQuery.length > 0 || btn.length > 0){
             // 텍스트 끝에 커서 위치 설정 및 포커스 설정
             binding.etSearch.post {
                 binding.etSearch.setSelection(searchQuery.length)
@@ -136,12 +155,12 @@ class SearchMainFragment  : Fragment() {
             minimumWidth = dpToPx(30)
             maxWidth = dpToPx(150)
 
-
         }
 
         // 버튼 클릭 이벤트
         button.setOnClickListener {
-            Toast.makeText(requireActivity(), buttonText, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(requireActivity(), buttonText, Toast.LENGTH_SHORT).show()
+            changedFragment(buttonText)
         }
 
         flexboxLayout.addView(button)
