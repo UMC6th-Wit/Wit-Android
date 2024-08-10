@@ -23,13 +23,8 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/MainTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".login.OnboardingActivity"
@@ -37,8 +32,15 @@
             android:theme="@style/LoginTheme" />
         <activity
             android:name=".login.LoginActivity"
-            android:exported="false"
-            android:theme="@style/LoginTheme" />
+            android:exported="true"
+            android:theme="@style/LoginTheme" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".DetailActivity"
             android:exported="false" />

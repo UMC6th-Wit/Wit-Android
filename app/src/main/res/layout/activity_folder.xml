@@ -7,74 +7,68 @@
     android:padding="16dp"
     tools:context=".wish.FolderActivity">
 
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/createFolderButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/folder_topbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:foregroundGravity="center|center_horizontal"
+            android:paddingTop="18dp"
+            android:paddingBottom="18dp"
+            tools:ignore="MissingConstraints">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/folder_topbar"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/folder_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="18dp"
-                android:paddingBottom="18dp"
-                android:foregroundGravity="center|center_horizontal"
-                tools:ignore="MissingConstraints">
+                android:text="새 폴더"
+                android:textColor="@android:color/black"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/folder_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="새 폴더"
-                    android:textSize="25dp"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/black"/>
+            <ImageButton
+                android:id="@+id/folder_back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/x"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
-                    android:id="@+id/folder_back"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/x"
-                    android:background="@android:color/transparent"
-                    android:scaleType="centerInside"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <EditText
-                android:id="@+id/folderNameEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="새 폴더명 입력"
-                android:inputType="text"
-                android:padding="12dp"
-                android:backgroundTint="@color/gray"
-                android:layout_marginBottom="16dp"/>
-        </LinearLayout>
-    </ScrollView>
+        <EditText
+            android:id="@+id/folderNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/gray"
+            android:hint="새 폴더명 입력"
+            android:inputType="text"
+            android:padding="12dp" />
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/createFolderButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button_folder_background_disabled"
-        android:text="새 폴더 만들기"
         android:enabled="false"
-        android:textColor="#868686"
         android:padding="17dp"
+        android:text="새 폴더 만들기"
+        android:textColor="#868686"
+        android:layout_alignParentBottom="true"
+        android:windowSoftInputMode="adjustResize"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

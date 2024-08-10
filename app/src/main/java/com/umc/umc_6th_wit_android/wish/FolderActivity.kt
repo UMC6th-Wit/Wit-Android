@@ -69,20 +69,5 @@ class FolderActivity : AppCompatActivity() {
             // 액티비티 종료
             finish()
         }
-
-        // 키보드가 나타나거나 사라질 때 호출되는 리스너 설정
-        binding.root.viewTreeObserver.addOnGlobalLayoutListener {
-            val rect = Rect()
-            // 화면의 가시 영역을 rect 객체에 저장
-            binding.root.getWindowVisibleDisplayFrame(rect)
-            val screenHeight = binding.root.rootView.height
-            val keypadHeight = screenHeight - rect.bottom
-            // 키보드가 열렸을 때
-            if (keypadHeight > screenHeight * 0.15) { // 키보드가 열렸을 때 (화면의 15% 이상 차지할 때)
-                binding.createFolderButton.translationY = -keypadHeight.toFloat()
-            } else { // 키보드가 닫혔을 때
-                binding.createFolderButton.translationY = 0f
-            }
-        }
     }
 }
