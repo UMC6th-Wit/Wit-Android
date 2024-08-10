@@ -109,13 +109,6 @@ class BoardsAdapter(private var wishboards: List<Wishboard>, private val selecti
                 binding.boardImage3.setImageResource(R.drawable.empty)
             }
 
-            // 편집 모드 및 마지막 보드 여부에 따라 패딩을 설정합니다.
-            if (!isEditMode && board.id == wishboards.last().id) {
-                binding.boardQuantity.setPadding(0, 0, 0, 250)
-            } else {
-                binding.boardQuantity.setPadding(0, 0, 0, 10)
-            }
-
             // 편집 모드에 따른 UI 설정을 합니다.
             if (isEditMode) {
                 // 편집 모드일 때 아이템을 반투명하게 표시합니다.
