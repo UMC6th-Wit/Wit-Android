@@ -85,13 +85,6 @@ class WishAdapter(private var items: List<WishItem>, private val selectionListen
             // 아이템 리뷰 수를 설정
             binding.itemNop.text = item.nop.toString()
 
-            // 편집 모드 및 마지막 아이템 여부에 따라 패딩을 설정합니다.
-            if (!isEditMode && item.id == items.last().id) {
-                binding.bottomItem.setPadding(0, 0, 0, 300)
-            } else {
-                binding.bottomItem.setPadding(0, 0, 0, 10)
-            }
-
             // 편집 모드에 따른 UI 설정을 합니다.
             if (isEditMode) {
                 // 편집 모드일 때 아이템 선택 아이콘을 보이게 합니다.

@@ -131,17 +131,7 @@ class WishFragment : Fragment(), SelectionListener {
         if (selected) {
             // 장바구니 버튼이 선택된 경우
             if (isEditMode) {
-                // 편집 모드 해제 및 보드 뷰 상태 초기화
-                isEditMode = !isEditMode
-                boardsAdapter.setEditMode(isEditMode)
-                binding.boardEditModeButtons.visibility = if (isEditMode) View.VISIBLE else View.GONE
-                binding.boardEdit.text = "편집"
-                binding.boardEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
-                (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
-                // RecyclerView의 높이를 동적으로 변경
-                val layoutParams = binding.boardsRecyclerView.layoutParams
-                layoutParams.height = if (isEditMode) dpToPx(377) else dpToPx(477)
-                binding.boardsRecyclerView.layoutParams = layoutParams
+                toggleEditMode()
             }
             // 장바구니 버튼의 텍스트 색상을 활성화 색상으로 변경
             binding.btnCart.setTextColor(resources.getColor(R.color.selectedTextColor))
@@ -159,17 +149,7 @@ class WishFragment : Fragment(), SelectionListener {
         } else {
             // 폴더 버튼이 선택된 경우
             if (isEditMode) {
-                // 편집 모드 해제 및 장바구니 뷰 상태 초기화
-                isEditMode = !isEditMode
-                wishAdapter.setEditMode(isEditMode)
-                binding.editModeButtons.visibility = if (isEditMode) View.VISIBLE else View.GONE
-                binding.wishEdit.text = "편집"
-                binding.wishEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
-                (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
-                // RecyclerView의 높이를 동적으로 변경
-                val layoutParams = binding.recyclerView.layoutParams
-                layoutParams.height = if (isEditMode) dpToPx(500) else dpToPx(600)
-                binding.recyclerView.layoutParams = layoutParams
+                toggleBoardEditMode()
             }
             // 폴더 버튼의 텍스트 색상을 활성화 색상으로 변경
             binding.btnCart.setTextColor(resources.getColor(R.color.unselectedTextColor))
@@ -204,10 +184,6 @@ class WishFragment : Fragment(), SelectionListener {
             binding.wishEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
             (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
         }
-        // RecyclerView의 높이를 동적으로 변경
-        val layoutParams = binding.recyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(500) else dpToPx(600)
-        binding.recyclerView.layoutParams = layoutParams
     }
 
     // 보드 편집 모드를 토글하는 함수
@@ -225,10 +201,6 @@ class WishFragment : Fragment(), SelectionListener {
             binding.boardEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
             (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
         }
-        // RecyclerView의 높이를 동적으로 변경
-        val layoutParams = binding.boardsRecyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(377) else dpToPx(477)
-        binding.boardsRecyclerView.layoutParams = layoutParams
     }
 
     // 아이템 선택 상태에 따라 버튼의 활성화를 업데이트하는 함수
@@ -279,16 +251,7 @@ class WishFragment : Fragment(), SelectionListener {
     private fun deleteSelectedItems() {
         // 선택된 아이템을 삭제하고 편집 모드를 종료
         wishAdapter.deleteSelectedItems()
-        isEditMode = !isEditMode
-        wishAdapter.setEditMode(isEditMode)
-        binding.editModeButtons.visibility = if (isEditMode) View.VISIBLE else View.GONE
-        binding.wishEdit.text = "편집"
-        binding.wishEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
-        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
-        // RecyclerView의 높이를 동적으로 변경
-        val layoutParams = binding.recyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(500) else dpToPx(600)
-        binding.recyclerView.layoutParams = layoutParams
+        toggleEditMode()
         // 남은 아이템 개수를 업데이트
         binding.wishCount.text = wishAdapter.itemCount.toString()
     }
@@ -335,16 +298,7 @@ class WishFragment : Fragment(), SelectionListener {
     private fun deleteSelectedBoards() {
         // 선택된 보드를 삭제하고 편집 모드를 종료
         boardsAdapter.deleteSelectedBoards()
-        isEditMode = !isEditMode
-        boardsAdapter.setEditMode(isEditMode)
-        binding.boardEditModeButtons.visibility = if (isEditMode) View.VISIBLE else View.GONE
-        binding.boardEdit.text = "편집"
-        binding.boardEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
-        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
-        // RecyclerView의 높이를 동적으로 변경
-        val layoutParams = binding.boardsRecyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(387) else dpToPx(487)
-        binding.boardsRecyclerView.layoutParams = layoutParams
+        toggleBoardEditMode()
         // 남은 보드 개수를 업데이트
         binding.boardQuantity.text = boardsAdapter.itemCount.toString()
     }

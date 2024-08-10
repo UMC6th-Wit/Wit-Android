@@ -115,10 +115,6 @@ class WishListFragment : Fragment(), SelectionListener {
             binding.wishListEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
             (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
         }
-        // RecyclerView의 높이를 동적으로 변경
-        val layoutParams = binding.wishListRecyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(540) else dpToPx(600)
-        binding.wishListRecyclerView.layoutParams = layoutParams
     }
 
     // 아이템 선택 상태에 따라 버튼의 활성화를 업데이트하는 함수
@@ -153,16 +149,7 @@ class WishListFragment : Fragment(), SelectionListener {
     private fun deleteSelectedItems() {
         // 선택된 아이템을 삭제하고 편집 모드를 종료
         wishListAdapter.deleteSelectedItems()
-        isEditMode = !isEditMode
-        wishListAdapter.setEditMode(isEditMode)
-        binding.wishListEditModeButtons.visibility = if (isEditMode) View.VISIBLE else View.GONE
-        binding.wishListEdit.text = "편집"
-        binding.wishListEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
-        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
-        // RecyclerView의 높이를 동적으로 변경
-        val layoutParams = binding.wishListRecyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(500) else dpToPx(600)
-        binding.wishListRecyclerView.layoutParams = layoutParams
+        toggleEditMode()
         // 남은 아이템 개수를 업데이트
         binding.wishListCount.text = wishListAdapter.itemCount.toString()
     }
