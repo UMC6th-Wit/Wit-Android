@@ -325,7 +325,7 @@ class WishFragment : Fragment(), SelectionListener {
         // 삭제 버튼 클릭 이벤트 리스너 설정
         dialogView.findViewById<Button>(R.id.btn_delete).setOnClickListener {
             // 폴더 삭제 로직 추가
-            deleteSelectedItems()
+            deleteSelectedBoards()
             dialog.dismiss()
         }
         dialog.show()
