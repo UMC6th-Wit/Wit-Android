@@ -1,12 +1,17 @@
 package com.umc.umc_6th_wit_android.mypage
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.activityViewModels
@@ -18,6 +23,24 @@ import com.umc.umc_6th_wit_android.databinding.FragmentAccountinfoBinding
 class AccountinfoFragment : Fragment() {
     private lateinit var binding: FragmentAccountinfoBinding
     private val sharedViewModel: SharedViewModel by activityViewModels()
+
+    // 갤러리에서 이미지 선택 후 결과 처리
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.data?.let { uri ->
+                navigateToCropActivity(uri)
+            }
+        }
+    }
+
+    // 크롭된 이미지 결과 처리
+    private val cropActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.data?.let { uri ->
+                binding.accountinfoProfilIv.setImageURI(uri)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,7 +94,24 @@ class AccountinfoFragment : Fragment() {
             transaction.commit()
         }
 
+        // 프로필 사진 변경 버튼
+        binding.accountinfoBox.setOnClickListener {
+            openGallery()
+        }
+
         return binding.root
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        imagePickerLauncher.launch(intent)
+    }
+
+    private fun navigateToCropActivity(uri: Uri) {
+        val intent = Intent(requireContext(), CropActivity::class.java).apply {
+            putExtra("imageUri", uri)
+        }
+        cropActivityLauncher.launch(intent)
     }
 
     private fun hideKeyboardAndClearFocus(view: View) {

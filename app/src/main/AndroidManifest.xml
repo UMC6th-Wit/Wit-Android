@@ -30,14 +30,13 @@
         <activity
             android:name=".login.LoginActivity"
             android:exported="false"
-            android:theme="@style/LoginTheme"></activity>
+            android:theme="@style/LoginTheme" />
         <activity
             android:name=".DetailActivity"
             android:exported="false" />
-
-        <activity android:name=".wish.FolderActivity"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
+        <activity
+            android:name=".wish.FolderActivity"
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity
             android:name=".home.ProductDetailActivity"
             android:exported="false" />
@@ -47,6 +46,10 @@
             android:theme="@style/Base.Theme.UMC6thWit" />
         <activity
             android:name=".home.FoodActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.UMC6thWit" />
+        <activity
+            android:name=".mypage.CropActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.UMC6thWit" />
     </application>

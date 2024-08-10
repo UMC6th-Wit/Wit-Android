@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 흰색 사각형 배경 -->
+    <item>
+        <shape android:shape="rectangle">
+            <size
+                android:width="100dp"
+                android:height="100dp" />
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+
+    <!-- 투명 원형 마스크 -->
+    <item>
+        <shape android:shape="rectangle">
+            <size
+                android:width="100dp"
+                android:height="100dp" />
+            <solid android:color="#00000000" /> <!-- 완전 투명한 사각형 -->
+            <stroke
+                android:width="100dp"
+                android:color="@android:color/transparent"
+                android:dashWidth="200dp"
+                android:dashGap="100dp" />
+        </shape>
+    </item>
+</layer-list>

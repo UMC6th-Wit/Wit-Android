@@ -34,11 +34,22 @@
         android:id="@+id/accountinfo_profil_iv"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="44dp"
+        android:scaleType="centerInside"
         android:src="@drawable/mypage_profil"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/accountinfo_tv1" />
+
+    <ImageView
+    android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/accountinfo_mask"
+        app:layout_constraintTop_toTopOf="@id/accountinfo_profil_iv"
+        app:layout_constraintBottom_toBottomOf="@id/accountinfo_profil_iv"
+        app:layout_constraintStart_toStartOf="@id/accountinfo_profil_iv"
+        app:layout_constraintEnd_toEndOf="@id/accountinfo_profil_iv" />
 
     <View
         android:id="@+id/accountinfo_box"

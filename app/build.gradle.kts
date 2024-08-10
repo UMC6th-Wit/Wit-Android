@@ -66,10 +66,10 @@ dependencies {
 
     implementation ("androidx.fragment:fragment-ktx:1.6.1")
 
-    implementation ("com.github.yalantis:ucrop:2.2.6")
-
     //Glide
-//    implementation ("com.github.bumptech.glide:glide:4.12.0")
-//    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
+
 
 }
