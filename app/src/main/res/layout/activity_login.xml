@@ -6,36 +6,47 @@
     android:gravity="center_horizontal"
     android:background="@color/background_yellow">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="이제는 해외여행도"
         android:textSize="28sp"
-        android:layout_marginTop="128dp"/>
+        android:layout_marginTop="111dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/gmarketsansmedium"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="위트있게!"
         android:textSize="28sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:fontFamily="@font/gmarketsansmedium"
+        android:textFontWeight="700"/>
+
     <ImageView
-        android:layout_width="225dp"
-        android:layout_height="225dp"
-        android:src="@drawable/login_img1"
-        android:layout_marginTop="88dp"/>
+        android:layout_width="267dp"
+        android:layout_height="280dp"
+        android:src="@drawable/login_img"
+        android:layout_marginTop="45dp"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SNS 계정으로 간편 가입하기"
         android:textColor="#858480"
         android:textSize="13sp"
-        android:layout_marginTop="106dp"/>
+        android:layout_marginTop="52dp"/>
 
     <android.widget.Button
         android:id="@+id/kakao_login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/kakao_login_button"
         android:drawableStart="@drawable/kakao_logo"
         android:paddingStart="17dp"
@@ -48,7 +59,7 @@
         android:id="@+id/naver_login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/naver_login_button"
         android:drawableStart="@drawable/naver_logo"
         android:paddingStart="17dp"
@@ -56,7 +67,12 @@
         android:stateListAnimator="@null"
         android:text="네이버로 3초 만에 시작하기"
         android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginBottom="25dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
 
 
