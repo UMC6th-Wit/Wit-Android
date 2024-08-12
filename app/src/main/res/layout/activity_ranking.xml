@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".home.ranking.RankingActivity"
+    android:background="@color/transparent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/childConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/ranking_bg">
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/ranking_tb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:tabIndicator="@color/color_translate"
+            app:tabIndicatorColor="@color/color_translate"
+            app:tabSelectedTextColor="#000000"
+            app:tabTextColor="#868686"
+            app:tabRippleColor="@color/color_translate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tabTextAppearance="@style/ranking_tab_text_appearance"
+            app:tabIndicatorHeight="2dp"
+            android:layout_marginVertical="20dp"
+            android:layout_marginHorizontal="10dp"
+            app:tabMinWidth="50dp"
+            app:tabMaxWidth="150dp"
+            app:tabGravity="start"
+            />
+        <View
+            android:id="@+id/line_top"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E1E1E1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ranking_tb" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/ranking_vp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/line_top"
+            app:layout_constraintBottom_toTopOf="@id/line_btm"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <View
+            android:id="@+id/line_btm"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E1E1E1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_layout"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            />
+        <LinearLayout
+            android:id="@+id/btn_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/ranking_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="20dp"
+            >
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ranking_btm_bg"
+                android:text="성별 전체"
+                android:textColor="#B2000000"
+                android:paddingVertical="7dp"
+                android:paddingHorizontal="14dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:elevation="0dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ranking_btm_bg"
+                android:text="연령대 전체"
+                android:textColor="#B2000000"
+                android:paddingVertical="7dp"
+                android:paddingHorizontal="14dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ranking_btm_bg"
+                android:text="실시간 랭킹"
+                android:textColor="#B2000000"
+                android:paddingVertical="7dp"
+                android:paddingHorizontal="14dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp"/>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/ic_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_reset"
+            app:layout_constraintBottom_toBottomOf="@id/tv_reset"
+            android:layout_marginStart="30dp"
+            android:src="@drawable/ic_reset_ranking"
+            android:background="@color/color_translate"/>
+        <TextView
+            android:id="@+id/tv_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/ic_reset"
+            app:layout_constraintTop_toTopOf="@id/ranking_btn"
+            app:layout_constraintBottom_toBottomOf="@id/ranking_btn"
+            android:layout_marginStart="10dp"
+            android:background="@color/color_translate"
+            android:text="초기화"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:padding="0dp"/>
+
+        <ImageButton
+            android:id="@+id/ranking_btn"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_margin="20dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:backgroundTint="@color/color_translate"
+            android:padding="0dp"
+            android:src="@drawable/ranking_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_reset"
+            app:layout_constraintBottom_toBottomOf="parent"
+             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/ranking_btn"
+            app:layout_constraintStart_toStartOf="@id/ranking_btn"
+            app:layout_constraintEnd_toEndOf="@id/ranking_btn"
+            android:background="#FFDC70"
+            android:textSize="16sp"
+            android:text="랭킹 보기"
+            android:gravity="center_vertical"
+            android:padding="2dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

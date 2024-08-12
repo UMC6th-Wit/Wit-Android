@@ -34,6 +34,75 @@
             app:tabTextAppearance="@style/template_tab_text"
             app:tabTextColor="#868686" />
     </com.umc.umc_6th_wit_android.home.NestedScrollableHost>
+    <TextView
+        android:id="@+id/update_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/ranking_category_ns"
+        app:layout_constraintTop_toBottomOf="@id/ranking_category_ns"
+        android:text="1시간 전 업데이트"
+        android:textColor="#80111111"/>
+    <LinearLayout
+        android:id="@+id/gender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toStartOf="@id/age"
+        app:layout_constraintTop_toBottomOf="@id/ranking_category_ns">
+        <TextView
+            android:id="@+id/gender_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="성별"
+            android:textColor="@color/black"
+            android:layout_marginEnd="3dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_drop" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/age"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toStartOf="@id/period"
+        app:layout_constraintTop_toBottomOf="@id/ranking_category_ns">
+        <TextView
+            android:id="@+id/age_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="연령대"
+            android:textColor="@color/black"
+            android:layout_marginEnd="3dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_drop"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/period"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ranking_category_ns">
+        <TextView
+            android:id="@+id/period_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기간"
+            android:textColor="@color/black"
+            android:layout_marginEnd="3dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_drop"/>
+    </LinearLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/ranking_category_vp"
@@ -45,6 +114,6 @@
         android:overScrollMode="never"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ranking_category_ns"
+        app:layout_constraintTop_toBottomOf="@id/update_tv"
         android:nestedScrollingEnabled="true"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
