@@ -13,7 +13,7 @@ class ReviewMinAdapter(private val itemList: List<String>) : RecyclerView.Adapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.list_review, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_review, parent, false)
         return MyViewHolder(view)
     }
 
