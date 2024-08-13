@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -124,9 +125,8 @@ class SearchMainFragment  : Fragment() {
         val searchQuery = arguments?.getString("searchQuery") ?: ""
         val btn = arguments?.getString("btn") ?: ""
 
-        // et_search에 텍스트 설정
         binding.etSearch.setText(searchQuery)
-        if(searchQuery.length > 0 || btn.length > 0){
+        if(btn.length > 0){
             // 텍스트 끝에 커서 위치 설정 및 포커스 설정
             binding.etSearch.post {
                 binding.etSearch.setSelection(searchQuery.length)
@@ -138,5 +138,4 @@ class SearchMainFragment  : Fragment() {
             }
         }
     }
-
 }

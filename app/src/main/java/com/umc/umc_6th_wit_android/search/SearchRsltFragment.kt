@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.GridLayoutManager
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.CategoryDao
@@ -63,12 +64,22 @@ class SearchRsltFragment : Fragment() {
 
 
         binding.etSearch.setOnTouchListener { v, event ->
-            changeFragment(searchQuery, "")
+            changeFragment(searchQuery, "etSearch")
 
             // true를 반환하여 이벤트를 소비하고, false를 반환하여 이벤트를 계속 처리할지 결정
             true
         }
         return binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // OnBackPressedCallback을 추가하여 뒤로가기 버튼을 처리
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                changeFragment("", "")
+            }
+        })
     }
 
     private fun changeFragment(searchQuery : String?, btn:String?){
