@@ -19,7 +19,7 @@ import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentWishlistBinding
 
 // WishListFragment 클래스 정의: 위시리스트를 관리하는 프래그먼트
-class WishListFragment : Fragment(), SelectionListener {
+class WishListFragment : Fragment(), SelectionListener, WishListView {
 
     // ViewBinding 객체 선언
     lateinit var binding: FragmentWishlistBinding
@@ -206,12 +206,12 @@ class WishListFragment : Fragment(), SelectionListener {
     private fun getWishListItems(): List<WishItem> {
         // 예제 데이터를 생성
         val itemList = listOf(
-            WishItem(0, R.drawable.item_ex, "아이템 1", "367", "3,151", 4.4, 1),
-            WishItem(1, R.drawable.item_ex, "아이템 2", "367", "3,151", 4.4, 2),
-            WishItem(2, R.drawable.item_ex, "아이템 3", "367", "3,151", 4.4, 3),
-            WishItem(3, R.drawable.item_ex, "아이템 4", "367", "3,151", 4.4, 4),
-            WishItem(4, R.drawable.item_ex, "아이템 5", "367", "3,151", 4.4, 5),
-            WishItem(5, R.drawable.item_ex, "아이템 6", "367", "3,151", 4.4, 6),
+            WishItem(0, "아이템 1", "367", "3,151", R.drawable.item_ex, "상품 설명", 1, 4.4),
+            WishItem(1, "아이템 2", "367", "3,151", R.drawable.item_ex, "상품 설명", 2, 4.4),
+            WishItem(2, "아이템 3", "367", "3,151", R.drawable.item_ex, "상품 설명", 3, 4.4),
+            WishItem(3, "아이템 4", "367", "3,151", R.drawable.item_ex, "상품 설명", 4, 4.4),
+            WishItem(4, "아이템 5", "367", "3,151", R.drawable.item_ex, "상품 설명", 5, 4.4),
+            WishItem(5, "아이템 6", "367", "3,151", R.drawable.item_ex, "상품 설명", 6, 4.4),
         )
         // 아이템 개수를 설정
         binding.wishListCount.text = itemList.size.toString()
@@ -223,5 +223,35 @@ class WishListFragment : Fragment(), SelectionListener {
     private fun dpToPx(dp: Int): Int {
         val density = resources.displayMetrics.density
         return (dp * density).toInt()
+    }
+
+    //위시리스트 폴더 상세 조회 성공
+    override fun onGetWishBoardSuccess(code: String, result: WishBoardItemResult) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 상세 조회 실패
+    override fun onGetWishBoardFailure(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 상품 담기 성공
+    override fun onPostWishtoBoardSuccess(code: String, result: WishBoardItemResult) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 상품 담기 실패
+    override fun onPostWishtoBoardFailure(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 목록 삭제 성공
+    override fun onDeleteToWishBoardSuccess(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 목록 삭제 실패
+    override fun onDeleteToWishBoardFailure(code: String, message: String) {
+        TODO("Not yet implemented")
     }
 }

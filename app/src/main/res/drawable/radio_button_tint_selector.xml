@@ -1,0 +1,7 @@
+<!-- res/drawable/radio_button_tint_selector.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 선택된 상태일 때 색상 -->
+    <item android:state_checked="true" android:color="#278AFF"/>
+    <!-- 기본 상태일 때 색상 -->
+    <item android:color="#E1E1E1"/> <!-- 예: 검은색 -->
+</selector>
