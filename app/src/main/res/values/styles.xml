@@ -47,7 +47,7 @@
         <item name="android:progressDrawable">@drawable/item_rating_bar</item>
         <item name="android:minHeight">32dp</item>
         <item name="android:minWidth">36dp</item>
-  
+    </style>
     <style name="CommonTextViewStyle">
         <item name="android:paddingVertical">7dp</item>
         <item name="android:textColor">@color/black</item>
