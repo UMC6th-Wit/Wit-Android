@@ -34,7 +34,7 @@ class BoardsAdapter(private var wishboards: List<Wishboard>, private val selecti
     // 새로운 보드를 추가합니다.
     fun addBoard(wishboard: Wishboard) {
         // 새로운 보드의 ID를 마지막 보드의 ID + 1로 설정
-        wishboard.id = wishboards.last().id + 1
+        wishboard.folder_Id = wishboards.last().folder_Id + 1
         // 새로운 보드를 추가한 리스트로 교체
         wishboards = wishboards.toMutableList().apply { add(wishboard) }
         // 새로운 아이템 삽입을 어댑터에 알림
@@ -49,6 +49,23 @@ class BoardsAdapter(private var wishboards: List<Wishboard>, private val selecti
         // 편집 모드 변경을 어댑터에 알림
         notifyDataSetChanged()
     }
+
+    //선택된 보드 1개를 반환합니다.
+    fun returnNameSelectedBoard() = selectedBoards.first()
+
+    // 선택된 보드 1개의 이름을 변경합니다.
+    fun reNameSelectedBoard(edited_name: String) {
+        val mutableBoard = wishboards.toMutableList()
+
+        // selectedBoards의 첫 번째 요소와 일치하는 요소를 찾아서 이름을 변경합니다.
+        mutableBoard.find { it == selectedBoards.first() }?.let { it.folder_Name = edited_name }
+
+        selectedBoards.clear()
+
+        // 새로운 리스트로 items를 대체하고 어댑터에 변경 사항을 알립니다.
+        updateBoards(mutableBoard)
+    }
+
 
     // 선택된 보드를 삭제합니다.
     fun deleteSelectedBoards() {
@@ -86,25 +103,25 @@ class BoardsAdapter(private var wishboards: List<Wishboard>, private val selecti
         // 보드를 바인딩합니다.
         fun bind(board: Wishboard) {
             // 보드 제목을 설정
-            binding.boardTitle.text = board.title
+            binding.boardTitle.text = board.folder_Name
             // 보드 수량을 설정
-            binding.boardQuantity.text = board.quantity.toString()
+            binding.boardQuantity.text = board.products.size.toString()
 
             // 이미지를 설정합니다.
-            if (board.images.isNotEmpty()) {
-                binding.boardImage1.setImageResource(board.images[0])
+            if (board.products.isNotEmpty()) {
+                board.products.last().image_url?.let { binding.boardImage1.setImageResource(it) }
             } else {
                 binding.boardImage1.setImageResource(R.drawable.empty)
             }
 
-            if (board.images.size > 1) {
-                binding.boardImage2.setImageResource(board.images[1])
+            if (board.products.size > 1) {
+                board.products[board.products.lastIndex-1].image_url?.let { binding.boardImage2.setImageResource(it) }
             } else {
                 binding.boardImage2.setImageResource(R.drawable.empty)
             }
 
-            if (board.images.size > 2) {
-                binding.boardImage3.setImageResource(board.images[2])
+            if (board.products.size > 2) {
+                board.products[board.products.lastIndex-2].image_url?.let { binding.boardImage3.setImageResource(it) }
             } else {
                 binding.boardImage3.setImageResource(R.drawable.empty)
             }
@@ -162,7 +179,7 @@ class BoardsAdapter(private var wishboards: List<Wishboard>, private val selecti
                     }
                 } else {
                     // 편집 모드가 아닐 때
-                    val boardTitle = board.title
+                    val boardTitle = board.folder_Name
                     val context = itemView.context
                     if (context is MainActivity) {
                         // MainActivity의 changeWishListFragment 메서드를 호출하여 화면을 변경

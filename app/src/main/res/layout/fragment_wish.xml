@@ -304,7 +304,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="폴더에 담기"
+                android:text="폴더 담기"
                 android:background="@android:color/transparent"
                 android:textColor="@android:color/black"
                 android:paddingStart="28dp"
@@ -361,6 +361,28 @@
             android:layout_weight="1"
             tools:ignore="Suspicious0dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/btn_add_to_folder_background">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_board_rename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="폴더 이름 수정"
+                android:textStyle="bold"
+                android:background="@android:color/transparent"
+                android:textColor="@android:color/black"
+                android:layout_margin="16dp"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            tools:ignore="Suspicious0dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/btn_delete_background">
 
@@ -368,8 +390,8 @@
                 android:id="@+id/ic_board_trash"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_gravity="center|center_vertical"
-                android:layout_marginEnd="20dp"
+                android:layout_gravity="start|center_vertical"
+                android:layout_marginStart="58dp"
                 android:src="@drawable/ic_trash"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -377,12 +399,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="삭제하기"
+                android:text="삭제"
+                android:textStyle="bold"
                 android:background="@android:color/transparent"
                 android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:paddingStart="35dp"
-                android:layout_margin="20dp"/>
+                android:paddingStart="28dp"
+                android:layout_margin="16dp"/>
 
         </FrameLayout>
     </LinearLayout>
