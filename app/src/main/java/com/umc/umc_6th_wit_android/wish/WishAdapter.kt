@@ -73,17 +73,17 @@ class WishAdapter(private var items: List<WishItem>, private val selectionListen
         // 아이템을 바인딩합니다.
         fun bind(item: WishItem) {
             // 아이템 이미지를 설정
-            binding.itemImage.setImageResource(item.image!!)
+            binding.itemImage.setImageResource(item.image_url!!)
             // 아이템 제목을 설정
-            binding.itemTitle.text = item.title
+            binding.itemTitle.text = item.name
             // 일본 엔화 가격을 설정
-            binding.priceJpy.text = item.jpy
+            binding.priceJpy.text = item.en_price
             // 한국 원화 가격을 설정
-            binding.priceKrw.text = item.krw
+            binding.priceKrw.text = item.won_price
             // 아이템 평점을 설정
             binding.itemRating.text = item.rating.toString()
             // 아이템 리뷰 수를 설정
-            binding.itemNop.text = item.nop.toString()
+            binding.itemNop.text = item.reviews.toString()
 
             // 편집 모드에 따른 UI 설정을 합니다.
             if (isEditMode) {
