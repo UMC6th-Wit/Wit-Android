@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.umc.umc_6th_wit_android"
-        minSdk = 30
+        minSdk = 23
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"

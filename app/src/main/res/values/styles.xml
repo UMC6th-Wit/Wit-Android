@@ -42,6 +42,12 @@
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">13sp</item>
     </style>
+  
+    <style name="ImageRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/item_rating_bar</item>
+        <item name="android:minHeight">32dp</item>
+        <item name="android:minWidth">36dp</item>
+  
     <style name="CommonTextViewStyle">
         <item name="android:paddingVertical">7dp</item>
         <item name="android:textColor">@color/black</item>
