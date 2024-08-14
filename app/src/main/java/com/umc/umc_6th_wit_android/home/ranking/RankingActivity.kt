@@ -63,6 +63,7 @@ class RankingActivity : AppCompatActivity(),
         super.onPause()
         saveStateToPreferences() // 상태 변경 시 저장
     }
+    //프래그먼트 인터페이스들 구현 / 프래그먼트에서 선택->랭킹액티비티 하단에 띄우기
     override fun onGenderSelected(gender: String) {
         this.gender = gender
         binding.genderTv.text = gender

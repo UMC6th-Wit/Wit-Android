@@ -94,4 +94,15 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack("WishFragment")
             .commitAllowingStateLoss()
     }
+
+    fun selectHomeFragment() {
+        // 바텀 네비게이션의 선택된 항목을 homeFragment로 변경
+        binding.mainBnv.selectedItemId = R.id.homeFragment
+
+        // 홈 프래그먼트로 전환
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_frm, HomeFragment())
+            .commitAllowingStateLoss()
+    }
+
 }
