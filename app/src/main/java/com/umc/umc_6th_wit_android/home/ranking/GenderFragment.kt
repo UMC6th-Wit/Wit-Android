@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.umc.umc_6th_wit_android.databinding.FragmentGenderBinding
+import com.umc.umc_6th_wit_android.databinding.FragmentPeriodBinding
 
 class GenderFragment : Fragment() {
 
@@ -17,7 +18,9 @@ class GenderFragment : Fragment() {
         fun onGenderSelected(gender: String)
     }
 
-    lateinit var binding: FragmentGenderBinding
+    private var _binding: FragmentGenderBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var selectedLayout: LinearLayout
     private var listener: OnGenderSelectedListener? = null
     private var selectedGender: String? = null
@@ -42,7 +45,7 @@ class GenderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentGenderBinding.inflate(inflater, container, false)
+        _binding = FragmentGenderBinding.inflate(inflater, container, false)
 
         // 각 LinearLayout에 클릭 리스너 설정
         binding.layoutAll.setOnClickListener { selectGender(binding.layoutAll) }
@@ -107,6 +110,13 @@ class GenderFragment : Fragment() {
     }
     fun resetUI() {
         // 연령대 TextView 및 기타 UI 요소를 기본값으로 설정
-        selectGender(binding.layoutAll)
+        _binding?.let {
+            selectGender(binding.layoutAll)
+        }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // ViewBinding 해제
+        _binding = null
     }
 }

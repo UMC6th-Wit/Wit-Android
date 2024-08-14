@@ -34,9 +34,21 @@ class RankingFragment : Fragment() {
 
         tabItemMargin(binding.rankingCategoryTl)
 
-        //성별 클릭시
         binding.gender.setOnClickListener {
             val intent = Intent(activity, RankingActivity::class.java)
+            intent.putExtra("TAB_INDEX", 0)  // 성별 탭의 인덱스
+            startActivity(intent)
+        }
+
+        binding.age.setOnClickListener {
+            val intent = Intent(activity, RankingActivity::class.java)
+            intent.putExtra("TAB_INDEX", 1)  // 연령대 탭의 인덱스
+            startActivity(intent)
+        }
+
+        binding.period.setOnClickListener {
+            val intent = Intent(activity, RankingActivity::class.java)
+            intent.putExtra("TAB_INDEX", 2)  // 기간 탭의 인덱스
             startActivity(intent)
         }
 
