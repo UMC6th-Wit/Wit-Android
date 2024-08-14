@@ -65,7 +65,7 @@ class PeriodFragment : Fragment() {
             "주간 랭킹" -> {
                 selectedLayout = binding.layoutWeekly
             }
-            "일간 랭킹" -> {
+            "월간 랭킹" -> {
                 selectedLayout = binding.layoutMonthly
             }
         }
