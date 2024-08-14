@@ -1,4 +1,4 @@
-package com.umc.umc_6th_wit_android.home
+package com.umc.umc_6th_wit_android
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,17 +8,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
-import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.CategoryDao
 import com.umc.umc_6th_wit_android.data.local.CategoryDto
-import com.umc.umc_6th_wit_android.databinding.ActivityCustomBinding
-import com.umc.umc_6th_wit_android.databinding.ActivityFoodBinding
+import com.umc.umc_6th_wit_android.databinding.ActivityBestFoodBinding
+import com.umc.umc_6th_wit_android.databinding.ActivityMedicineBinding
+import com.umc.umc_6th_wit_android.home.CustomRVAdapter
+import com.umc.umc_6th_wit_android.home.ProductDetailActivity
 
-class FoodActivity  : AppCompatActivity() {
-    lateinit var binding: ActivityFoodBinding
+class MedicineActivity : AppCompatActivity() {
+    lateinit var binding: ActivityMedicineBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFoodBinding.inflate(layoutInflater)
+        binding = ActivityMedicineBinding.inflate(layoutInflater)
         val items = CategoryDao().items
 
         binding.cancelBtn.setOnClickListener {
@@ -36,13 +37,13 @@ class FoodActivity  : AppCompatActivity() {
         val adapter = CustomRVAdapter(items)
         adapter.setOnItemClickListener(object : CustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
-                val intent = Intent(this@FoodActivity, ProductDetailActivity::class.java)
+                val intent = Intent(this@MedicineActivity, ProductDetailActivity::class.java)
                 startActivity(intent)
 //                changeActivity(items[position])
             }
         })
         binding.customRv.adapter = adapter
-        binding.customRv.layoutManager  = GridLayoutManager(this@FoodActivity, 2)
+        binding.customRv.layoutManager  = GridLayoutManager(this@MedicineActivity, 2)
 
         setContentView(binding.root)
     }

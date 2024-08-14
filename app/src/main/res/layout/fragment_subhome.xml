@@ -20,6 +20,7 @@
         android:weightSum="7">
 
         <LinearLayout
+            android:id="@+id/food"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -52,6 +53,7 @@
             android:orientation="vertical"/>
 
         <LinearLayout
+            android:id="@+id/cosmetic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -86,6 +88,7 @@
             android:orientation="vertical"/>
 
         <LinearLayout
+            android:id="@+id/medicine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -119,6 +122,7 @@
             android:layout_weight="1"
             android:orientation="vertical"/>
         <LinearLayout
+            android:id="@+id/daily"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
