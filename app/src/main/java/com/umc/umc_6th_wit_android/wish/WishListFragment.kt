@@ -18,10 +18,13 @@ import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentWishlistBinding
 
-class WishListFragment : Fragment(), SelectionListener {
+// WishListFragment 클래스 정의: 위시리스트를 관리하는 프래그먼트
+class WishListFragment : Fragment(), SelectionListener, WishListView {
 
+    // ViewBinding 객체 선언
     lateinit var binding: FragmentWishlistBinding
 
+    // 어댑터 객체 선언
     private lateinit var wishListAdapter: WishListAdapter
     // 편집 모드 상태 변수
     private var isEditMode = false
@@ -40,30 +43,33 @@ class WishListFragment : Fragment(), SelectionListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 위시리스트와 보드의 레이아웃을 GridLayout으로 설정
+        // 위시리스트의 레이아웃을 GridLayout으로 설정
         binding.wishListRecyclerView.layoutManager = GridLayoutManager(context, 2)
 
         // 어댑터를 초기화하고 RecyclerView에 설정
         wishListAdapter = WishListAdapter(getWishListItems(), this)
         binding.wishListRecyclerView.adapter = wishListAdapter
 
-        // 아이템과 보드의 선택 상태에 따른 버튼 상태 업데이트
+        // 아이템의 선택 상태에 따른 버튼 상태 업데이트
         updateItemButtonState(wishListAdapter.selectedItems.size)
 
-        binding.wishListEditModeButtons.setOnClickListener{
-
+        // 편집 모드 버튼 클릭 이벤트 설정
+        binding.wishListEditModeButtons.setOnClickListener {
+            // 빈 클릭 이벤트 설정
         }
 
+        // 뒤로 가기 버튼 클릭 이벤트 설정
         binding.wishListBack.setOnClickListener {
-            if(isEditMode){
+            if (isEditMode) {
                 (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
             }
             parentFragmentManager.popBackStack()
         }
 
+        // 뒤로 가기 버튼 콜백 설정
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if(isEditMode){
+                if (isEditMode) {
                     (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
                 }
                 parentFragmentManager.popBackStack()
@@ -109,16 +115,12 @@ class WishListFragment : Fragment(), SelectionListener {
             binding.wishListEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
             (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
         }
-        // RecyclerView의 높이를 동적으로 변경
-        val layoutParams = binding.wishListRecyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(540) else dpToPx(600)
-        binding.wishListRecyclerView.layoutParams = layoutParams
     }
 
     // 아이템 선택 상태에 따라 버튼의 활성화를 업데이트하는 함수
     private fun updateItemButtonState(selectedItemCount: Int) {
         val isEnabled = selectedItemCount > 0
-        if(isEditMode){
+        if (isEditMode) {
             binding.wishListCount.text = selectedItemCount.toString()
         }
         // 선택된 아이템의 수에 따라 각 버튼의 활성화 상태와 투명도를 설정
@@ -140,23 +142,14 @@ class WishListFragment : Fragment(), SelectionListener {
 
     // 보드 선택 상태가 변경될 때 호출되는 콜백 메소드
     override fun onSelectionBoardChanged(count: Int) {
-
+        // 구현되지 않은 부분
     }
 
     // 선택된 아이템을 삭제하는 함수
     private fun deleteSelectedItems() {
         // 선택된 아이템을 삭제하고 편집 모드를 종료
         wishListAdapter.deleteSelectedItems()
-        isEditMode = !isEditMode
-        wishListAdapter.setEditMode(isEditMode)
-        binding.wishListEditModeButtons.visibility = if (isEditMode) View.VISIBLE else View.GONE
-        binding.wishListEdit.text = "편집"
-        binding.wishListEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
-        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
-        // RecyclerView의 높이를 동적으로 변경
-        val layoutParams = binding.wishListRecyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(500) else dpToPx(600)
-        binding.wishListRecyclerView.layoutParams = layoutParams
+        toggleEditMode()
         // 남은 아이템 개수를 업데이트
         binding.wishListCount.text = wishListAdapter.itemCount.toString()
     }
@@ -213,21 +206,52 @@ class WishListFragment : Fragment(), SelectionListener {
     private fun getWishListItems(): List<WishItem> {
         // 예제 데이터를 생성
         val itemList = listOf(
-            WishItem(0, R.drawable.item_ex, "아이템 1", "367","3,151", 4.4, 1),
-            WishItem(1, R.drawable.item_ex, "아이템 2", "367","3,151", 4.4, 2),
-            WishItem(2, R.drawable.item_ex, "아이템 3", "367","3,151", 4.4, 3),
-            WishItem(3, R.drawable.item_ex, "아이템 4", "367","3,151", 4.4, 4),
-            WishItem(4, R.drawable.item_ex, "아이템 5", "367","3,151", 4.4, 5),
-            WishItem(5, R.drawable.item_ex, "아이템 6", "367","3,151", 4.4, 6),
+            WishItem(0, "아이템 1", "367", "3,151", R.drawable.item_ex, "상품 설명", 1, 4.4),
+            WishItem(1, "아이템 2", "367", "3,151", R.drawable.item_ex, "상품 설명", 2, 4.4),
+            WishItem(2, "아이템 3", "367", "3,151", R.drawable.item_ex, "상품 설명", 3, 4.4),
+            WishItem(3, "아이템 4", "367", "3,151", R.drawable.item_ex, "상품 설명", 4, 4.4),
+            WishItem(4, "아이템 5", "367", "3,151", R.drawable.item_ex, "상품 설명", 5, 4.4),
+            WishItem(5, "아이템 6", "367", "3,151", R.drawable.item_ex, "상품 설명", 6, 4.4),
         )
         // 아이템 개수를 설정
         binding.wishListCount.text = itemList.size.toString()
         Log.d("count", itemList.size.toString())
         return itemList
     }
+
     // dp를 px로 변환하는 함수
     private fun dpToPx(dp: Int): Int {
         val density = resources.displayMetrics.density
         return (dp * density).toInt()
+    }
+
+    //위시리스트 폴더 상세 조회 성공
+    override fun onGetWishBoardSuccess(code: String, result: WishBoardItemResult) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 상세 조회 실패
+    override fun onGetWishBoardFailure(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 상품 담기 성공
+    override fun onPostWishtoBoardSuccess(code: String, result: WishBoardItemResult) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 상품 담기 실패
+    override fun onPostWishtoBoardFailure(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 목록 삭제 성공
+    override fun onDeleteToWishBoardSuccess(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 목록 삭제 실패
+    override fun onDeleteToWishBoardFailure(code: String, message: String) {
+        TODO("Not yet implemented")
     }
 }
