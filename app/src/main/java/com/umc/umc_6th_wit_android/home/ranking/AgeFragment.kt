@@ -18,7 +18,10 @@ class AgeFragment : Fragment() {
     interface OnAgeSelectedListener {
         fun onAgeSelected(age: String)
     }
-    lateinit var binding: FragmentAgeBinding
+//    lateinit var binding: FragmentAgeBinding
+    private var _binding: FragmentAgeBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var selectedLayout: LinearLayout
     private var listener: OnAgeSelectedListener? = null
     private var selectedAge: String? = null
@@ -43,7 +46,8 @@ class AgeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentAgeBinding.inflate(inflater, container, false)
+        // ViewBinding 초기화
+        _binding = FragmentAgeBinding.inflate(inflater, container, false)
 
         // 각 LinearLayout에 클릭 리스너 설정
         binding.layoutAll.setOnClickListener { selectAge(binding.layoutAll) }
@@ -112,6 +116,14 @@ class AgeFragment : Fragment() {
         }
     }
     fun resetUI() {
-        selectAge(binding.layoutAll)
+        _binding?.let {
+            selectAge(binding.layoutAll)
+        }
+    }
+    //메모리 누수 방지
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // ViewBinding 해제
+        _binding = null
     }
 }

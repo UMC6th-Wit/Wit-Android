@@ -34,10 +34,17 @@ class RankingActivity : AppCompatActivity(),
             tab.text = title[position]
         }.attach()
 
+        // Ranking Fragment에서 전달된 탭 인덱스를 가져옴
+        val tabIndex = intent.getIntExtra("TAB_INDEX", 0)  // 기본값은 0 (성별 탭)
+        binding.rankingVp.currentItem = tabIndex  // ViewPager의 현재 아이템(페이지)설정
+        
+        
+        //랭킹 보기 버튼 클릭시 액티비티 종료
         binding.rankingBtn.setOnClickListener {
             finish()
         }
 
+        //초기화 버튼/ic 클릭 -> reset
         binding.icReset.setOnClickListener {
             resetToDefaults()
         }
@@ -56,6 +63,7 @@ class RankingActivity : AppCompatActivity(),
         super.onPause()
         saveStateToPreferences() // 상태 변경 시 저장
     }
+    //프래그먼트 인터페이스들 구현 / 프래그먼트에서 선택->랭킹액티비티 하단에 띄우기
     override fun onGenderSelected(gender: String) {
         this.gender = gender
         binding.genderTv.text = gender

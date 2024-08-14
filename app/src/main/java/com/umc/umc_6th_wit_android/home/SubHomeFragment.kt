@@ -9,7 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.umc.umc_6th_wit_android.DetailActivity
+import com.umc.umc_6th_wit_android.CosmeticActivity
+import com.umc.umc_6th_wit_android.DailyActivity
+import com.umc.umc_6th_wit_android.FoodActivity
+import com.umc.umc_6th_wit_android.MedicineActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.PersonalDao
 import com.umc.umc_6th_wit_android.home.notice.NoticeActivity
@@ -24,6 +27,25 @@ class SubHomeFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSubhomeBinding.inflate(inflater, container, false)
+
+        binding.food.setOnClickListener {
+            val intent = Intent(context, FoodActivity::class.java)
+            startActivity(intent)
+        }
+        binding.cosmetic.setOnClickListener {
+            val intent = Intent(context, CosmeticActivity::class.java)
+            startActivity(intent)
+        }
+        binding.medicine.setOnClickListener {
+            val intent = Intent(context, MedicineActivity::class.java)
+            startActivity(intent)
+        }
+        binding.daily.setOnClickListener {
+            val intent = Intent(context, DailyActivity::class.java)
+            startActivity(intent)
+        }
+
+
 
         val items = PersonalDao().items
 
@@ -80,7 +102,7 @@ class SubHomeFragment : Fragment(){
 
         //맛도리 추천템 더보기
         binding.foodBtn.setOnClickListener {
-            val intent = Intent(activity, FoodActivity::class.java)
+            val intent = Intent(activity, BestFoodActivity::class.java)
             startActivity(intent)
         }
         //공지 더보기

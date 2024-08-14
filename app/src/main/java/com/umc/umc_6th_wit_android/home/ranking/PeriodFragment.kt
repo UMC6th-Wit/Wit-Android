@@ -10,10 +10,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.databinding.FragmentHomeBinding
 import com.umc.umc_6th_wit_android.databinding.FragmentPeriodBinding
-import com.umc.umc_6th_wit_android.home.HomeVPAdapter
 
 class PeriodFragment : Fragment() {
 
@@ -22,7 +19,10 @@ class PeriodFragment : Fragment() {
         fun onPeriodSelected(period: String)
     }
 
-    lateinit var binding: FragmentPeriodBinding
+//    lateinit var binding: FragmentPeriodBinding
+    private var _binding: FragmentPeriodBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var selectedLayout: LinearLayout
     private var listener: OnPeriodSelectedListener? = null
     private var selectedPeriod: String? = null
@@ -46,7 +46,7 @@ class PeriodFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentPeriodBinding.inflate(inflater, container, false)
+        _binding = FragmentPeriodBinding.inflate(inflater, container, false)
 
         // 각 LinearLayout에 클릭 리스너 설정
         binding.layoutReal.setOnClickListener { selectPeriod(binding.layoutReal) }
@@ -109,6 +109,13 @@ class PeriodFragment : Fragment() {
         }
     }
     fun resetUI() {
-        selectPeriod(binding.layoutReal)
+        _binding?.let {
+            selectPeriod(binding.layoutReal)
+        }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // ViewBinding 해제
+        _binding = null
     }
 }

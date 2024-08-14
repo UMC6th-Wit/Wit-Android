@@ -1,8 +1,6 @@
 package com.umc.umc_6th_wit_android.search
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,15 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.flexbox.FlexboxLayout
+import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.databinding.FragmentSearchBinding
 import com.umc.umc_6th_wit_android.databinding.FragmentSearchMainBinding
-import com.umc.umc_6th_wit_android.home.HomeCustomRVAdapter
-import com.umc.umc_6th_wit_android.home.ProductDetailActivity
 
 class SearchMainFragment  : Fragment() {
     lateinit var binding: FragmentSearchMainBinding
@@ -124,9 +118,8 @@ class SearchMainFragment  : Fragment() {
         val searchQuery = arguments?.getString("searchQuery") ?: ""
         val btn = arguments?.getString("btn") ?: ""
 
-        // et_search에 텍스트 설정
         binding.etSearch.setText(searchQuery)
-        if(searchQuery.length > 0 || btn.length > 0){
+        if(btn.length > 0){
             // 텍스트 끝에 커서 위치 설정 및 포커스 설정
             binding.etSearch.post {
                 binding.etSearch.setSelection(searchQuery.length)
@@ -137,6 +130,12 @@ class SearchMainFragment  : Fragment() {
                 imm.showSoftInput(binding.etSearch, InputMethodManager.SHOW_IMPLICIT)
             }
         }
+        // 뒤로가기 버튼 처리 search->home
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // MainActivity의 selectHomeFragment() 호출
+                (activity as? MainActivity)?.selectHomeFragment()
+            }
+        })
     }
-
 }
