@@ -7,10 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.umc_6th_wit_android.MainActivity
-import com.umc.umc_6th_wit_android.databinding.BoardWishBinding
-import com.umc.umc_6th_wit_android.databinding.FolderSelectPopupBinding
-import com.umc.umc_6th_wit_android.databinding.ItemPopupBinding
 import com.umc.umc_6th_wit_android.databinding.ItemRadioFolderBinding
 
 class FolderPopUpAdapter(private var folders: List<Wishboard>, private val selectionListener: SelectionListener) : RecyclerView.Adapter<FolderPopUpAdapter.FolderPopUpViewHolder>() {
@@ -49,7 +45,7 @@ class FolderPopUpAdapter(private var folders: List<Wishboard>, private val selec
     inner class FolderPopUpViewHolder(private val binding: ItemRadioFolderBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(board: Wishboard, position: Int) {
-            binding.rgBtn1.text = board.folder_Name
+            binding.cbBtn1.text = board.folder_Name
 
             // 첫 번째 아이템의 경우 folder_line을 GONE으로 설정
             if (position == 0) {
@@ -59,15 +55,21 @@ class FolderPopUpAdapter(private var folders: List<Wishboard>, private val selec
             }
 
             // 라디오 버튼 클릭 리스너 추가
-            binding.rgBtn1.setOnClickListener {
-                if (binding.rgBtn1.isChecked) {
-                    // 이미 체크되어 있으면 체크 해제하고 deselectBoard 호출
-                    binding.rgBtn1.isChecked = false
-                    deselectBoard(board)
-                } else {
-                    // 체크되어 있지 않으면 체크하고 selectBoard 호출
-                    binding.rgBtn1.isChecked = true
+            binding.cbBtn1.setOnClickListener {
+                if (!selectedFolders.contains(board)) {
+//                    binding.cbBtn1.isChecked = true
+                    // 체크되었으면 selectBoard 호출
                     selectBoard(board)
+//                    Log.d("folder", selectedFolders.toString())
+//                    Log.d("folder", binding.cbBtn1.isChecked.toString())
+                    Log.d("folder", board.folder_Name + " add")
+                } else {
+//                    binding.cbBtn1.isChecked = false
+                    // 체크 해제되면 deselectBoard 호출
+                    deselectBoard(board)
+//                    Log.d("folder", selectedFolders.toString())
+//                    Log.d("folder", binding.cbBtn1.isChecked.toString())
+                    Log.d("folder", board.folder_Name + " del")
                 }
             }
         }
