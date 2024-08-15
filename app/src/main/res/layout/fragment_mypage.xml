@@ -19,14 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="18dp"
-        android:src="@drawable/mypage_back"
-        app:layout_constraintBottom_toBottomOf="@id/mypage_tv1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/mypage_tv1" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"

@@ -38,22 +38,25 @@ class MypageFragment : Fragment() {
         binding.mypageAccountinfoMore.setOnClickListener {
             // AccountinfoFragment로 전환
             val accountinfoFragment = AccountinfoFragment()
-            val transaction: FragmentTransaction = parentFragmentManager.beginTransaction()
-            transaction.add(R.id.main_frm, accountinfoFragment)
-            transaction.addToBackStack(null)  // 백스택에 추가하여 뒤로 가기 버튼으로 돌아올 수 있게 함
-            transaction.commit()
+            replaceFragment(accountinfoFragment)
         }
 
         binding.mypageDeleteAccountLayout.setOnClickListener {
             // DleteAccountFragment로 전환
             val deleteAccountFragment = DeleteAccountFragment()
-            val transaction: FragmentTransaction = parentFragmentManager.beginTransaction()
-            transaction.add(R.id.main_frm, deleteAccountFragment)
-            transaction.addToBackStack(null)  // 백스택에 추가하여 뒤로 가기 버튼으로 돌아올 수 있게 함
-            transaction.commit()
+            replaceFragment(deleteAccountFragment)
         }
 
         return binding.root
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        // 네비게이션 바 숨김
+        (activity as? MainActivity)?.setBottomNavigationViewVisibility(false)
+        parentFragmentManager.beginTransaction()
+            .add(R.id.main_frm, fragment)
+            .addToBackStack(null)  // 백스택에 추가하여 뒤로 가기 버튼으로 돌아올 수 있게 함
+            .commit()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
