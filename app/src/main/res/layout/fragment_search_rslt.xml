@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FCFCFC"
+    tools:context=".search.SearchRsltFragment">
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/sv_bg"
+        android:hint="상품, 브랜드 등"
+        android:paddingHorizontal="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="#B4B4B4"
+        android:textSize="15sp"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/iv_reset"
+        android:layout_width="19dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/ic_reset"
+        app:layout_constraintBottom_toBottomOf="@id/et_search"
+        app:layout_constraintEnd_toEndOf="@id/et_search"
+        app:layout_constraintTop_toTopOf="@id/et_search" />
+    <TextView
+        android:id="@+id/tv_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:text="취소"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@id/et_search"
+        app:layout_constraintBottom_toBottomOf="@id/et_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/et_search" />
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E1E1E1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/total_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="총 10개"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        app:layout_constraintStart_toStartOf="parent" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rslt_rv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        tools:listitem="@layout/item_custom"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/total_tv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false"
+        />
+<!--clipToPadding을 false로 설정하면 스크롤할 때 패딩 영역이 함께 스크롤됩니다.-->
+</androidx.constraintlayout.widget.ConstraintLayout>

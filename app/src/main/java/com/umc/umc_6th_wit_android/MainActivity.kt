@@ -1,13 +1,12 @@
 package com.umc.umc_6th_wit_android
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.WindowInsetsControllerCompat
 import com.umc.umc_6th_wit_android.home.HomeFragment
 import androidx.appcompat.app.AppCompatActivity
 import com.umc.umc_6th_wit_android.databinding.ActivityMainBinding
-import com.umc.umc_6th_wit_android.home.SearchFragment
 import com.umc.umc_6th_wit_android.list.ListFragment
 import com.umc.umc_6th_wit_android.mypage.MypageFragment
+import com.umc.umc_6th_wit_android.search.SearchFragment
 import com.umc.umc_6th_wit_android.wish.WishFragment
 import com.umc.umc_6th_wit_android.wish.WishListFragment
 
@@ -95,4 +94,15 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack("WishFragment")
             .commitAllowingStateLoss()
     }
+
+    fun selectHomeFragment() {
+        // 바텀 네비게이션의 선택된 항목을 homeFragment로 변경
+        binding.mainBnv.selectedItemId = R.id.homeFragment
+
+        // 홈 프래그먼트로 전환
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_frm, HomeFragment())
+            .commitAllowingStateLoss()
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.umc.umc_6th_wit_android.wish
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
@@ -12,20 +13,25 @@ import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentWishBinding
 
-// WishFragment 클래스는 위시리스트 및 보드의 UI를 관리하는 프래그먼트입니다.
-class WishFragment : Fragment(), SelectionListener {
+// WishFragment 클래스: 위시리스트 및 보드의 UI를 관리하는 프래그먼트
+class WishFragment : Fragment(), SelectionListener, WishView {
     // ViewBinding 객체 선언
     lateinit var binding: FragmentWishBinding
     // 어댑터 객체 선언
     private lateinit var wishAdapter: WishAdapter
     private lateinit var boardsAdapter: BoardsAdapter
+    private lateinit var folderPopUpAdapter: FolderPopUpAdapter
     // 편집 모드 상태 변수
     private var isEditMode = false
 
@@ -60,18 +66,6 @@ class WishFragment : Fragment(), SelectionListener {
         updateBoardButtonState(boardsAdapter.selectedBoards.size)
 
         // 초기 버튼 상태 설정 (장바구니 버튼이 선택된 상태)
-        // 화면 전환 시 데이터 수신
-//        binding.btnCart.isSelected = true
-//        val selected = arguments?.getBoolean("selected")
-//        if (selected != null) {
-//            binding.btnCart.isSelected = selected
-//            binding.btnFolder.isSelected = !selected
-//        }
-//        if(binding.btnCart.isSelected == null){
-//            binding.btnCart.isSelected = true
-//        }
-//
-
         binding.btnCart.isSelected = true
         setView(binding.btnCart.isSelected)
 
@@ -98,29 +92,35 @@ class WishFragment : Fragment(), SelectionListener {
             addToFolder()
         }
 
-        // 보드 추가 버튼 클릭 이벤트 설정 (현재 구현되지 않음)
+        // 보드 추가 버튼 클릭 이벤트 설정
         binding.boardAdd.setOnClickListener {
             val intent = Intent(activity, FolderActivity::class.java)
             startActivityForResult(intent, ADD_FOLDER_REQUEST_CODE)
         }
 
         // 보드 편집 버튼 클릭 이벤트 설정
-        binding.boardEdit.setOnClickListener{
+        binding.boardEdit.setOnClickListener {
             toggleBoardEditMode()
         }
 
+        // 보드 이름 수정 버튼 클릭 이벤트 설정
+        binding.btnBoardRename.setOnClickListener {
+            showDeletePopup()
+        }
+
         // 보드 삭제 버튼 클릭 이벤트 설정
-        binding.btnBoardDelete.setOnClickListener{
+        binding.btnBoardDelete.setOnClickListener {
             showDeletePopup()
         }
     }
 
+    // Activity 결과 처리
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ADD_FOLDER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val folderName = data?.getStringExtra("folderName")
             if (folderName != null) {
-                val newWishboard = Wishboard(boardsAdapter.itemCount, folderName, 0, emptyList())
+                val newWishboard = Wishboard(1, "일본", boardsAdapter.itemCount, folderName, emptyList())
                 boardsAdapter.addBoard(newWishboard)
                 binding.boardQuantity.text = boardsAdapter.itemCount.toString()
             }
@@ -137,21 +137,12 @@ class WishFragment : Fragment(), SelectionListener {
         setView(selectedButton.id == R.id.btn_cart)
     }
 
-    private fun setView(selected: Boolean){
-        if(selected){
+    // 뷰 상태 설정 함수
+    private fun setView(selected: Boolean) {
+        if (selected) {
             // 장바구니 버튼이 선택된 경우
-            if(isEditMode){
-                // 편집 모드 해제 및 보드 뷰 상태 초기화
-                isEditMode = !isEditMode
-                boardsAdapter.setEditMode(isEditMode)
-                binding.boardEditModeButtons.visibility = if (isEditMode) View.VISIBLE else View.GONE
-                binding.boardEdit.text = "편집"
-                binding.boardEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
-                (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
-                // RecyclerView의 높이를 동적으로 변경
-                val layoutParams = binding.boardsRecyclerView.layoutParams
-                layoutParams.height = if (isEditMode) dpToPx(377) else dpToPx(477)
-                binding.boardsRecyclerView.layoutParams = layoutParams
+            if (isEditMode) {
+                toggleEditMode()
             }
             // 장바구니 버튼의 텍스트 색상을 활성화 색상으로 변경
             binding.btnCart.setTextColor(resources.getColor(R.color.selectedTextColor))
@@ -168,18 +159,8 @@ class WishFragment : Fragment(), SelectionListener {
             binding.recyclerView.visibility = View.VISIBLE
         } else {
             // 폴더 버튼이 선택된 경우
-            if(isEditMode){
-                // 편집 모드 해제 및 장바구니 뷰 상태 초기화
-                isEditMode = !isEditMode
-                wishAdapter.setEditMode(isEditMode)
-                binding.editModeButtons.visibility = if (isEditMode) View.VISIBLE else View.GONE
-                binding.wishEdit.text = "편집"
-                binding.wishEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
-                (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
-                // RecyclerView의 높이를 동적으로 변경
-                val layoutParams = binding.recyclerView.layoutParams
-                layoutParams.height = if (isEditMode) dpToPx(500) else dpToPx(600)
-                binding.recyclerView.layoutParams = layoutParams
+            if (isEditMode) {
+                toggleBoardEditMode()
             }
             // 폴더 버튼의 텍스트 색상을 활성화 색상으로 변경
             binding.btnCart.setTextColor(resources.getColor(R.color.unselectedTextColor))
@@ -214,10 +195,6 @@ class WishFragment : Fragment(), SelectionListener {
             binding.wishEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
             (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
         }
-        // RecyclerView의 높이를 동적으로 변경
-        val layoutParams = binding.recyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(500) else dpToPx(600)
-        binding.recyclerView.layoutParams = layoutParams
     }
 
     // 보드 편집 모드를 토글하는 함수
@@ -235,16 +212,12 @@ class WishFragment : Fragment(), SelectionListener {
             binding.boardEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
             (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
         }
-        // RecyclerView의 높이를 동적으로 변경
-        val layoutParams = binding.boardsRecyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(377) else dpToPx(477)
-        binding.boardsRecyclerView.layoutParams = layoutParams
     }
 
     // 아이템 선택 상태에 따라 버튼의 활성화를 업데이트하는 함수
     private fun updateItemButtonState(selectedItemCount: Int) {
         val isEnabled = selectedItemCount > 0
-        if(isEditMode){
+        if (isEditMode) {
             binding.wishCount.text = selectedItemCount.toString()
         }
         // 선택된 아이템의 수에 따라 각 버튼의 활성화 상태와 투명도를 설정
@@ -262,16 +235,20 @@ class WishFragment : Fragment(), SelectionListener {
     // 보드 선택 상태에 따라 버튼의 활성화를 업데이트하는 함수
     private fun updateBoardButtonState(selectedBoardCount: Int) {
         val isEnabled = selectedBoardCount > 0
+        val isEnabledOne = selectedBoardCount == 1
 
-        // 선택된 보드의 수에 따라 각 버튼의 활성화 상태와 투명도를 설정
-        for (i in 0 until binding.boardEditModeButtons.childCount) {
-            val child = binding.boardEditModeButtons.getChildAt(i)
-            child.isEnabled = isEnabled
-            if (isEnabled) {
-                child.alpha = 1.0f
-            } else {
-                child.alpha = 0.5f
-            }
+
+        binding.btnBoardDelete.isEnabled = isEnabled
+        binding.btnBoardRename.isEnabled = isEnabledOne
+        if (isEnabled) {
+            binding.btnBoardDelete.alpha = 1.0f
+        } else {
+            binding.btnBoardDelete.alpha = 0.5f
+        }
+        if (isEnabledOne) {
+            binding.btnBoardRename.alpha = 1.0f
+        } else {
+            binding.btnBoardRename.alpha = 0.5f
         }
     }
 
@@ -289,18 +266,47 @@ class WishFragment : Fragment(), SelectionListener {
     private fun deleteSelectedItems() {
         // 선택된 아이템을 삭제하고 편집 모드를 종료
         wishAdapter.deleteSelectedItems()
-        isEditMode = !isEditMode
-        wishAdapter.setEditMode(isEditMode)
-        binding.editModeButtons.visibility = if (isEditMode) View.VISIBLE else View.GONE
-        binding.wishEdit.text = "편집"
-        binding.wishEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
-        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
-        // RecyclerView의 높이를 동적으로 변경
-        val layoutParams = binding.recyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(500) else dpToPx(600)
-        binding.recyclerView.layoutParams = layoutParams
+        toggleEditMode()
         // 남은 아이템 개수를 업데이트
         binding.wishCount.text = wishAdapter.itemCount.toString()
+    }
+
+    // 보드 이름 수정 팝업을 표시하는 함수
+    private fun showReNamePopup() {
+        // 삭제 확인 팝업 레이아웃을 인플레이트하고 다이얼로그를 생성
+        val dialogView = layoutInflater.inflate(R.layout.confirm_rename_popup, null)
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(dialogView)
+
+        // 팝업 타이틀과 메시지 설정
+        val tvPopupTitle = dialogView.findViewById<TextView>(R.id.tv_popup_title)
+        val tvPopupText = dialogView.findViewById<EditText>(R.id.folder_name_edit_text)
+        tvPopupTitle.text = "폴더 이름 수정"
+        tvPopupText.setText(boardsAdapter.returnNameSelectedBoard().folder_Name)
+
+        // 팝업 창을 중앙에 배치하고 가로 넓이를 300dp로 설정
+        val metrics = resources.displayMetrics
+        val width = (300 * metrics.density).toInt()
+
+        dialog.window?.setLayout(
+            width,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.attributes?.gravity = Gravity.CENTER
+
+        // 취소 버튼 클릭 이벤트 리스너 설정
+        dialogView.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+        // 이름 변경 버튼 클릭 이벤트 리스너 설정
+        dialogView.findViewById<Button>(R.id.btn_board_rename).setOnClickListener {
+            // 폴더 이름 변경 로직
+            renameSelectedBoard(tvPopupText.text.toString())
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
     // 삭제 확인 팝업을 표시하는 함수
@@ -334,35 +340,66 @@ class WishFragment : Fragment(), SelectionListener {
         }
         // 삭제 버튼 클릭 이벤트 리스너 설정
         dialogView.findViewById<Button>(R.id.btn_delete).setOnClickListener {
-            // 폴더 삭제 로직 추가
-            deleteSelectedItems()
+            // 폴더 삭제 로직
+            deleteSelectedBoards()
             dialog.dismiss()
         }
         dialog.show()
+    }
+
+    private fun renameSelectedBoard(edited_name: String){
+        // 선택된 보드 이름을 바꾸고 편집 모드를 종료
+        boardsAdapter.reNameSelectedBoard(edited_name)
+        toggleBoardEditMode()
     }
 
     // 선택된 보드를 삭제하는 함수
     private fun deleteSelectedBoards() {
         // 선택된 보드를 삭제하고 편집 모드를 종료
         boardsAdapter.deleteSelectedBoards()
-        isEditMode = !isEditMode
-        boardsAdapter.setEditMode(isEditMode)
-        binding.boardEditModeButtons.visibility = if (isEditMode) View.VISIBLE else View.GONE
-        binding.boardEdit.text = "편집"
-        binding.boardEdit.setTextColor(resources.getColor(R.color.edit_blue, null)) // 텍스트 색상 변경
-        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
-        // RecyclerView의 높이를 동적으로 변경
-        val layoutParams = binding.boardsRecyclerView.layoutParams
-        layoutParams.height = if (isEditMode) dpToPx(387) else dpToPx(487)
-        binding.boardsRecyclerView.layoutParams = layoutParams
+        toggleBoardEditMode()
         // 남은 보드 개수를 업데이트
         binding.boardQuantity.text = boardsAdapter.itemCount.toString()
     }
 
     // 폴더에 추가하는 기능을 구현하는 함수
-    private fun addToFolder(){
+    private fun addToFolder() {
+        // 폴더 담기 팝업 레이아웃을 인플레이트하고 다이얼로그를 생성
+        val dialogView = layoutInflater.inflate(R.layout.folder_select_popup, null)
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(dialogView)
 
+        //다이얼로그 어댑터 연결
+        folderPopUpAdapter = FolderPopUpAdapter(getWishboards(), this)
+        val recyclerView = dialogView.findViewById<RecyclerView>(R.id.folder_recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext()) // LayoutManager 설정
+        recyclerView.adapter = folderPopUpAdapter
+
+        // 팝업 창을 중앙에 배치하고 가로 넓이를 300dp로 설정
+        val metrics = resources.displayMetrics
+        val width = (300 * metrics.density).toInt()
+
+        dialog.window?.setLayout(
+            width,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.attributes?.gravity = Gravity.CENTER
+
+        // 새 폴더 버튼 클릭 이벤트 리스너 설정
+        dialogView.findViewById<Button>(R.id.btn_new_folder).setOnClickListener {
+            val intent = Intent(activity, FolderActivity::class.java)
+            startActivityForResult(intent, ADD_FOLDER_REQUEST_CODE)
+            dialog.dismiss()
+        }
+        // 담기 완료 버튼 클릭 이벤트 리스너 설정
+        dialogView.findViewById<Button>(R.id.btn_add_folder).setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
     }
+
     // Fragment가 DestroyView될 때 호출되는 메소드
     override fun onDestroyView() {
         super.onDestroyView()
@@ -372,12 +409,12 @@ class WishFragment : Fragment(), SelectionListener {
     private fun getWishItems(): List<WishItem> {
         // 예제 데이터를 생성
         val itemList = listOf(
-            WishItem(0, R.drawable.item_ex, "아이템 1", "367","3,151", 4.4, 1),
-            WishItem(1, R.drawable.item_ex, "아이템 2", "367","3,151", 4.4, 2),
-            WishItem(2, R.drawable.item_ex, "아이템 3", "367","3,151", 4.4, 3),
-            WishItem(3, R.drawable.item_ex, "아이템 4", "367","3,151", 4.4, 4),
-            WishItem(4, R.drawable.item_ex, "아이템 5", "367","3,151", 4.4, 5),
-            WishItem(5, R.drawable.item_ex, "아이템 6", "367","3,151", 4.4, 6),
+            WishItem(0, "아이템 1", "367", "3,151", R.drawable.item_ex, "상품 설명", 1, 4.4),
+            WishItem(1, "아이템 2", "367", "3,151", R.drawable.item_ex, "상품 설명", 2, 4.4),
+            WishItem(2, "아이템 3", "367", "3,151", R.drawable.item_ex, "상품 설명", 3, 4.4),
+            WishItem(3, "아이템 4", "367", "3,151", R.drawable.item_ex, "상품 설명", 4, 4.4),
+            WishItem(4, "아이템 5", "367", "3,151", R.drawable.item_ex, "상품 설명", 5, 4.4),
+            WishItem(5, "아이템 6", "367", "3,151", R.drawable.item_ex, "상품 설명", 6, 4.4),
         )
         // 아이템 개수를 설정
         binding.wishCount.text = itemList.size.toString()
@@ -387,12 +424,12 @@ class WishFragment : Fragment(), SelectionListener {
     // 위시 보드 리스트를 생성하는 함수 (예제 데이터 사용)
     private fun getWishboards(): List<Wishboard> {
         val boardList = listOf(
-            Wishboard(0, "보드1", 23, listOf(R.drawable.rv1, R.drawable.rv2, R.drawable.rv3)),
-            Wishboard(1, "보드2", 18, listOf(R.drawable.rv1, R.drawable.rv2)),
-            Wishboard(2, "보드3", 23, listOf(R.drawable.rv1)),
-            Wishboard(3, "보드4", 18, listOf(R.drawable.rv1, R.drawable.rv2, R.drawable.rv3)),
-            Wishboard(4, "보드5", 23, listOf(R.drawable.rv1, R.drawable.rv2)),
-            Wishboard(5, "보드6", 18, listOf(R.drawable.rv1)),
+            Wishboard(1, "일본", 0, "보드1", listOf()),
+            Wishboard(1, "일본", 1, "보드2", listOf()),
+            Wishboard(1, "일본", 2, "보드3", listOf()),
+            Wishboard(1, "일본", 3, "보드4", listOf()),
+            Wishboard(1, "일본", 4, "보드5", listOf()),
+            Wishboard(1, "일본", 5, "보드6", listOf()),
         )
         // 보드 개수를 설정
         binding.boardQuantity.text = boardList.size.toString()
@@ -403,5 +440,55 @@ class WishFragment : Fragment(), SelectionListener {
     private fun dpToPx(dp: Int): Int {
         val density = resources.displayMetrics.density
         return (dp * density).toInt()
+    }
+
+    //위시리스트 장바구니 목록 조회 성공
+    override fun onGetWishListSuccess(code: String, result: WishItemResult) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 장바구니 목록 조회 실패
+    override fun onGetWishListFailure(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 상품 담기 성공
+    override fun onPostWishtoBoardSuccess(code: String, result: WishBoardItemResult) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 상품 담기 실패
+    override fun onPostWishtoBoardFailure(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 생성 성공
+    override fun onPostWishListCreateSuccess(code: String, result: WishBoardItemResult) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 생성 실패
+    override fun onPostWishListCreateFailure(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 이름 변경 성공
+    override fun onPostWishListReNameSuccess(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 이름 변경 실패
+    override fun onPostWishListReNameFailure(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 삭제 성공
+    override fun onDeleteWishBoardListSuccess(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 삭제 실패
+    override fun onDeleteWishBoardListFailure(code: String, message: String) {
+        TODO("Not yet implemented")
     }
 }

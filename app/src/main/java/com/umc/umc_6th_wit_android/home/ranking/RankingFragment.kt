@@ -1,5 +1,6 @@
 package com.umc.umc_6th_wit_android.home.ranking
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +9,6 @@ import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.databinding.FragmentHomeBinding
 import com.umc.umc_6th_wit_android.databinding.FragmentRankingBinding
 
 class RankingFragment : Fragment() {
@@ -34,6 +34,24 @@ class RankingFragment : Fragment() {
 
         tabItemMargin(binding.rankingCategoryTl)
 
+        binding.gender.setOnClickListener {
+            val intent = Intent(activity, RankingActivity::class.java)
+            intent.putExtra("TAB_INDEX", 0)  // 성별 탭의 인덱스
+            startActivity(intent)
+        }
+
+        binding.age.setOnClickListener {
+            val intent = Intent(activity, RankingActivity::class.java)
+            intent.putExtra("TAB_INDEX", 1)  // 연령대 탭의 인덱스
+            startActivity(intent)
+        }
+
+        binding.period.setOnClickListener {
+            val intent = Intent(activity, RankingActivity::class.java)
+            intent.putExtra("TAB_INDEX", 2)  // 기간 탭의 인덱스
+            startActivity(intent)
+        }
+
         return binding.root
     }
 
@@ -42,6 +60,7 @@ class RankingFragment : Fragment() {
             val tab = (mTabLayout.getChildAt(0) as ViewGroup).getChildAt(i)
             val p = tab.layoutParams as ViewGroup.MarginLayoutParams
             p.setMargins(0, 0, 20,0)
+            tab.setPadding(40,0,40,0)
             tab.requestLayout()
         }
     }

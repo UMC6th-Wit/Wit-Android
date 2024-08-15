@@ -9,9 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.umc.umc_6th_wit_android.DetailActivity
+import com.umc.umc_6th_wit_android.CosmeticActivity
+import com.umc.umc_6th_wit_android.DailyActivity
+import com.umc.umc_6th_wit_android.FoodActivity
+import com.umc.umc_6th_wit_android.MedicineActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.PersonalDao
+import com.umc.umc_6th_wit_android.home.notice.NoticeActivity
 import com.umc.umc_6th_wit_android.databinding.FragmentSubhomeBinding
 
 class SubHomeFragment : Fragment(){
@@ -24,26 +28,56 @@ class SubHomeFragment : Fragment(){
     ): View? {
         binding = FragmentSubhomeBinding.inflate(inflater, container, false)
 
+        binding.food.setOnClickListener {
+            val intent = Intent(context, FoodActivity::class.java)
+            startActivity(intent)
+        }
+        binding.cosmetic.setOnClickListener {
+            val intent = Intent(context, CosmeticActivity::class.java)
+            startActivity(intent)
+        }
+        binding.medicine.setOnClickListener {
+            val intent = Intent(context, MedicineActivity::class.java)
+            startActivity(intent)
+        }
+        binding.daily.setOnClickListener {
+            val intent = Intent(context, DailyActivity::class.java)
+            startActivity(intent)
+        }
+
+
+
         val items = PersonalDao().items
 
         val adapter = HomeCustomRVAdapter(items, "personal")
-        binding.personalRv.adapter = adapter
-        binding.personalRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-
-        binding.foodRv.adapter = HomeCustomRVAdapter(items, "food")
-        binding.foodRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
-
         adapter.setOnItemClickListener(object : HomeCustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
-                val intent = Intent(activity, DetailActivity::class.java)
+                val intent = Intent(activity, ProductDetailActivity::class.java)
                 startActivity(intent)
 //                changeActivity(items[position])
             }
         })
 
+        binding.personalRv.adapter = adapter
+        binding.personalRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+
+        val foodAdapter = HomeCustomRVAdapter(items, "food")
+            foodAdapter.setOnItemClickListener(object : HomeCustomRVAdapter.OnItemClickListener{
+                override fun onItemClick(view: View, position: Int) {
+                    val intent = Intent(activity, ProductDetailActivity::class.java)
+                    startActivity(intent)
+//                changeActivity(items[position])
+                }
+            })
+        binding.foodRv.adapter = foodAdapter
+        binding.foodRv.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+
+
+
         val category : Array<String> = resources.getStringArray(R.array.CATEGORY)
 
         val rankingAdapter = HomeCategoryVPAdapter(this)
+
         binding.templateCategoryVp.adapter = rankingAdapter
 
         TabLayoutMediator(binding.templateSelectCategoryTl, binding.templateCategoryVp){
@@ -68,10 +102,15 @@ class SubHomeFragment : Fragment(){
 
         //맛도리 추천템 더보기
         binding.foodBtn.setOnClickListener {
-            val intent = Intent(activity, FoodActivity::class.java)
+            val intent = Intent(activity, BestFoodActivity::class.java)
             startActivity(intent)
         }
-        
+        //공지 더보기
+        binding.noticeBtn.setOnClickListener{
+            val intent = Intent(activity, NoticeActivity::class.java)
+            startActivity(intent)
+        }
+
         return binding.root
     }
 //    private fun changeActivity(personal : PersonalDto) {
@@ -83,7 +122,8 @@ class SubHomeFragment : Fragment(){
         for (i in 0 until mTabLayout.getTabCount()) {
             val tab = (mTabLayout.getChildAt(0) as ViewGroup).getChildAt(i)
             val p = tab.layoutParams as ViewGroup.MarginLayoutParams
-            p.setMargins(0, 0, 20,0)
+            p.setMargins(0, 0, 25,0)
+            tab.setPadding(40,0,40,0)
             tab.requestLayout()
         }
     }
