@@ -18,23 +18,23 @@
             android:orientation="vertical"
             android:layout_marginLeft="6dp" />
 
-        <RadioGroup
-            android:id="@+id/radioGroup"
+        <LinearLayout
+            android:id="@+id/checkbox_layout"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <RadioButton
-                android:id="@+id/rg_btn1"
+            <CheckBox
+                android:id="@+id/cb_btn1"
                 android:layout_weight="1"
-                android:text="라디오 그룹 버튼1"
+                android:text="체크박스 버튼1"
                 android:textFontWeight="400"
                 android:textSize="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="@drawable/radio_button_tint_selector"/>
 
-        </RadioGroup>
+        </LinearLayout>
 
     </LinearLayout>
 
