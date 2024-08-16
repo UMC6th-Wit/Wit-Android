@@ -151,23 +151,29 @@
 
         <ImageView
             android:id="@+id/keep_btn_iv"
-            android:layout_width="171dp"
-            android:layout_height="39dp"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/comparison_btn_iv"
             app:layout_constraintTop_toBottomOf="@+id/where_widget1_iv"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintWidth_default="spread"
+            app:layout_constraintWidth_percent="0.5"
             app:srcCompat="@drawable/keep_btn_image" />
 
         <ImageView
             android:id="@+id/comparison_btn_iv"
-            android:layout_width="163dp"
+            android:layout_width="0dp"
             android:layout_height="42dp"
             android:layout_marginEnd="20dp"
-            app:layout_constraintBottom_toBottomOf="@+id/keep_btn_iv"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/keep_btn_iv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/keep_btn_iv"
+            app:layout_constraintWidth_default="spread"
+            app:layout_constraintHorizontal_chainStyle="spread"
             app:srcCompat="@drawable/comparison_btn_image" />
 
         <ImageView

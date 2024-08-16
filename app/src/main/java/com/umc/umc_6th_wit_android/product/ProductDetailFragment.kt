@@ -1,4 +1,4 @@
-package com.umc.umc_6th_wit_android.home
+package com.umc.umc_6th_wit_android.product
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.umc.umc_6th_wit_android.PriceActivity
-import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentProductDetailBinding
 
 class ProductDetailFragment : Fragment() {

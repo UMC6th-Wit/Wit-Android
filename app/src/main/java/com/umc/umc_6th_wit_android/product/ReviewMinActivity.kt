@@ -1,18 +1,17 @@
-package com.umc.umc_6th_wit_android.home
+package com.umc.umc_6th_wit_android.product
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.databinding.ActivityProductDetailBinding
+import com.umc.umc_6th_wit_android.databinding.ActivityReviewMinBinding
 
+class ReviewMinActivity : AppCompatActivity() {
 
-class ProductDetailActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityProductDetailBinding
+    private lateinit var binding: ActivityReviewMinBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityProductDetailBinding.inflate(layoutInflater)
+        binding = ActivityReviewMinBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
@@ -20,8 +19,6 @@ class ProductDetailActivity : AppCompatActivity() {
                 .replace(R.id.fragment_product_detail, ProductDetailFragment())
                 .commit()
         }
+
     }
 }
-
-
-
