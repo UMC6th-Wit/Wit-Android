@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.umc_6th_wit_android.LocationActivity
+import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.PopupDto
 import com.umc.umc_6th_wit_android.databinding.FragmentHomeBinding
@@ -34,6 +35,8 @@ class HomeFragment : Fragment(), HomePopupRVAdapter.OnItemRemovedListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
 
