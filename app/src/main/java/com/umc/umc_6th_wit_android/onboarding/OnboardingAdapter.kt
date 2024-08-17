@@ -1,4 +1,4 @@
-package com.umc.umc_6th_wit_android.login
+package com.umc.umc_6th_wit_android.onboarding
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

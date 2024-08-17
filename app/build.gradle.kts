@@ -85,6 +85,9 @@ dependencies {
 
     implementation ("com.google.android.material:material:1.10.0")
 
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
+    implementation("com.navercorp.nid:oauth-jdk8:5.9.1") // jdk 8
 
 
 }

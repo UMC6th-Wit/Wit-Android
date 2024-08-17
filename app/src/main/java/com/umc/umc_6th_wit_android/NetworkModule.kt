@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 // 레트로핏 객체 생성
 class NetworkModule {
     companion object {
-        private const val BASE_URL = "https://api/"
+        private const val BASE_URL = "http://43.202.194.145/"
         private var INSTANCE: Retrofit? = null
 
         fun getInstance(): Retrofit {
