@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.umc.umc_6th_wit_android.CosmeticActivity
+import com.umc.umc_6th_wit_android.DailyActivity
 import com.umc.umc_6th_wit_android.FoodActivity
 import com.umc.umc_6th_wit_android.MedicineActivity
 import com.umc.umc_6th_wit_android.MainActivity
@@ -131,6 +132,20 @@ class ListFragment : Fragment() {
         }
         binding.listMedicineTv4.setOnClickListener {
             startActivity(Intent(requireContext(), MedicineActivity::class.java))
+        }
+
+        // Daily 텍스트 뷰 클릭 시 MedicineActivity로 이동
+        binding.listDailyTv1.setOnClickListener {
+            startActivity(Intent(requireContext(), DailyActivity::class.java))
+        }
+        binding.listDailyTv2.setOnClickListener {
+            startActivity(Intent(requireContext(), DailyActivity::class.java))
+        }
+        binding.listDailyTv3.setOnClickListener {
+            startActivity(Intent(requireContext(), DailyActivity::class.java))
+        }
+        binding.listDailyTv4.setOnClickListener {
+            startActivity(Intent(requireContext(), DailyActivity::class.java))
         }
     }
 }
