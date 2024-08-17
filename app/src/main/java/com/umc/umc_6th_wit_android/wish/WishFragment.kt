@@ -1,11 +1,9 @@
 package com.umc.umc_6th_wit_android.wish
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +13,8 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatButton
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentWishBinding
+
 
 // WishFragment 클래스: 위시리스트 및 보드의 UI를 관리하는 프래그먼트
 class WishFragment : Fragment(), SelectionListener, WishView {
@@ -42,6 +42,8 @@ class WishFragment : Fragment(), SelectionListener, WishView {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
         // ViewBinding을 이용해 Fragment의 레이아웃을 설정
         binding = FragmentWishBinding.inflate(inflater, container, false)
         return binding.root
@@ -112,6 +114,14 @@ class WishFragment : Fragment(), SelectionListener, WishView {
         binding.btnBoardDelete.setOnClickListener {
             showDeletePopup()
         }
+
+        // 뒤로가기 버튼 처리 search->home
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // MainActivity의 selectHomeFragment() 호출
+                (activity as? MainActivity)?.selectHomeFragment()
+            }
+        })
     }
 
     // Activity 결과 처리
