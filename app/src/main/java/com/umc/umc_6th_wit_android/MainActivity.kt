@@ -8,6 +8,7 @@ import com.umc.umc_6th_wit_android.databinding.ActivityMainBinding
 import com.umc.umc_6th_wit_android.list.ListFragment
 import com.umc.umc_6th_wit_android.mypage.MypageFragment
 import com.umc.umc_6th_wit_android.search.SearchFragment
+import com.umc.umc_6th_wit_android.search.SearchMainFragment
 import com.umc.umc_6th_wit_android.wish.WishFragment
 import com.umc.umc_6th_wit_android.wish.WishListFragment
 
@@ -54,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.searchFragment -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frm, SearchFragment())
+                        .replace(R.id.main_frm, SearchMainFragment())
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }

@@ -6,6 +6,7 @@ import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.umc.umc_6th_wit_android.R
@@ -23,6 +24,7 @@ class MypageFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
 //        val contextThemeWrapper = ContextThemeWrapper(getActivity(), R.style.LoginTheme);
 //        val localInflater = inflater.cloneInContext(contextThemeWrapper);
         binding = FragmentMypageBinding.inflate(inflater, container, false)
@@ -61,7 +63,17 @@ class MypageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         // 네비게이션 바 다시 표시
         (activity as? MainActivity)?.binding?.mainBnv?.visibility = View.VISIBLE
+
+
+        // 뒤로가기 버튼 처리 search->home
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // MainActivity의 selectHomeFragment() 호출
+                (activity as? MainActivity)?.selectHomeFragment()
+            }
+        })
     }
 }

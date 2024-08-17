@@ -8,10 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.umc.umc_6th_wit_android.CosmeticActivity
 import com.umc.umc_6th_wit_android.FoodActivity
 import com.umc.umc_6th_wit_android.MedicineActivity
+import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {
@@ -21,6 +23,7 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
         binding = FragmentListBinding.inflate(inflater, container, false)
         setupCategorySelection()
         setupNavigation()
@@ -37,6 +40,18 @@ class ListFragment : Fragment() {
         view2.layoutParams = params
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // 뒤로가기 버튼 처리 search->home
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // MainActivity의 selectHomeFragment() 호출
+                (activity as? MainActivity)?.selectHomeFragment()
+            }
+        })
     }
 
     private fun setupCategorySelection() {
