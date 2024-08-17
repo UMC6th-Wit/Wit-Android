@@ -35,10 +35,9 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="44dp"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         android:src="@drawable/mypage_profil"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/accountinfo_tv1" />
 

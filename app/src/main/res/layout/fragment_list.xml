@@ -112,6 +112,7 @@
                 app:layout_constraintBottom_toTopOf="@id/list_view2">
 
                 <LinearLayout
+                    android:id="@+id/list_food_tv1"
                     android:layout_width="match_parent"
                     android:layout_height="59dp"
                     android:fillViewport="true"
@@ -136,6 +137,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/list_food_tv2"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:fontFamily="@font/suitmeduim"
@@ -146,6 +148,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/list_food_tv3"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:fontFamily="@font/suitmeduim"
@@ -156,6 +159,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/list_food_tv4"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:fontFamily="@font/suitmeduim"
@@ -166,6 +170,7 @@
                     android:textSize="13sp" />
 
                 <LinearLayout
+                    android:id="@+id/list_cosmetic_tv1"
                     android:layout_width="match_parent"
                     android:layout_height="59dp"
                     android:gravity="center_vertical"
@@ -189,6 +194,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/list_cosmetic_tv2"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:fontFamily="@font/suitmeduim"
@@ -199,6 +205,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/list_cosmetic_tv3"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:fontFamily="@font/suitmeduim"
@@ -209,6 +216,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/list_cosmetic_tv4"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:fontFamily="@font/suitmeduim"
@@ -219,6 +227,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/list_cosmetic_tv5"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:fontFamily="@font/suitmeduim"
@@ -229,6 +238,7 @@
                     android:textSize="13sp" />
 
                 <LinearLayout
+                    android:id="@+id/list_medicine_tv1"
                     android:layout_width="match_parent"
                     android:layout_height="59dp"
                     android:gravity="center_vertical"
@@ -252,6 +262,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/list_medicine_tv2"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:fontFamily="@font/suitmeduim"
@@ -262,6 +273,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/list_medicine_tv3"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:fontFamily="@font/suitmeduim"
@@ -272,6 +284,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/list_medicine_tv4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/suitmeduim"
@@ -282,6 +295,7 @@
                     android:textSize="13sp" />
 
                 <LinearLayout
+                    android:id="@+id/list_daily_tv1"
                     android:layout_width="match_parent"
                     android:layout_height="59dp"
                     android:gravity="center_vertical"
@@ -305,6 +319,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/list_daily_tv2"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:fontFamily="@font/suitmeduim"
@@ -315,6 +330,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/list_daily_tv3"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:fontFamily="@font/suitmeduim"
@@ -325,6 +341,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/list_daily_tv4"
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:fontFamily="@font/suitmeduim"
