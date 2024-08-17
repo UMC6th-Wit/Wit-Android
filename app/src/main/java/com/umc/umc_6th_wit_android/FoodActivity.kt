@@ -17,6 +17,7 @@ import com.umc.umc_6th_wit_android.home.ProductDetailActivity
 
 class FoodActivity : AppCompatActivity() {
     lateinit var binding: ActivityFoodBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFoodBinding.inflate(layoutInflater)
@@ -46,5 +47,15 @@ class FoodActivity : AppCompatActivity() {
         binding.customRv.layoutManager  = GridLayoutManager(this@FoodActivity, 2)
 
         setContentView(binding.root)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        // MainActivity로 돌아갈 때 HomeFragment로 전환하도록 플래그 설정
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        intent.putExtra("navigateToHome", true)  // HomeFragment로 이동하기 위한 플래그
+        startActivity(intent)
+        finish()  // 현재 Activity를 종료
     }
 }

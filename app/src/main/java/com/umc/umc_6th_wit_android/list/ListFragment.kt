@@ -1,6 +1,7 @@
 package com.umc.umc_6th_wit_android.list
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.umc.umc_6th_wit_android.CosmeticActivity
+import com.umc.umc_6th_wit_android.FoodActivity
+import com.umc.umc_6th_wit_android.MedicineActivity
 import com.umc.umc_6th_wit_android.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {
@@ -19,6 +23,7 @@ class ListFragment : Fragment() {
     ): View? {
         binding = FragmentListBinding.inflate(inflater, container, false)
         setupCategorySelection()
+        setupNavigation()
 
         val view2 = binding.listView2
         // 전체 화면 높이에서 325dp를 뺀 값을 픽셀로 변환
@@ -66,4 +71,53 @@ class ListFragment : Fragment() {
         }
         selected.setBackgroundColor(Color.parseColor("#FFDC70"))  // 선택된 뷰의 배경색 변경
     }
+
+    private fun setupNavigation() {
+        // Food 텍스트 뷰 클릭 시 FoodActivity로 이동
+        binding.listFoodTv1.setOnClickListener {
+            startActivity(Intent(requireContext(), FoodActivity::class.java))
+        }
+        binding.listFoodTv2.setOnClickListener {
+            startActivity(Intent(requireContext(), FoodActivity::class.java))
+        }
+        binding.listFoodTv3.setOnClickListener {
+            startActivity(Intent(requireContext(), FoodActivity::class.java))
+        }
+        binding.listFoodTv4.setOnClickListener {
+            startActivity(Intent(requireContext(), FoodActivity::class.java))
+        }
+
+        // Cosmetic 텍스트 뷰 클릭 시 CosmeticActivity로 이동
+        binding.listCosmeticTv1.setOnClickListener {
+            startActivity(Intent(requireContext(), CosmeticActivity::class.java))
+        }
+        binding.listCosmeticTv2.setOnClickListener {
+            startActivity(Intent(requireContext(), CosmeticActivity::class.java))
+        }
+        binding.listCosmeticTv3.setOnClickListener {
+            startActivity(Intent(requireContext(), CosmeticActivity::class.java))
+        }
+        binding.listCosmeticTv4.setOnClickListener {
+            startActivity(Intent(requireContext(), CosmeticActivity::class.java))
+        }
+        binding.listCosmeticTv5.setOnClickListener {
+            startActivity(Intent(requireContext(), CosmeticActivity::class.java))
+        }
+
+        // Medicine 텍스트 뷰 클릭 시 MedicineActivity로 이동
+        binding.listMedicineTv1.setOnClickListener {
+            startActivity(Intent(requireContext(), MedicineActivity::class.java))
+        }
+        binding.listMedicineTv2.setOnClickListener {
+            startActivity(Intent(requireContext(), MedicineActivity::class.java))
+        }
+        binding.listMedicineTv3.setOnClickListener {
+            startActivity(Intent(requireContext(), MedicineActivity::class.java))
+        }
+        binding.listMedicineTv4.setOnClickListener {
+            startActivity(Intent(requireContext(), MedicineActivity::class.java))
+        }
+    }
 }
+
+
