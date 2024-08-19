@@ -7,16 +7,12 @@ interface WishView {
     fun onGetWishListFailure(code: String, message: String)
 
     //위시리스트 폴더 목록 조회
-//    fun onGetWishBoardListSuccess(code: String, result: WishBoardItemResult)
-//    fun onGetWishBoardListFailure(code: String, message: String)
+    fun onGetWishBoardListSuccess(code: String, result: WishBoardItemResult)
+    fun onGetWishBoardListFailure(code: String, message: String)
 
     //위시리스트 폴더 상품 담기
     fun onPostWishtoBoardSuccess(code: String, result: WishBoardItemResult)
     fun onPostWishtoBoardFailure(code: String, message: String)
-
-    //위시리스트 폴더 생성
-    fun onPostWishListCreateSuccess(code: String, result: WishBoardItemResult)
-    fun onPostWishListCreateFailure(code: String, message: String)
 
     //위시리스트 폴더 이름 변경
     fun onPostWishListReNameSuccess(code: String, message: String)

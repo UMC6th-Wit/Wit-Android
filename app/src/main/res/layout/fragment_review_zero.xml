@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="리뷰(0)"
+            android:textColor="#111111"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +74,7 @@
             app:srcCompat="@drawable/vector_image_black" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/no_review_iv"
             android:layout_width="51dp"
             android:layout_height="59dp"
             android:layout_marginTop="100dp"
@@ -83,7 +84,7 @@
             app:srcCompat="@drawable/speech_bubble_image" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/no_review_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -93,17 +94,27 @@
             android:textColor="#8C8C8C"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/no_review_iv" />
 
         <ImageView
-            android:id="@+id/imageButton"
+            android:id="@+id/go_to_review_write_iv"
             android:layout_width="188dp"
             android:layout_height="72dp"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/no_review_tv"
             app:srcCompat="@drawable/go_to_review_write_btn_image"
             tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/padding_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/go_to_review_write_iv"
+            app:layout_constraintStart_toStartOf="@+id/go_to_review_write_iv"
+            app:layout_constraintTop_toBottomOf="@+id/go_to_review_write_iv" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

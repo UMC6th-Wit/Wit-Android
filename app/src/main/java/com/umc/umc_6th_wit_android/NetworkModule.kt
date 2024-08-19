@@ -7,6 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class NetworkModule {
     companion object {
         private const val BASE_URL = "http://43.202.194.145/"
+//        private const val BASE_URL = "http://localhost:3000/"
         private var INSTANCE: Retrofit? = null
 
         fun getInstance(): Retrofit {

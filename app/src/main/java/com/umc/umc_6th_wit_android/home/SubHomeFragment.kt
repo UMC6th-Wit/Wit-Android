@@ -17,6 +17,7 @@ import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.PersonalDao
 import com.umc.umc_6th_wit_android.home.notice.NoticeActivity
 import com.umc.umc_6th_wit_android.databinding.FragmentSubhomeBinding
+import com.umc.umc_6th_wit_android.product.ProductDetailActivity
 
 class SubHomeFragment : Fragment(){
     lateinit var binding: FragmentSubhomeBinding

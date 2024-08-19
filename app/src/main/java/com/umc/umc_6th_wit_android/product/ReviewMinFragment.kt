@@ -1,0 +1,61 @@
+package com.umc.umc_6th_wit_android.product
+
+import android.content.Intent
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.umc.umc_6th_wit_android.R
+import com.umc.umc_6th_wit_android.databinding.FragmentReviewMinBinding
+import com.umc.umc_6th_wit_android.home.ProductDetailFragment
+
+class ReviewMinFragment : Fragment() {
+
+    private var _binding: FragmentReviewMinBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentReviewMinBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.productDetailSelectTv.setOnClickListener {
+            val fragment = ProductDetailFragment()
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_product_detail, fragment)  // fragment_container = 현재 프래그먼트를 표시하는 뷰의 ID
+                .addToBackStack(null)  // 뒤로 가기 버튼을 사용하여 이전 프래그먼트로 돌아가기
+                .commit()
+        }
+
+        binding.goToReviewBtnIv.setOnClickListener {
+            val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.moreReviewBtnIv.setOnClickListener{
+            val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
+            startActivity(intent)
+        }
+
+        val recyclerView = binding.recyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        val itemList = listOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5")
+        val adapter = ReviewMinAdapter(itemList)
+        recyclerView.adapter = adapter
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}

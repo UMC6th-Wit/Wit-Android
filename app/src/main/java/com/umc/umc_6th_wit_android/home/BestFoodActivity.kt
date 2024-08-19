@@ -32,7 +32,7 @@ class BestFoodActivity  : AppCompatActivity() {
         val adapter = CustomRVAdapter(items)
         adapter.setOnItemClickListener(object : CustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
-                val intent = Intent(this@BestFoodActivity, ProductDetailActivity::class.java)
+                val intent = Intent(this@BestFoodActivity, ProductDetailFragment::class.java)
                 startActivity(intent)
 //                changeActivity(items[position])
             }
