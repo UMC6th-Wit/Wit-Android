@@ -3,17 +3,13 @@ package com.umc.umc_6th_wit_android
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.umc.umc_6th_wit_android.data.local.CategoryDao
 import com.umc.umc_6th_wit_android.data.local.CategoryDto
-import com.umc.umc_6th_wit_android.databinding.ActivityBestFoodBinding
 import com.umc.umc_6th_wit_android.databinding.ActivityCosmeticBinding
 import com.umc.umc_6th_wit_android.home.CustomRVAdapter
-import com.umc.umc_6th_wit_android.home.ProductDetailActivity
+import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 
 class CosmeticActivity : AppCompatActivity() {
     lateinit var binding: ActivityCosmeticBinding
@@ -37,7 +33,7 @@ class CosmeticActivity : AppCompatActivity() {
         val adapter = CustomRVAdapter(items)
         adapter.setOnItemClickListener(object : CustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
-                val intent = Intent(this@CosmeticActivity, ProductDetailActivity::class.java)
+                val intent = Intent(this@CosmeticActivity, ProductDetailFragment::class.java)
                 startActivity(intent)
 //                changeActivity(items[position])
             }

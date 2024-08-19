@@ -56,9 +56,6 @@
             android:theme="@style/LoginTheme" >
         </activity>
         <activity
-            android:name=".home.ProductDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".wish.FolderActivity"
             android:windowSoftInputMode="adjustResize" />
 
@@ -79,8 +76,11 @@
             android:exported="false"
             android:theme="@style/AppTheme.NoActionbar.Translucent" />
 
-        <activity android:name=".product.ReviewMinActivity"/>
-        <activity android:name=".product.ReviewZeroActivity"/>
+        <activity
+            android:name=".product.ProductDetailActivity"
+            android:exported="false" />
+        <activity android:name=".product.ReviewOnlyActivity"/>
+        <activity android:name=".product.ReviewWriteActivity"/>
 
     </application>
 

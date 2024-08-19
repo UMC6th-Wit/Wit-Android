@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.GridLayoutManager
 import com.umc.umc_6th_wit_android.R
@@ -14,7 +13,7 @@ import com.umc.umc_6th_wit_android.data.local.CategoryDao
 import com.umc.umc_6th_wit_android.data.local.CategoryDto
 import com.umc.umc_6th_wit_android.databinding.FragmentSearchRsltBinding
 import com.umc.umc_6th_wit_android.home.CustomRVAdapter
-import com.umc.umc_6th_wit_android.home.ProductDetailActivity
+import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 
 class SearchRsltFragment : Fragment() {
     lateinit var binding: FragmentSearchRsltBinding
@@ -45,7 +44,7 @@ class SearchRsltFragment : Fragment() {
         val adapter = CustomRVAdapter(items)
         adapter.setOnItemClickListener(object : CustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
-                val intent = Intent(activity, ProductDetailActivity::class.java)
+                val intent = Intent(activity, ProductDetailFragment::class.java)
                 startActivity(intent)
 //                changeActivity(items[position])
             }
