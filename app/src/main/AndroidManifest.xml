@@ -16,7 +16,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UMC6thWit"
         tools:targetApi="31">
-        
+        <activity
+            android:name=".login.KakaoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".login.NaverActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".CosmeticActivity"
             android:exported="false" />
@@ -41,17 +56,12 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/MainTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:theme="@style/Theme.MyApp.Splash">
         </activity>
         <activity
-            android:name=".login.OnboardingActivity"
+            android:name=".onboarding.OnboardingActivity"
             android:exported="true"
-            android:theme="@style/LoginTheme">
-        </activity>
+            android:theme="@style/LoginTheme" />
         <activity
             android:name=".login.LoginActivity"
             android:exported="true"

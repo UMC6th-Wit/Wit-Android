@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 배경색 설정 -->
+    <item android:drawable="@color/black"/>
+    <!-- 중앙에 배치될 로고 이미지 설정 -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/wit_splash"
+            android:scaleType="centerInside"/>
+    </item>
+</layer-list>

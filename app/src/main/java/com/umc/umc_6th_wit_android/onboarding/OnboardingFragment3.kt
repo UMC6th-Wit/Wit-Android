@@ -1,4 +1,4 @@
-package com.umc.umc_6th_wit_android.login
+package com.umc.umc_6th_wit_android.onboarding
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,13 +8,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
 import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.databinding.FragmentOnboarding1Binding
-import com.umc.umc_6th_wit_android.databinding.FragmentOnboarding2Binding
+import com.umc.umc_6th_wit_android.databinding.FragmentOnboarding3Binding
 
 
-class OnboardingFragment2 : Fragment() {
+class OnboardingFragment3 : Fragment() {
     private lateinit var viewPager: ViewPager2
-    private lateinit var binding: FragmentOnboarding2Binding
+    private lateinit var binding: FragmentOnboarding3Binding
 
     private val selectedImages = mutableListOf<String>()
 
@@ -23,7 +22,7 @@ class OnboardingFragment2 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentOnboarding2Binding.inflate(inflater, container, false)
+        binding = FragmentOnboarding3Binding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -32,7 +31,7 @@ class OnboardingFragment2 : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewPager = requireActivity().findViewById(R.id.onboarding_viewpager)
-        val nextButton = binding.onboarding2Next
+        val nextButton = binding.onboarding3Next
         updateNextButtonState()
 
         nextButton.setOnClickListener {
@@ -50,42 +49,42 @@ class OnboardingFragment2 : Fragment() {
         }
 
         val imageViews = listOf(
-            binding.onboarding2Img1,
-            binding.onboarding2Img2,
-            binding.onboarding2Img3,
-            binding.onboarding2Img4,
-            binding.onboarding2Img5,
-            binding.onboarding2Img6,
-            binding.onboarding2Img7,
-            binding.onboarding2Img8,
-            binding.onboarding2Img9,
+            binding.onboarding3Img1,
+            binding.onboarding3Img2,
+            binding.onboarding3Img3,
+            binding.onboarding3Img4,
+            binding.onboarding3Img5,
+            binding.onboarding3Img6,
+            binding.onboarding3Img7,
+            binding.onboarding3Img8,
+            binding.onboarding3Img9,
         )
 
         val imageNames = listOf("img1", "img2", "img3", "img4",
             "img5", "img6", "img7", "img8", "img9")
         val imageResources = listOf(
-            R.drawable.onboarding2_img1,
-            R.drawable.onboarding2_img2,
-            R.drawable.onboarding2_img3,
-            R.drawable.onboarding2_img4,
-            R.drawable.onboarding2_img5,
-            R.drawable.onboarding2_img6,
-            R.drawable.onboarding2_img7,
-            R.drawable.onboarding2_img8,
-            R.drawable.onboarding2_img9,
+            R.drawable.onboarding3_img1,
+            R.drawable.onboarding3_img2,
+            R.drawable.onboarding3_img3,
+            R.drawable.onboarding3_img4,
+            R.drawable.onboarding3_img5,
+            R.drawable.onboarding3_img6,
+            R.drawable.onboarding3_img7,
+            R.drawable.onboarding3_img8,
+            R.drawable.onboarding3_img9,
         )
         val selectedImageResources = listOf(
-            R.drawable.onboarding2_img1_selected,
-            R.drawable.onboarding2_img2_selected,
-            R.drawable.onboarding2_img3_selected,
-            R.drawable.onboarding2_img4_selected,
-            R.drawable.onboarding2_img5_selected,
-            R.drawable.onboarding2_img6_selected,
-            R.drawable.onboarding2_img7_selected,
-            R.drawable.onboarding2_img8_selected,
-            R.drawable.onboarding2_img9_selected,
+            R.drawable.onboarding3_img1_selected,
+            R.drawable.onboarding3_img2_selected,
+            R.drawable.onboarding3_img3_selected,
+            R.drawable.onboarding3_img4_selected,
+            R.drawable.onboarding3_img5_selected,
+            R.drawable.onboarding3_img6_selected,
+            R.drawable.onboarding3_img7_selected,
+            R.drawable.onboarding3_img8_selected,
+            R.drawable.onboarding3_img9_selected,
 
-        )
+            )
 
         imageViews.forEachIndexed { index, imageView ->
             imageView.setOnClickListener {
@@ -108,7 +107,7 @@ class OnboardingFragment2 : Fragment() {
     }
 
     private fun updateNextButtonState() {
-        val nextButton = binding.onboarding2Next
+        val nextButton = binding.onboarding3Next
         if (selectedImages.isNotEmpty()) {
             nextButton.setImageResource(R.drawable.next_button_on) // 활성화된 상태의 이미지 리소스
             nextButton.isClickable = true

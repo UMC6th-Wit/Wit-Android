@@ -1,13 +1,10 @@
-package com.umc.umc_6th_wit_android.login
+package com.umc.umc_6th_wit_android.onboarding
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentOnboarding1Binding

@@ -1,4 +1,4 @@
-package com.umc.umc_6th_wit_android.login
+package com.umc.umc_6th_wit_android.onboarding
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.umc.umc_6th_wit_android.MainActivity
-import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentOnboarding4Binding
 
 class OnboardingFragment4 : Fragment() {

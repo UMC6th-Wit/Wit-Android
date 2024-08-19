@@ -22,4 +22,5 @@
     <color name="folderBlack">#111111</color>
     <color name="sv_gray">#F4F4F4</color>
     <color name="transparent">#99141414</color>
+    <color name="splash_background">#202020</color>
 </resources>
