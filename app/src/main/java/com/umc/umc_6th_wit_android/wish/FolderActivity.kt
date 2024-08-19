@@ -6,6 +6,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -13,7 +14,7 @@ import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.ActivityFolderBinding
 
 // FolderActivity 클래스 정의: 새로운 폴더를 생성하는 Activity
-class FolderActivity : AppCompatActivity() {
+class FolderActivity : AppCompatActivity(), FolderView {
 
     // View Binding 객체를 지연 초기화
     lateinit var binding: ActivityFolderBinding
@@ -56,6 +57,13 @@ class FolderActivity : AppCompatActivity() {
             // EditText에서 폴더 이름 가져오기
             val folderName = binding.folderNameEditText.text.toString()
             if (folderName.isNotEmpty()) {
+                val wishService = WishService()
+                wishService.setFolderView(this)
+                val request = WishListCreateRequest(
+                    product_ids = listOf(1, 2),
+                    folder_name = binding.folderNameEditText.text.toString()
+                )
+                wishService.postWishListCreate(38, request)
                 // 폴더 이름이 비어있지 않으면 결과를 설정하고 액티비티 종료
                 val resultIntent = Intent()
                 resultIntent.putExtra("folderName", folderName)
@@ -69,5 +77,16 @@ class FolderActivity : AppCompatActivity() {
             // 액티비티 종료
             finish()
         }
+    }
+
+
+    //위시리스트 폴더 생성 성공
+    override fun onPostWishListCreateSuccess(code: String, result: WishBoardItemResult) {
+        Log.d("FOLDER-RESPONSE", result.board_Products.toString())
+    }
+
+    //위시리스트 폴더 생성 실패
+    override fun onPostWishListCreateFailure(code: String, message: String) {
+        Log.d("FOLDER-RESPONSE", message)
     }
 }

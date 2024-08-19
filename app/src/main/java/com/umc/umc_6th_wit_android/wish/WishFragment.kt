@@ -462,6 +462,16 @@ class WishFragment : Fragment(), SelectionListener, WishView {
         TODO("Not yet implemented")
     }
 
+    //위시리스트 폴더 조회 성공
+    override fun onGetWishBoardListSuccess(code: String, result: WishBoardItemResult) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 폴더 조회 실패
+    override fun onGetWishBoardListFailure(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
     //위시리스트 폴더 상품 담기 성공
     override fun onPostWishtoBoardSuccess(code: String, result: WishBoardItemResult) {
         TODO("Not yet implemented")
@@ -469,16 +479,6 @@ class WishFragment : Fragment(), SelectionListener, WishView {
 
     //위시리스트 폴더 상품 담기 실패
     override fun onPostWishtoBoardFailure(code: String, message: String) {
-        TODO("Not yet implemented")
-    }
-
-    //위시리스트 폴더 생성 성공
-    override fun onPostWishListCreateSuccess(code: String, result: WishBoardItemResult) {
-        TODO("Not yet implemented")
-    }
-
-    //위시리스트 폴더 생성 실패
-    override fun onPostWishListCreateFailure(code: String, message: String) {
         TODO("Not yet implemented")
     }
 
