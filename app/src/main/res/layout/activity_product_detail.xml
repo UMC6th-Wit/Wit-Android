@@ -23,6 +23,7 @@
             android:text="상품설명"
             android:textSize="15sp"
             android:textStyle="bold"
+            android:textColor="#111111"
             app:layout_constraintEnd_toStartOf="@+id/product_review_select_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/fragment_product_detail"
@@ -81,6 +82,7 @@
             android:layout_marginTop="30dp"
             android:text="상품"
             android:textSize="17sp"
+            android:textColor="#111111"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/product_detail_select_tv" />
 
@@ -91,6 +93,7 @@
             android:text="설명"
             android:textSize="17sp"
             android:textStyle="bold"
+            android:textColor="#111111"
             app:layout_constraintStart_toEndOf="@+id/product_tv"
             app:layout_constraintBottom_toBottomOf="@+id/product_tv" />
 
@@ -102,6 +105,7 @@
             android:text="상품명"
             android:textSize="12sp"
             android:textStyle="bold"
+            android:textColor="#111111"
             app:layout_constraintStart_toStartOf="@+id/product_tv"
             app:layout_constraintTop_toBottomOf="@+id/product_tv" />
 
@@ -132,6 +136,7 @@
             android:text="제품유형"
             android:textSize="12sp"
             android:textStyle="bold"
+            android:textColor="#111111"
             app:layout_constraintStart_toStartOf="@+id/what_product_name_tv"
             app:layout_constraintTop_toBottomOf="@+id/vector_bar_iv" />
 
@@ -162,6 +167,7 @@
             android:text="제조국"
             android:textSize="12sp"
             android:textStyle="bold"
+            android:textColor="#111111"
             app:layout_constraintStart_toStartOf="@+id/what_product_name_tv"
             app:layout_constraintTop_toBottomOf="@+id/vector_bar2_iv" />
 
@@ -189,9 +195,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="TextView"
+            android:text="사용방법"
             android:textSize="12sp"
             android:textStyle="bold"
+            android:textColor="#111111"
             app:layout_constraintStart_toStartOf="@+id/what_product_name_tv"
             app:layout_constraintTop_toBottomOf="@+id/vector_bar3_iv" />
 
@@ -202,6 +209,7 @@
             android:layout_marginTop="6dp"
             android:text="X"
             android:textSize="11sp"
+            android:paddingBottom="20dp"
             app:layout_constraintStart_toStartOf="@+id/what_product_use_tv"
             app:layout_constraintTop_toBottomOf="@+id/what_product_use_tv" />
 

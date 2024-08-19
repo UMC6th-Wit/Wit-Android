@@ -56,17 +56,12 @@
             android:theme="@style/LoginTheme" >
         </activity>
         <activity
-            android:name=".DetailActivity"
+            android:name=".home.ProductDetailActivity"
             android:exported="false" />
         <activity
             android:name=".wish.FolderActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".home.ProductDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".home.ReviewMinActivity"
-            android:exported="false" />
+
         <activity
             android:name=".home.CustomActivity"
             android:exported="true"
@@ -83,6 +78,10 @@
             android:name=".home.ranking.RankingActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionbar.Translucent" />
+
+        <activity android:name=".product.ReviewMinActivity"/>
+        <activity android:name=".product.ReviewZeroActivity"/>
+
     </application>
 
 </manifest>
