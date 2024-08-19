@@ -1,52 +1,50 @@
-package com.umc.umc_6th_wit_android.product
+package com.umc.umc_6th_wit_android.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.umc.umc_6th_wit_android.PriceActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentProductDetailBinding
+import com.umc.umc_6th_wit_android.product.ReviewMinFragment
+import com.umc.umc_6th_wit_android.product.ReviewZeroFragment
 
 class ProductDetailFragment : Fragment() {
 
-    lateinit var binding: FragmentProductDetailBinding
-    private var isHelpIv = false
+    private var _binding: FragmentProductDetailBinding? = null
+    private val binding get() = _binding!!
+
+    private var reviewCount: Int = 0 // 현재 리뷰 개수, 페이지 로딩 시 마다
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentProductDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentProductDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //button 같은 UI 초기화 부분 작성
-        binding.comparisonBtnIv.setOnClickListener {
-            val intent = Intent(activity, PriceActivity::class.java)
-            startActivity(intent)
-        }
 
-        binding.heartBtnIv.setOnClickListener {
-            // 하트 버튼 이미지 변경 로직
-            if (isHelpIv) {
-                binding.heartBtnIv.setImageResource(R.drawable.heart_btn_empty_image)
+        binding.productReviewSelectTv.setOnClickListener {
+            val fragment = if (reviewCount == 0) {
+                ReviewZeroFragment()  // ReviewZeroFragment로 이동
             } else {
-                binding.heartBtnIv.setImageResource(R.drawable.heart_btn_full_image)
+                ReviewMinFragment()  // ReviewMinFragment로 이동
             }
-            isHelpIv = !isHelpIv //하트 버튼 상태 변경
 
-            //DB 하트 숫자 변경
-
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_product_detail, fragment)  // fragment_container = 현재 프래그먼트를 표시하는 뷰의 ID
+                .addToBackStack(null)  // 뒤로 가기 버튼을 사용하여 이전 프래그먼트로 돌아가기
+                .commit()
         }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
     }
 }

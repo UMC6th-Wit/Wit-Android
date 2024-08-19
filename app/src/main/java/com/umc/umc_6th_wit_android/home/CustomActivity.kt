@@ -9,7 +9,6 @@ import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.CategoryDao
 import com.umc.umc_6th_wit_android.data.local.CategoryDto
 import com.umc.umc_6th_wit_android.databinding.ActivityCustomBinding
-import com.umc.umc_6th_wit_android.home.ranking.RankingCategoryRVAdapter
 
 class CustomActivity : AppCompatActivity() {
     lateinit var binding: ActivityCustomBinding
@@ -33,7 +32,7 @@ class CustomActivity : AppCompatActivity() {
         val adapter = CustomRVAdapter(items)
         adapter.setOnItemClickListener(object : CustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
-                val intent = Intent(this@CustomActivity, ProductDetailActivity::class.java)
+                val intent = Intent(this@CustomActivity, ProductDetailFragment::class.java)
                 startActivity(intent)
 //                changeActivity(items[position])
             }
