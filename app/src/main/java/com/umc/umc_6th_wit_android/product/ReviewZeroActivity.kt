@@ -26,5 +26,6 @@ class ReviewZeroActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
     }
 }
