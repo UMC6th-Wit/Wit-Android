@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentReviewMinBinding
+import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 
 class ReviewMinFragment : Fragment() {
 
@@ -25,6 +26,15 @@ class ReviewMinFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.productDetailSelectTv.setOnClickListener {
+            val fragment = ProductDetailFragment()
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_product_detail, fragment)  // fragment_container = 현재 프래그먼트를 표시하는 뷰의 ID
+                .addToBackStack(null)  // 뒤로 가기 버튼을 사용하여 이전 프래그먼트로 돌아가기
+                .commit()
+        }
 
         binding.goToReviewBtnIv.setOnClickListener {
             val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)

@@ -18,7 +18,7 @@ class ProductDetailActivity : AppCompatActivity() {
         binding = ActivityProductDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //프레그먼트 넣는 코드 작성해야함, 이미지 버튼 클릭 시 다른 프레그먼트로 변경하는 부분도!
+        //Activity 내에 Fragment 적용
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_product_detail, ProductDetailFragment())
