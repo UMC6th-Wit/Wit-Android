@@ -133,7 +133,7 @@
             android:id="@+id/where_widget1_iv"
             android:layout_width="10dp"
             android:layout_height="14dp"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="@+id/currency_yen_iv"
             app:layout_constraintTop_toBottomOf="@+id/vector_bar_iv"
             app:srcCompat="@drawable/where_widget_image" />
@@ -172,7 +172,7 @@
             android:layout_width="0dp"
             android:layout_height="42dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/comparison_btn_iv"
             app:layout_constraintTop_toBottomOf="@+id/where_widget1_iv"
@@ -180,7 +180,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintWidth_default="spread"
             app:layout_constraintWidth_percent="0.5"
-            app:srcCompat="@drawable/keep_btn_image" />
+            android:src="@drawable/keep_btn_image" />
 
         <ImageView
             android:id="@+id/comparison_btn_iv"
@@ -198,7 +198,7 @@
             android:id="@+id/vectar_back_iv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
