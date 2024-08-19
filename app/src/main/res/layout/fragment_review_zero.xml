@@ -106,5 +106,15 @@
             app:layout_constraintTop_toBottomOf="@+id/no_review_tv"
             app:srcCompat="@drawable/go_to_review_write_btn_image"
             tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/padding_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/go_to_review_write_iv"
+            app:layout_constraintStart_toStartOf="@+id/go_to_review_write_iv"
+            app:layout_constraintTop_toBottomOf="@+id/go_to_review_write_iv" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

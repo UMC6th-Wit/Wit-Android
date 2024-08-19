@@ -15,7 +15,7 @@ class ProductDetailFragment : Fragment() {
     private var _binding: FragmentProductDetailBinding? = null
     private val binding get() = _binding!!
 
-    private var reviewCount: Int = 0 // 현재 리뷰 개수, 페이지 로딩 시 마다
+    private var reviewCount: Int = 2 // 현재 리뷰 개수, 페이지 로딩 시 마다
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
