@@ -19,8 +19,8 @@ data class WishItemResult(
 )
 
 data class WishBoardResponse(
-    @SerializedName("isSuccess") val isSuccess: Boolean,
-    @SerializedName("code") val code: String,
+//    @SerializedName("isSuccess") val isSuccess: Boolean,
+//    @SerializedName("code") val code: String,
     @SerializedName("message") val message: String,
     @SerializedName("data") val data: WishBoardItemResult
 )
@@ -43,4 +43,9 @@ data class WishBoardDeleteResponse(
     @SerializedName("isSuccess") val isSuccess: Boolean,
     @SerializedName("code") val code: String,
     @SerializedName("message") val message: String
+)
+
+data class WishListCreateRequest(
+    val product_ids: List<Int>,
+    val folder_name: String
 )
