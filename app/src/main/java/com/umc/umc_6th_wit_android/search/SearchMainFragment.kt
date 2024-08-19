@@ -22,6 +22,7 @@ class SearchMainFragment  : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
         binding = FragmentSearchMainBinding.inflate(inflater, container, false)
 
         //test data

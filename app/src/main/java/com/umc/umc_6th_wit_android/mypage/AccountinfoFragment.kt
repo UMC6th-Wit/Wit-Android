@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -98,6 +99,8 @@ class AccountinfoFragment : Fragment() {
         binding.accountinfoBox.setOnClickListener {
             openGallery()
         }
+        binding.accountinfoProfilIv.scaleType = ImageView.ScaleType.CENTER_INSIDE
+
 
         return binding.root
     }

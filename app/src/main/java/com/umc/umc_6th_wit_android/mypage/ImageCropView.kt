@@ -35,6 +35,7 @@ class ImageCropView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
         return (this * density).toInt()
     }
 
+
     init {
         imageView = ImageView(context).apply {
             layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
@@ -66,7 +67,7 @@ class ImageCropView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
             .into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     bitmap = resource
-                    imageView.setImageBitmap(scaleBitmapToCenterInside(resource))
+                    imageView.setImageBitmap(scaleBitmapToFitView(resource))
                     invalidate()
                 }
 
@@ -75,42 +76,35 @@ class ImageCropView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
             })
     }
 
-    private fun scaleBitmapToCenterInside(bitmap: Bitmap): Bitmap {
+    private fun scaleBitmapToFitView(bitmap: Bitmap): Bitmap {
         val viewWidth = imageView.width.toFloat()
         val viewHeight = imageView.height.toFloat()
 
         val bitmapWidth = bitmap.width.toFloat()
         val bitmapHeight = bitmap.height.toFloat()
 
-        // 비율 계산
+        // 비율 계산: ImageView의 크기에 맞추어 이미지를 확대
         val widthRatio = viewWidth / bitmapWidth
         val heightRatio = viewHeight / bitmapHeight
-        val scale = minOf(widthRatio, heightRatio)
 
-        // 새로운 크기 계산
+        // 이미지가 작을 경우 강제로 ImageView의 크기에 맞추어 확대
+        val scale = maxOf(widthRatio, heightRatio) // 더 큰 비율로 확대하여 이미지가 꽉 차게 함
+
+        // 확대된 크기 계산
         val scaledWidth = (bitmapWidth * scale).toInt()
         val scaledHeight = (bitmapHeight * scale).toInt()
 
-        // 중앙에 이미지 배치
-        val left = (viewWidth - scaledWidth) / 2
-        val top = (viewHeight - scaledHeight) / 2
+        // 로그 출력: 크기 확인
+        Log.d("ImageCropView", "Scaled Bitmap Size: width=$scaledWidth, height=$scaledHeight")
 
-        // 새로운 비트맵 생성
-        val output =
-            Bitmap.createBitmap(viewWidth.toInt(), viewHeight.toInt(), Bitmap.Config.ARGB_8888)
+        // 중앙에 이미지 배치 (확대된 이미지)
+        val output = Bitmap.createBitmap(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(output)
-        val paint = Paint().apply {
-            isAntiAlias = true
-        }
+        val paint = Paint().apply { isAntiAlias = true }
 
         // 배경 초기화
-        canvas.drawARGB(255, 0, 0, 0) // 완전 검은색으로 초기화
-        canvas.drawBitmap(
-            bitmap,
-            null,
-            RectF(left, top, left + scaledWidth, top + scaledHeight),
-            paint
-        )
+        canvas.drawARGB(255, 0, 0, 0) // 검은색으로 초기화
+        canvas.drawBitmap(bitmap, null, RectF(0f, 0f, scaledWidth.toFloat(), scaledHeight.toFloat()), paint)
 
         return output
     }
@@ -143,7 +137,7 @@ class ImageCropView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
                     val offsetX = touchX - lastTouchX
                     val offsetY = touchY - lastTouchY
 
-                    // 가로 길이를 기준으로 1:1 비율 조절
+                    // 가로 길이를 기준으로 1:1 비율 유지
                     if (lastTouchX in cropRect.left..cropRect.left + borderSize) {
                         resizeLeft(offsetX, touchX, touchY)
                         return true
@@ -176,11 +170,13 @@ class ImageCropView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
     private fun resizeLeft(change: Float, touchX: Float? = null, touchY: Float? = null) {
         val newLeft = cropRect.left + change
         val newWidth = cropRect.width() - change
-        val newHeight = newWidth // 1:1 비율 유지
+
+        // 1:1 비율을 유지하기 위해 높이도 동일하게 조정
+        val newHeight = newWidth // 정사각형 비율 유지
 
         if (newWidth in minWidth..imageView.width.toFloat() && newHeight in minHeight..imageView.height.toFloat()) {
             cropRect.left = newLeft
-            cropRect.top = cropRect.bottom - newHeight // 비율 유지
+            cropRect.top = cropRect.bottom - newHeight // 1:1 비율 유지
             invalidate()
         }
 
@@ -190,11 +186,13 @@ class ImageCropView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
     private fun resizeRight(change: Float, touchX: Float? = null, touchY: Float? = null) {
         val newRight = cropRect.right + change
         val newWidth = cropRect.width() + change
-        val newHeight = newWidth // 1:1 비율 유지
+
+        // 1:1 비율을 유지하기 위해 높이도 동일하게 조정
+        val newHeight = newWidth // 정사각형 비율 유지
 
         if (newWidth in minWidth..imageView.width.toFloat() && newHeight in minHeight..imageView.height.toFloat()) {
             cropRect.right = newRight
-            cropRect.bottom = cropRect.top + newHeight // 비율 유지
+            cropRect.bottom = cropRect.top + newHeight // 1:1 비율 유지
             invalidate()
         }
 
@@ -204,11 +202,13 @@ class ImageCropView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
     private fun resizeTop(change: Float, touchX: Float? = null, touchY: Float? = null) {
         val newTop = cropRect.top + change
         val newHeight = cropRect.height() - change
-        val newWidth = newHeight // 1:1 비율 유지
+
+        // 1:1 비율을 유지하기 위해 너비도 동일하게 조정
+        val newWidth = newHeight // 정사각형 비율 유지
 
         if (newHeight in minHeight..imageView.height.toFloat() && newWidth in minWidth..imageView.width.toFloat()) {
             cropRect.top = newTop
-            cropRect.left = cropRect.right - newWidth // 비율 유지
+            cropRect.left = cropRect.right - newWidth // 1:1 비율 유지
             invalidate()
         }
 
@@ -218,16 +218,19 @@ class ImageCropView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
     private fun resizeBottom(change: Float, touchX: Float? = null, touchY: Float? = null) {
         val newBottom = cropRect.bottom + change
         val newHeight = cropRect.height() + change
-        val newWidth = newHeight // 1:1 비율 유지
+
+        // 1:1 비율을 유지하기 위해 너비도 동일하게 조정
+        val newWidth = newHeight // 정사각형 비율 유지
 
         if (newHeight in minHeight..imageView.height.toFloat() && newWidth in minWidth..imageView.width.toFloat()) {
             cropRect.bottom = newBottom
-            cropRect.right = cropRect.left + newWidth // 비율 유지
+            cropRect.right = cropRect.left + newWidth // 1:1 비율 유지
             invalidate()
         }
 
         updateLastTouch(touchX, touchY)
     }
+
 
     private fun moveRect(offsetX: Float, offsetY: Float, touchX: Float, touchY: Float) {
         val newLeft = cropRect.left + offsetX
@@ -252,31 +255,47 @@ class ImageCropView(context: Context, attrs: AttributeSet) : ConstraintLayout(co
         }
     }
 
-
-
     fun getCroppedBitmap(): Bitmap? {
         bitmap?.let {
+            // 이미지의 실제 크기와 ImageView에서의 크기 차이를 계산
             val scaleX = it.width.toFloat() / imageView.width.toFloat()
             val scaleY = it.height.toFloat() / imageView.height.toFloat()
 
-            try {
-                // 크롭 영역을 원본 이미지의 비율로 변환
-                val left = (cropRect.left * scaleX).toInt()
-                val top = (cropRect.top * scaleY).toInt()
-                val right = (cropRect.right * scaleX).toInt()
-                val bottom = (cropRect.bottom * scaleY).toInt()
+            // 사용된 스케일 값을 적용
+            val scale = minOf(scaleX, scaleY)
 
-                // 정사각형 비율 유지 확인
-                val size = Math.min(right - left, bottom - top)
+            // 이미지가 ImageView에서 중앙에 맞춰 보여지는 부분을 반영한 크롭 영역 계산
+            val displayedImageWidth = (imageView.width * scaleX).toInt()
+            val displayedImageHeight = (imageView.height * scaleY).toInt()
 
-                return Bitmap.createBitmap(it, left, top, size, size)
-            } catch (e: Exception) {
-                Log.e("confirm getCroppedBitmap Error", "${e.message}")
+            // 크롭 영역 설정 (중앙 정렬된 정사각형 영역)
+            val cropSize = minOf(displayedImageWidth, displayedImageHeight).toInt()
+            val left = ((it.width - cropSize) / 2).coerceAtLeast(0)
+            val top = ((it.height - cropSize) / 2).coerceAtLeast(0)
+
+            if (cropSize > 0) {
+                // 크롭된 이미지를 생성 (정사각형으로 설정)
+                val croppedBitmap = Bitmap.createBitmap(it, left, top, cropSize, cropSize)
+
+                // 100dp를 픽셀로 변환
+                val widthInPx = 100.dpToPx(context)
+                val heightInPx = 100.dpToPx(context)
+
+                // 크롭된 이미지를 100dp x 100dp로 리사이즈
+                val resizedBitmap = Bitmap.createScaledBitmap(croppedBitmap, widthInPx, heightInPx, true)
+
+                // 로그 출력: 리사이즈된 이미지 크기 확인
+                Log.d("ImageCropView", "Resized Bitmap Size: width=${resizedBitmap.width}, height=${resizedBitmap.height}")
+
+                return resizedBitmap
+            } else {
+                Log.e("ImageCropView", "Invalid crop size")
                 return null
             }
         }
         return null
     }
+
 
 
 

@@ -1,4 +1,5 @@
 package com.umc.umc_6th_wit_android
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.umc.umc_6th_wit_android.home.HomeFragment
@@ -7,6 +8,7 @@ import com.umc.umc_6th_wit_android.databinding.ActivityMainBinding
 import com.umc.umc_6th_wit_android.list.ListFragment
 import com.umc.umc_6th_wit_android.mypage.MypageFragment
 import com.umc.umc_6th_wit_android.search.SearchFragment
+import com.umc.umc_6th_wit_android.search.SearchMainFragment
 import com.umc.umc_6th_wit_android.wish.WishFragment
 import com.umc.umc_6th_wit_android.wish.WishListFragment
 
@@ -25,6 +27,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         initBottomNavigation()
+
+        // Intent를 통해 HomeFragment로 이동해야 하는지 확인
+        if (intent.getBooleanExtra("navigateToHome", false)) {
+            selectHomeFragment()  // HomeFragment로 이동
+        }
 
     }
 
@@ -48,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.searchFragment -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frm, SearchFragment())
+                        .replace(R.id.main_frm, SearchMainFragment())
                         .commitAllowingStateLoss()
                     return@setOnItemSelectedListener true
                 }
@@ -105,4 +112,13 @@ class MainActivity : AppCompatActivity() {
             .commitAllowingStateLoss()
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        // Intent에서 navigateToHome 플래그가 설정되어 있으면 HomeFragment로 전환
+        intent?.let {
+            if (it.getBooleanExtra("navigateToHome", false)) {
+                selectHomeFragment()  // HomeFragment로 이동
+            }
+        }
+    }
 }
