@@ -87,7 +87,7 @@
             app:layout_constraintHorizontal_bias="0.985"
             app:layout_constraintStart_toEndOf="@+id/product_name_tv"
             app:layout_constraintTop_toBottomOf="@+id/product_detail_img"
-            app:srcCompat="@drawable/heart_btn_image" />
+            app:srcCompat="@drawable/heart_btn_empty_image" />
 
         <TextView
             android:id="@+id/heart_btn_tv"

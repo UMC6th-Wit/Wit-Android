@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.umc.umc_6th_wit_android.PriceActivity
+import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentProductDetailBinding
 
 class ProductDetailFragment : Fragment() {
 
     lateinit var binding: FragmentProductDetailBinding
+    private var isHelpIv = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -27,6 +30,19 @@ class ProductDetailFragment : Fragment() {
         binding.comparisonBtnIv.setOnClickListener {
             val intent = Intent(activity, PriceActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.heartBtnIv.setOnClickListener {
+            // 하트 버튼 이미지 변경 로직
+            if (isHelpIv) {
+                binding.heartBtnIv.setImageResource(R.drawable.heart_btn_empty_image)
+            } else {
+                binding.heartBtnIv.setImageResource(R.drawable.heart_btn_full_image)
+            }
+            isHelpIv = !isHelpIv //하트 버튼 상태 변경
+
+            //DB 하트 숫자 변경
+
         }
     }
 

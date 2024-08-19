@@ -1,4 +1,4 @@
-package com.umc.umc_6th_wit_android.home
+package com.umc.umc_6th_wit_android.product
 
 import android.os.Bundle
 import android.text.Editable
