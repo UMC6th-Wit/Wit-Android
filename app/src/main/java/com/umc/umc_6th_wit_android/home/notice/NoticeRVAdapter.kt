@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.umc.umc_6th_wit_android.data.local.NoticeDto
+import com.umc.umc_6th_wit_android.data.remote.notice.Notice
 import com.umc.umc_6th_wit_android.databinding.ItemNoticeBinding
 
-class NoticeRVAdapter (val items : ArrayList<NoticeDto>)
+class NoticeRVAdapter (val items :List<Notice>)
 : RecyclerView.Adapter<NoticeRVAdapter.PopupViewHolder>() {
     val TAG = "NoticeRVAdapter"
 
@@ -21,8 +21,11 @@ class NoticeRVAdapter (val items : ArrayList<NoticeDto>)
     }
 
     override fun onBindViewHolder(holder: PopupViewHolder, position: Int) {
-        holder.itemBinding.noticeTv.text = items[position].title
-        holder.itemBinding.noticeTimeTv.text = items[position].date
+        holder.itemBinding.noticeTitleTv.text = "[${items[position].title}]"
+        holder.itemBinding.noticeContentTv.text = items[position].content
+        val dateTime = items[position].createdAt
+        val date = dateTime.substringBefore("T")
+        holder.itemBinding.noticeTimeTv.text = date
     }
 
     inner class PopupViewHolder(val itemBinding: ItemNoticeBinding) :

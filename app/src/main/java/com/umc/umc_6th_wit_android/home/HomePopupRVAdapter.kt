@@ -1,6 +1,5 @@
 package com.umc.umc_6th_wit_android.home
 
-import android.R
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +22,7 @@ class HomePopupRVAdapter (val items : ArrayList<PopupDto>)
 
     override fun onBindViewHolder(holder: PopupViewHolder, position: Int) {
         holder.itemBinding.popupTv.text = items[position].title
-        holder.itemBinding.popupTimeTv.text = items[position].time.toString() + "시간 전"
+        holder.itemBinding.popupTimeTv.text = items[position].time
 
         // 삭제 버튼 클릭 리스너 설정
         holder.itemBinding.popupDeleteIv.setOnClickListener {
