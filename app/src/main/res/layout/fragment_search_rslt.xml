@@ -62,7 +62,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:text="총 10개"
+        android:text=""
         android:textSize="16sp"
         android:gravity="center"
         android:textColor="@color/black"

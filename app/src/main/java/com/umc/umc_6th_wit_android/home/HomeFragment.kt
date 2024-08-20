@@ -65,8 +65,8 @@ class HomeFragment : Fragment(), HomePopupRVAdapter.OnItemRemovedListener {
 
         val panelAdapter = PanelVPAdapter(this)
         panelAdapter.addFragment(PanelFragment(R.drawable.panel1, "일본여행 기념품으로\n꼭 사야한다는 화제의 디저트", "먼작귀 X 도쿄바나나"))
-        panelAdapter.addFragment(PanelFragment(R.drawable.panel1, "일본여행 기념품으로\n꼭 사야한다는 화제의 디저트", "먼작귀 X 도쿄바나나"))
-        panelAdapter.addFragment(PanelFragment(R.drawable.panel1, "일본여행 기념품으로\n꼭 사야한다는 화제의 디저트", "먼작귀 X 도쿄바나나"))
+        panelAdapter.addFragment(PanelFragment(R.drawable.panel2, "도쿄에서만 맛 볼 수 있는\n치즈의 풍미가 느껴지는 소금 쿠키", "밀크 치즈팩토리 쿠키"))
+        panelAdapter.addFragment(PanelFragment(R.drawable.panel3, "여름에만 한정판으로\n출시된다는 새로운 맛은?", "일본 로이스 초콜릿"))
         binding.homePanelVp.adapter = panelAdapter
         binding.homePanelVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         // Indicator에 viewPager 설정
@@ -76,9 +76,9 @@ class HomeFragment : Fragment(), HomePopupRVAdapter.OnItemRemovedListener {
         startAutoSlide(panelAdapter)
 
         // 팝업 아이템 초기화
-        items.add(PopupDto("위트 서비스 및 이용 가이드 안내",9))
-        items.add(PopupDto("위트 서비스 및 이용 가이드 안내",9))
-        items.add(PopupDto("위트 서비스 및 이용 가이드 안내",9))
+        items.add(PopupDto("맛도리 신규 추천템을 확인해보세요!","20분 전"))
+        items.add(PopupDto("위트 서비스 및 이용 가이드 안내","5시간 전"))
+        items.add(PopupDto("찜한 아이템에 대한 새로운 리뷰를 확인해 보세요!","8시간 전"))
 
         // 리사이클러뷰 설정
         val adapter = HomePopupRVAdapter(items)
@@ -114,11 +114,13 @@ class HomeFragment : Fragment(), HomePopupRVAdapter.OnItemRemovedListener {
             binding.tv.visibility = View.GONE
         }
     }
-    // 아이템 제거 콜백 메서드
+
+    // 아이템 제거 콜백 메서드//알람 몇개 있는지 나타낼 때 필요
     override fun onItemRemoved(newCount: Int) {
         // alarm_num TextView 또는 다른 UI 요소 업데이트
         binding.alarmNum.text = newCount.toString()
         binding.alarmNumCv.visibility = if (items.size > 0) View.VISIBLE else View.GONE
+        binding.tv.visibility = if (items.size > 0) View.GONE else View.VISIBLE
     }
 
     private fun updateItemCount() {
