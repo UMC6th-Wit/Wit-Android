@@ -90,4 +90,6 @@ dependencies {
     implementation("com.navercorp.nid:oauth-jdk8:5.9.1") // jdk 8
 
 
+    //String 형태의 URL은 사용할 수 없음.Glide 필요
+    implementation ("com.github.bumptech.glide:glide:4.15.1")
 }
