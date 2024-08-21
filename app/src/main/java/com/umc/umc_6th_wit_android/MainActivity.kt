@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity() {
 
         // TokenManager에서 userId를 불러와 SharedViewModel에 설정
         val userId = tokenManager.getUserId()
-        Log.d("MainActivity", "userId: $userId")
+        val refreshToken = tokenManager.getRefreshToken()
+        Log.d("MainActivity", "userId: $userId, refreshToken: $refreshToken")
 
         this.window.apply {
             statusBarColor = resources.getColor(R.color.color_translate, null)
