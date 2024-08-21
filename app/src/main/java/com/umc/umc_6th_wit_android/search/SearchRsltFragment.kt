@@ -2,6 +2,7 @@ package com.umc.umc_6th_wit_android.search
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,16 +10,17 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.GridLayoutManager
 import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.data.local.CategoryDao
-import com.umc.umc_6th_wit_android.data.local.CategoryDto
+import com.umc.umc_6th_wit_android.data.remote.search.SearchResult
+import com.umc.umc_6th_wit_android.data.remote.search.SearchService
+import com.umc.umc_6th_wit_android.data.remote.search.Souvenir
 import com.umc.umc_6th_wit_android.databinding.FragmentSearchRsltBinding
 import com.umc.umc_6th_wit_android.home.CustomRVAdapter
-import com.umc.umc_6th_wit_android.home.ProductDetailFragment
+import com.umc.umc_6th_wit_android.product.ProductDetailActivity
 
-class SearchRsltFragment : Fragment() {
+
+class SearchRsltFragment : Fragment(), SearchRsltView {
     lateinit var binding: FragmentSearchRsltBinding
     private var searchQuery: String? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,28 +31,6 @@ class SearchRsltFragment : Fragment() {
         // arguments에서 검색어 데이터 가져오기
         searchQuery = arguments?.getString("searchQuery")
         binding.etSearch.setText(searchQuery)
-
-        val items = CategoryDao().items
-
-        //test data
-        items.add(CategoryDto(R.drawable.category1, "도쿄 돈키호테", "포테이토 칩스 우스시오 아지", "367¥", "3151₩", false))
-        items.add(CategoryDto(R.drawable.category1, "도쿄 돈키호테", "포테이토 칩스 우스시오 아지", "367¥", "3151₩", false))
-        items.add(CategoryDto(R.drawable.category1, "도쿄 돈키호테", "포테이토 칩스 우스시오 아지", "367¥", "3151₩", false))
-        items.add(CategoryDto(R.drawable.category1, "도쿄 돈키호테", "포테이토 칩스 우스시오 아지", "367¥", "3151₩", false))
-        items.add(CategoryDto(R.drawable.category1, "도쿄 돈키호테", "포테이토 칩스 우스시오 아지", "367¥", "3151₩", false))
-        items.add(CategoryDto(R.drawable.category1, "도쿄 돈키호테", "포테이토 칩스 우스시오 아지", "367¥", "3151₩", false))
-        items.add(CategoryDto(R.drawable.category1, "도쿄 돈키호테", "포테이토 칩스 우스시오 아지", "367¥", "3151₩", false))
-
-        val adapter = CustomRVAdapter(items)
-        adapter.setOnItemClickListener(object : CustomRVAdapter.OnItemClickListener{
-            override fun onItemClick(view: View, position: Int) {
-                val intent = Intent(activity, ProductDetailFragment::class.java)
-                startActivity(intent)
-//                changeActivity(items[position])
-            }
-        })
-        binding.rsltRv.adapter = adapter
-        binding.rsltRv.layoutManager  = GridLayoutManager(context, 2)
 
 
         binding.ivReset.setOnClickListener {
@@ -99,5 +79,51 @@ class SearchRsltFragment : Fragment() {
             .replace(R.id.main_frm, fragment) // 프래그먼트를 교체할 컨테이너의 ID
             .addToBackStack(null) // 백스택에 추가하여 뒤로가기 시 이전 화면으로 돌아감
             .commit()
+    }
+    override fun onResume() {
+        super.onResume()
+        getSearches()
+    }
+    private fun getSearches() {
+        val searchService = SearchService(requireContext())
+        searchService.setSearchRsltView(this)
+
+        searchService.getSearches(searchQuery)
+    }
+    private fun initRecyclerView(result: SearchResult) {
+        // ArrayList 초기화
+        var items: ArrayList<Souvenir> = ArrayList()
+
+        /*// 임의 test data 추가
+        items.add(Souvenir(1,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
+        items.add(Souvenir(2,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
+        items.add(Souvenir(3,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
+        items.add(Souvenir(4,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
+        items.add(Souvenir(5,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
+        items.add(Souvenir(6,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
+        items.add(Souvenir(7,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
+        items.add(Souvenir(8,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
+*/
+        // result.souvenirs 데이터를 사용하려면 아래 주석을 해제합니다.
+         items = ArrayList(result.souvenirs)
+        val adapter = CustomRVAdapter(items)
+        adapter.setOnItemClickListener(object : CustomRVAdapter.OnItemClickListener{
+            override fun onItemClick(view: View, position: Int) {
+                val intent = Intent(activity, ProductDetailActivity::class.java)
+                startActivity(intent)
+//                changeActivity(items[position])
+            }
+        })
+        binding.rsltRv.adapter = adapter
+        binding.rsltRv.layoutManager  = GridLayoutManager(context, 2)
+    }
+    override fun onGetSearchSuccess(code: String, result: SearchResult) {
+        Log.d("SEARCH-SUCCESS", code + result.souvenirs)
+        initRecyclerView(result)
+        binding.totalTv.text = "총 ${result.total}개"
+    }
+
+    override fun onGetSearchFailure(code: String, message: String) {
+        Log.d("SEARCH-FAILURE", code)
     }
 }

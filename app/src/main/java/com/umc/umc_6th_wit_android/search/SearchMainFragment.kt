@@ -2,6 +2,7 @@ package com.umc.umc_6th_wit_android.search
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +13,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
+import com.umc.umc_6th_wit_android.data.remote.search.SearchService
 import com.umc.umc_6th_wit_android.databinding.FragmentSearchMainBinding
 
-class SearchMainFragment  : Fragment() {
+class SearchMainFragment  : Fragment(), SearchMainView {
     lateinit var binding: FragmentSearchMainBinding
-    private val items = ArrayList<String>()
+    private var items = ArrayList<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,40 +27,11 @@ class SearchMainFragment  : Fragment() {
         (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
         binding = FragmentSearchMainBinding.inflate(inflater, container, false)
 
-        //test data
-        items.add("이브 진통제")
-        items.add("이브 진통제")
-        items.add("이브 진통제")
-        items.add("이브 진통제")
-
-        val adapter = SearchRVAdapter(items)
-        adapter.setOnItemClickListener(object : SearchRVAdapter.OnItemClickListener{
-            override fun onItemClick(view: View, position: Int) {
-                changedFragment(items[position])
-            }
-        })
-        binding.searchRv.adapter = adapter
-        binding.searchRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
-
         binding.removeTv.setOnClickListener {
             binding.recentCl.visibility = View.GONE
+            deleteRecentSearches("")
+            //전체 최근 검색어 삭제 api 호출
         }
-        
-        val popular_tags: List<String> = mutableListOf("초콜릿", "향수", "립스틱", "팔찌", "비누", "커피", "마스크팩","비타민","젤리","과자")
-
-        // 인기 태그를 텍스트 뷰에 설정
-        val nameViews = listOf(binding.name1, binding.name2, binding.name3, binding.name4, binding.name5,
-            binding.name6, binding.name7, binding.name8, binding.name9, binding.name10)
-
-        for (i in popular_tags.indices) {
-            if (i < nameViews.size) {
-                nameViews[i].text = popular_tags[i]
-                nameViews[i].setOnClickListener {
-                    changedFragment(popular_tags[i])
-                }
-            }
-        }
-
 
         //검색창 엔터키 눌렀을 때
         binding.etSearch.setOnEditorActionListener { textView, actionId, keyEvent ->
@@ -93,6 +66,51 @@ class SearchMainFragment  : Fragment() {
         }
 
         return binding.root
+    }
+    private fun initRecentSearchRV(result: List<String>) {
+/*        //test data
+        items.add("이브 진통제")
+        items.add("이브 진통제")
+        items.add("이브 진통제")
+        items.add("이브 진통제")*/
+
+        //api data
+        items = ArrayList(result)
+
+
+        val adapter = SearchRVAdapter(items)
+        adapter.setOnItemClickListener(object : SearchRVAdapter.OnItemClickListener{
+            override fun onItemClick(view: View, position: Int) {
+                changedFragment(items[position])
+            }
+        })
+        adapter.setOnDeleteClickListener(object : SearchRVAdapter.OnDeleteClickListener{
+            override fun onDeleteClick(view: View, position: Int) {
+                Log.d("keyword", items[position])
+                deleteRecentSearches(items[position])
+                getSearch()
+            }
+
+        })
+        binding.searchRv.adapter = adapter
+        binding.searchRv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
+    }
+    private fun initPopularSearch(result: List<String>) {
+        //임의 data
+//        val popular_tags: List<String> = mutableListOf("초콜릿", "향수", "립스틱", "팔찌", "비누", "커피", "마스크팩","비타민","젤리","과자")
+//
+        // 인기 태그를 텍스트 뷰에 설정
+        val nameViews = listOf(binding.name1, binding.name2, binding.name3, binding.name4, binding.name5,
+            binding.name6, binding.name7, binding.name8, binding.name9, binding.name10)
+
+        for (i in result.indices) {
+            if (i < nameViews.size) {
+                nameViews[i].text = result[i]
+                nameViews[i].setOnClickListener {
+                    changedFragment(result[i])
+                }
+            }
+        }
     }
     private fun changedFragment(searchQuery : String){
 //        binding.etSearch.setText(searchQuery)//다시 서치메인으로 돌아올 때 적혀있어야 함.
@@ -138,5 +156,51 @@ class SearchMainFragment  : Fragment() {
                 (activity as? MainActivity)?.selectHomeFragment()
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getSearch()
+    }
+    private fun getSearch() {
+        val searchService = SearchService(requireContext())
+        searchService.setSearchMainView(this)
+
+        searchService.getRecentSearches()//임의
+        searchService.getPopularSearches()
+    }
+    private fun deleteRecentSearches(keyWord : String) {
+        val searchService = SearchService(requireContext())
+        searchService.setSearchMainView(this)
+
+        searchService.deleteRecentSearches(keyWord!!)//임시 유저 아이디
+    }
+    override fun onGetRecentSearchSuccess(code: String, result: List<String>) {
+        Log.d("RECENT-SEARCH-SUCCESS", code + result)
+        initRecentSearchRV(result)
+        if(result.size === 0){
+            binding.recentCl.visibility = View.GONE
+        }
+    }
+
+    override fun onGetRecentSearchFailure(code: String, message: String) {
+        Log.d("RECENT-SEARCH-FAILURE", code)
+    }
+
+    override fun onDeleteRecentSearchSuccess(code: String, message: String) {
+        Log.d("RECENT-DELETE-SUCCESS", code + message)
+    }
+
+    override fun onDeleteRecentSearchFailure(code: String, message: String) {
+        Log.d("RECENT-DELETE-FAILURE", code + message)
+    }
+
+    override fun onGetPopularSearchSuccess(code: String, result: List<String>) {
+        Log.d("POPULAR-SEARCH-SUCCESS", code)
+        initPopularSearch(result)
+    }
+
+    override fun onGetPopularSearchFailure(code: String, message: String) {
+        Log.d("POPULAR-SEARCH-FAILURE", code)
     }
 }

@@ -23,15 +23,16 @@ class SearchRVAdapter (val items : ArrayList<String>)
 
         // 삭제 버튼 클릭 리스너 설정
         holder.itemBinding.deleteBtn.setOnClickListener {
-            removeItem(position)
+            deleteClickListener?.onDeleteClick(it, position)
+//            removeItem(position)
         }
     }
     // 아이템 삭제 메서드
-    private fun removeItem(position: Int) {
+/*    private fun removeItem(position: Int) {
         items.removeAt(position) // 리스트에서 아이템 제거
         notifyItemRemoved(position) // 어댑터에 변경 사항 알림
         notifyItemRangeChanged(position, items.size) // 나머지 아이템의 위치 변경 알림
-    }
+    }*/
     inner class SearchViewHolder(val itemBinding: ItemSearchBinding)
         : RecyclerView.ViewHolder(itemBinding.root) {
         init {
@@ -66,5 +67,13 @@ class SearchRVAdapter (val items : ArrayList<String>)
 
     fun setOnItemClickListener(listener: OnItemClickListener?) {
         this.listener = listener
+    }
+
+    var deleteClickListener : OnDeleteClickListener? = null
+    interface OnDeleteClickListener {
+        fun onDeleteClick(view : View, position : Int)
+    }
+    fun setOnDeleteClickListener(deleteClickListener: OnDeleteClickListener?) {
+        this.deleteClickListener = deleteClickListener
     }
 }
