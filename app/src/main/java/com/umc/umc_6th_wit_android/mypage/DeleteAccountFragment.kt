@@ -144,8 +144,13 @@ class DeleteAccountFragment : Fragment() {
         parentFragmentManager.popBackStack()
     }
 
+    // 회원탈퇴 성공 후 로그인 화면으로 이동하는 로직 추가
     private fun moveToLoginScreen() {
-        // 회원탈퇴 성공 후 로그인 화면으로 이동하는 로직 추가
+        // 온보딩 정보도 초기화
+        val onboardingPrefs = requireContext().getSharedPreferences("OnboardingPrefs", Context.MODE_PRIVATE)
+        val onboardingEditor = onboardingPrefs.edit()
+        onboardingEditor.clear() // 온보딩 관련 정보 초기화
+        onboardingEditor.apply()
         // 토큰과 사용자 정보 지우기
         tokenManager.clearTokens()
 
