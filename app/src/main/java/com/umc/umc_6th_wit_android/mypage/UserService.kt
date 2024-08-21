@@ -1,11 +1,14 @@
 package com.umc.umc_6th_wit_android.mypage
 
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 // Retrofit을 통해 호출될 API를 정의하는 인터페이스
@@ -36,6 +39,13 @@ interface UserService {
     fun getUserProfileImage(
         @Header("Authorization") accessToken: String
     ): Call<UserProfileResponse>
+
+    @Multipart
+    @POST("/user/profile_image")
+    fun uploadUserProfileImage(
+        @Header("Authorization") accessToken: String,
+        @Part image: MultipartBody.Part
+    ): Call<UserProfileUploadResponse>
 
 }
 
@@ -85,5 +95,19 @@ data class UserProfileResponse(
     val result: String?  // 이미지 URL이 담긴 필드
 )
 
+data class UserProfileUploadResponse(
+    val isSuccess: Boolean,
+    val code: String,
+    val message: String,
+    val result: UserProfileResult?
+)
+
+data class UserProfileResult(
+    val originalName: String,
+    val mimeType: String,
+    val size: Long,
+    val url: String,
+    val user_id: String
+)
 
 
