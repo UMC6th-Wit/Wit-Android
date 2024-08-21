@@ -1,4 +1,7 @@
+import android.util.Log
+import com.google.gson.Gson
 import com.umc.umc_6th_wit_android.login.RefreshTokenApi
+import com.umc.umc_6th_wit_android.login.RefreshTokenRequest
 import com.umc.umc_6th_wit_android.login.TokenManager
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -16,47 +19,73 @@ class AuthInterceptor(
 
         // 1. 현재 액세스 토큰을 헤더에 추가
         val accessToken = tokenManager.getAccessToken()
+        Log.d("AuthInterceptor","accessToken: $accessToken")
         if (accessToken != null) {
             request = request.newBuilder()
-                .addHeader("Authorization", "Bearer $accessToken")
+                .addHeader("AccessToken", "$accessToken")
                 .build()
         }
 
         // 2. 요청을 수행
         var response = chain.proceed(request)
+        Log.d("AuthInterceptor", "response.isSuccessful: ${response.isSuccessful}")
 
-        // 3. 토큰 만료 시 재발급
-        if (response.code == 401) { // Unauthorized, 토큰 만료
-            val refreshToken = tokenManager.getRefreshToken()
 
-            if (refreshToken != null) {
-                // 리프레시 토큰을 사용해 새로운 액세스 토큰을 발급받음
-                val refreshCall = refreshTokenApi.refreshToken(refreshToken)
-                val refreshResponse = refreshCall.execute()
+        // 3. HTTP 상태 코드가 200이어도 서버 응답 본문을 확인
+        if (response.isSuccessful) {
+            val responseBody = response.peekBody(Long.MAX_VALUE).string()
 
-                if (refreshResponse.isSuccessful) {
-                    val refreshBody = refreshResponse.body()
-                    val newAccessToken = refreshBody?.refreshToken
+            // 4. 응답 본문에서 토큰 만료 여부 확인
+            val serverResponse = parseServerResponse(responseBody)
+            Log.d("AuthInterceptor", "serverResponse.code: ${serverResponse.code}")
+            if (serverResponse.code == "TOKEN401") {
+                // 토큰이 만료된 경우, 재발급 시도
+                Log.d("AuthInterceptor", "토큰 만료, 재발급 시도")
+                val refreshToken = tokenManager.getRefreshToken()
+                Log.d("AuthInterceptor","refreshToken: $refreshToken")
 
-                    if (newAccessToken != null) {
-                        // 새로운 액세스 토큰을 저장
-                        tokenManager.saveAccessToken(newAccessToken)
+                if (refreshToken != null) {
+                    val refreshCall = refreshTokenApi.refreshToken(RefreshTokenRequest(refreshToken))
+                    val refreshResponse = refreshCall.execute()
+                    Log.d("AuthInterceptor", "refreshResponse.isSuccessful: ${refreshResponse.isSuccessful}")
 
-                        // 4. 새로운 토큰을 사용하여 원래 요청을 다시 시도
-                        request = request.newBuilder()
-                            .removeHeader("Authorization")
-                            .addHeader("Authorization", "Bearer $newAccessToken")
-                            .build()
+                    if (refreshResponse.isSuccessful) {
+                        val refreshBody = refreshResponse.body()
+                        val newAccessToken = refreshBody?.result
 
-                        response = chain.proceed(request) // 원래 요청 재시도
+                        if (newAccessToken != null) {
+                            // 새로운 액세스 토큰을 저장
+                            tokenManager.saveAccessToken(newAccessToken)
+                            Log.d("AuthInterceptor", "new accessToken: $newAccessToken")
+
+                            // 5. 새로운 토큰을 사용하여 원래 요청을 다시 시도
+                            request = request.newBuilder()
+                                .removeHeader("Authorization")
+                                .addHeader("AccessToken", "$newAccessToken")
+                                .build()
+
+                            response = chain.proceed(request) // 원래 요청 재시도
+                        }
+                    } else {
+                        // Refresh token API 호출이 실패한 경우 처리 (로그아웃 등)
+                        Log.d("AuthInterceptor", "refresh token 호출 실패")
                     }
-                } else {
-                    // Refresh token API 호출이 실패한 경우 처리
-                    // 예를 들어, 로그아웃 처리 등을 할 수 있습니다.
                 }
             }
         }
 
         return response
     }
+
+    // 서버 응답 파싱 함수
+    private fun parseServerResponse(responseBody: String): ServerResponse {
+        return Gson().fromJson(responseBody, ServerResponse::class.java)
+    }
+
+    // 서버 응답 데이터 클래스
+    data class ServerResponse(
+        val isSuccess: Boolean,
+        val code: String,
+        val message: String
+    )
 }

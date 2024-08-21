@@ -1,19 +1,27 @@
 package com.umc.umc_6th_wit_android.mypage
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.fragment.app.Fragment
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentDeleteAccountBinding
+import com.umc.umc_6th_wit_android.login.LoginActivity
+import com.umc.umc_6th_wit_android.login.TokenManager
+import com.umc.umc_6th_wit_android.network.TokenRetrofitManager
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DeleteAccountFragment : Fragment() {
 
@@ -22,6 +30,7 @@ class DeleteAccountFragment : Fragment() {
     private lateinit var etcEditText: EditText
     private lateinit var keepButton: Button
     private lateinit var deleteButton: Button
+    private lateinit var tokenManager: TokenManager
     private var isDeleteButtonEnabled = false
 
     override fun onCreateView(
@@ -34,12 +43,14 @@ class DeleteAccountFragment : Fragment() {
         keepButton = binding.deleteAccountKeepBtn
         deleteButton = binding.deleteAccountDeleteBtn
 
+        tokenManager = TokenManager(requireContext().getSharedPreferences("auth_prefs", Context.MODE_PRIVATE))
+
         setupListeners()
         return binding.root
     }
 
     private fun setupListeners() {
-        radioGroup.setOnCheckedChangeListener { group, checkedId ->
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
             handleRadioButtonSelection(checkedId)
         }
 
@@ -53,18 +64,47 @@ class DeleteAccountFragment : Fragment() {
 
         deleteButton.setOnClickListener {
             if (isDeleteButtonEnabled) {
-                moveToMypageFragment()
+                performUserWithdrawal()  // 회원탈퇴 API 호출
+
             }
         }
 
         keepButton.setOnClickListener {
-            // '계속 사용하기' 버튼 클릭 시 동작 추가
             moveToMypageFragment()
         }
 
         // 뒤로 가기 버튼 클릭 리스너 설정
         binding.DeleteAccountBackIv.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            moveToMypageFragment()
+        }
+    }
+
+    private fun performUserWithdrawal() {
+        val accessToken = tokenManager.getAccessToken()
+
+        if (accessToken != null) {
+            val retrofit = TokenRetrofitManager(requireContext())
+            val userService = retrofit.create(UserService::class.java)
+
+            val call = userService.withdrawUser("Bearer $accessToken")
+            call.enqueue(object : Callback<WithdrawResponse> {
+                override fun onResponse(call: Call<WithdrawResponse>, response: Response<WithdrawResponse>) {
+                    if (response.isSuccessful && response.body()?.isSuccess == true) {
+                        // 회원탈퇴 성공
+                        Log.d("DeleteAccountFragment","회원탈퇴 성공")
+                        tokenManager.clearTokens() // 토큰 초기화
+                        moveToLoginScreen() // 로그인 화면으로 이동
+                    } else {
+                        // 에러 처리 (토큰 만료 등)
+                        handleError(response.body()?.message)
+                    }
+                }
+
+                override fun onFailure(call: Call<WithdrawResponse>, t: Throwable) {
+                    // 네트워크 실패 처리
+                    handleError(t.message)
+                }
+            })
         }
     }
 
@@ -79,7 +119,7 @@ class DeleteAccountFragment : Fragment() {
     }
 
     private fun handleEtcEditTextChange(s: CharSequence?) {
-        if (!s.isNullOrEmpty() && s.length > 0) {
+        if (!s.isNullOrEmpty()) {
             enableDeleteButton()
         } else {
             disableDeleteButton()
@@ -102,6 +142,21 @@ class DeleteAccountFragment : Fragment() {
 
     private fun moveToMypageFragment() {
         parentFragmentManager.popBackStack()
+    }
+
+    private fun moveToLoginScreen() {
+        // 회원탈퇴 성공 후 로그인 화면으로 이동하는 로직 추가
+        // 토큰과 사용자 정보 지우기
+        tokenManager.clearTokens()
+
+        // 로그인 화면으로 이동
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+    }
+
+    private fun handleError(message: String?) {
+        // 오류 메시지 처리
     }
 
     override fun onDestroyView() {
