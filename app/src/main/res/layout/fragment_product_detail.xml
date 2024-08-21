@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/white">
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@id/fragment_product_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
 
         <TextView
@@ -22,7 +22,7 @@
             android:textColor="#111111"
             app:layout_constraintEnd_toStartOf="@+id/product_review_select_tv"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fragment_product_detail"
+            app:layout_constraintTop_toTopOf="@id/fragment_product_detail"
             app:layout_constraintWidth_percent="0.5" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/product_detail_select_tv"
-            app:layout_constraintTop_toBottomOf="@id/fragment_product_detail"
+            app:layout_constraintTop_toTopOf="@id/fragment_product_detail"
             app:layout_constraintWidth_percent="0.5" />
 
         <ImageView
