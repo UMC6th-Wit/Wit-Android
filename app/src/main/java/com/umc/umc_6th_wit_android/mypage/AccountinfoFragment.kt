@@ -23,9 +23,13 @@ import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentAccountinfoBinding
 import com.umc.umc_6th_wit_android.login.TokenManager
 import com.umc.umc_6th_wit_android.network.TokenRetrofitManager
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 import java.util.Calendar
 
 class AccountinfoFragment : Fragment() {
@@ -45,6 +49,7 @@ class AccountinfoFragment : Fragment() {
         binding.accountinfoNameEt.visibility = View.INVISIBLE
         binding.accountinfoNicknameEt.visibility = View.INVISIBLE
         binding.accountinfoBirthTv.visibility = View.INVISIBLE
+        binding.accountinfoRg.clearCheck()
 
         // 생년월일 수정 결과 수신
         parentFragmentManager.setFragmentResultListener("birthdateUpdate", viewLifecycleOwner) { _, bundle ->
@@ -64,6 +69,9 @@ class AccountinfoFragment : Fragment() {
 
         // 유저 정보 조회
         fetchUserInfo()
+
+        // 유저 프로필 이미지 조회
+        fetchUserProfileImage()
 
         // UI 초기화
         setupUI()
@@ -293,19 +301,91 @@ class AccountinfoFragment : Fragment() {
     private val cropActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             result.data?.data?.let { uri ->
-                binding.accountinfoProfilIv.setImageURI(uri)
+                uploadUserProfileImage(uri)
             }
+        }
+    }
+
+    // 유저 프로필 이미지 업로드 API 호출
+    private fun uploadUserProfileImage(imageUri: Uri) {
+        val accessToken = tokenManager.getAccessToken()
+
+        if (accessToken != null) {
+            val retrofit = TokenRetrofitManager(requireContext())
+            val userService = retrofit.create(UserService::class.java)
+
+            // 이미지 파일을 Multipart로 변환
+            val file = File(imageUri.path!!)
+            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+            val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
+
+            val call = userService.uploadUserProfileImage("Bearer $accessToken", body)
+            call.enqueue(object : Callback<UserProfileUploadResponse> {
+                override fun onResponse(call: Call<UserProfileUploadResponse>, response: Response<UserProfileUploadResponse>) {
+                    if (response.isSuccessful && response.body()?.isSuccess == true) {
+                        // 서버에 이미지 업로드 성공 후 UI에 반영
+                        val imageUrl = response.body()?.result?.url
+                        imageUrl?.let {
+                            // 프로필 이미지 로드
+                            loadUserProfileImage(it)
+                            Log.d("AccountinfoFragment", "프로필 이미지 업로드 성공: $it")
+                        }
+                    } else {
+                        Log.d("AccountinfoFragment", "프로필 이미지 업로드 실패: ${response.body()?.message}")
+                    }
+                }
+
+                override fun onFailure(call: Call<UserProfileUploadResponse>, t: Throwable) {
+                    Log.d("AccountinfoFragment", "프로필 이미지 업로드 API 호출 실패: ${t.message}")
+                }
+            })
+        } else {
+            Log.d("AccountinfoFragment", "액세스 토큰이 없습니다.")
         }
     }
 
 
     // 유저 프로필 이미지 불러오기
     private fun loadUserProfileImage(imageUrl: String) {
+        Log.d("AccountinfoFragment", "Loading image from URL: $imageUrl")
         Glide.with(this)
             .load(imageUrl)  // 서버에서 받아온 이미지 URL
             .placeholder(R.drawable.mypage_profil) // 로딩 중에 보여줄 플레이스홀더 이미지
             .error(R.drawable.mypage_profil) // 에러 발생 시 보여줄 이미지
             .into(binding.accountinfoProfilIv) // 이미지를 로드할 ImageView
     }
+
+    private fun fetchUserProfileImage() {
+        val accessToken = tokenManager.getAccessToken()
+
+        if (accessToken != null) {
+            val retrofit = TokenRetrofitManager(requireContext())
+            val userService = retrofit.create(UserService::class.java)
+
+            val call = userService.getUserProfileImage("Bearer $accessToken")
+            call.enqueue(object : Callback<UserProfileResponse> {
+                override fun onResponse(call: Call<UserProfileResponse>, response: Response<UserProfileResponse>) {
+                    if (response.isSuccessful && response.body()?.isSuccess == true) {
+                        val imageUrl = response.body()?.result
+                        imageUrl?.let {
+                            // 프로필 이미지를 로드
+                            Log.d("AccountinfoFragment", "프로필 이미지 로드 loadUserProfileImage(it)")
+
+                            loadUserProfileImage(it)
+                        }
+                    } else {
+                        Log.d("AccountinfoFragment", "profil Error: ${response.body()?.message}")
+                    }
+                }
+
+                override fun onFailure(call: Call<UserProfileResponse>, t: Throwable) {
+                    Log.d("AccountinfoFragment", "profil API 호출 실패: ${t.message}")
+                }
+            })
+        } else {
+            Log.d("AccountinfoFragment", "액세스 토큰이 없습니다.")
+        }
+    }
+
 
 }

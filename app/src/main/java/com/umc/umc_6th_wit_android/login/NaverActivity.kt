@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.databinding.ActivityNaverBinding
+import com.umc.umc_6th_wit_android.onboarding.OnboardingActivity
 
 class NaverActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNaverBinding
@@ -97,7 +98,7 @@ class NaverActivity : AppCompatActivity() {
 
                 // 7. user_id가 null이 아니면 MainActivity로 이동
                 if (loginData.result.user_id != null) {
-                    navigateToMainActivity()
+                    checkOnboardingAndNavigate()
                 }
             } catch (e: Exception) {
                 Log.e("NaverActivity", "Failed to parse JSON: ${e.message}")
@@ -114,11 +115,22 @@ class NaverActivity : AppCompatActivity() {
         tokenManager.saveRefreshToken(loginData.result.refreshToken)
     }
 
-    private fun navigateToMainActivity() {
-        // MainActivity로 이동
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()  // NaverActivity 종료
+    private fun checkOnboardingAndNavigate() {
+        // SharedPreferences에서 온보딩 완료 여부 확인
+        val sharedPreferences = getSharedPreferences("OnboardingPrefs", Context.MODE_PRIVATE)
+        val onboardingCompleted = sharedPreferences.getBoolean("onboardingCompleted", false)
+
+        if (onboardingCompleted) {
+            // 온보딩을 완료한 경우 MainActivity로 이동
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        } else {
+            // 온보딩을 완료하지 않은 경우 OnboardingActivity로 이동
+            val intent = Intent(this, OnboardingActivity::class.java)
+            startActivity(intent)
+        }
+
+        finish() // NaverActivity 종료
     }
 
     // 유니코드 이스케이프된 문자를 디코딩하는 함수

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.databinding.ActivityKakaoBinding
+import com.umc.umc_6th_wit_android.onboarding.OnboardingActivity
 
 class KakaoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityKakaoBinding
@@ -97,7 +98,7 @@ class KakaoActivity : AppCompatActivity() {
 
                 // 7. user_id가 null이 아니면 MainActivity로 이동
                 if (loginData.result.user_id != null) {
-                    navigateToMainActivity()
+                    checkOnboardingAndNavigate()
                 }
             } catch (e: Exception) {
                 Log.e("KakaoActivity", "Failed to parse JSON: ${e.message}")
@@ -127,6 +128,24 @@ class KakaoActivity : AppCompatActivity() {
             val charCode = it.groupValues[1].toInt(16)
             charCode.toChar().toString()
         }
+    }
+
+    private fun checkOnboardingAndNavigate() {
+        // SharedPreferences에서 온보딩 완료 여부 확인
+        val sharedPreferences = getSharedPreferences("OnboardingPrefs", Context.MODE_PRIVATE)
+        val onboardingCompleted = sharedPreferences.getBoolean("onboardingCompleted", false)
+
+        if (onboardingCompleted) {
+            // 온보딩을 완료한 경우 MainActivity로 이동
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        } else {
+            // 온보딩을 완료하지 않은 경우 OnboardingActivity로 이동
+            val intent = Intent(this, OnboardingActivity::class.java)
+            startActivity(intent)
+        }
+
+        finish() // NaverActivity 종료
     }
 
     // JSON 데이터의 구조를 반영한 데이터 클래스
