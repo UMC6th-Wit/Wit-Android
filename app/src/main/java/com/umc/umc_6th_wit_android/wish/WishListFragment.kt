@@ -1,6 +1,7 @@
 package com.umc.umc_6th_wit_android.wish
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentWishlistBinding
+import com.umc.umc_6th_wit_android.login.TokenManager
 import kotlin.properties.Delegates
 
 // WishListFragment 클래스 정의: 위시리스트를 관리하는 프래그먼트
@@ -31,6 +33,7 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
     private var isEditMode = false
     private val wishService = WishService()
     private var boardId = 0
+    private lateinit var tokenManager: TokenManager
 
     // Fragment의 View를 생성하는 메소드
     override fun onCreateView(
@@ -40,6 +43,8 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
         // ViewBinding을 이용해 Fragment의 레이아웃을 설정
         binding = FragmentWishlistBinding.inflate(inflater, container, false)
         wishService.setWishListView(this)
+        // TokenManager 초기화
+        tokenManager = TokenManager(requireContext().getSharedPreferences("auth_prefs", Context.MODE_PRIVATE))
         return binding.root
     }
 
@@ -110,8 +115,9 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
     }
 
     fun loadMoreItems(cursor: Int?, limit: Int?) {
-        if (boardId != null) {
-            wishService.getWishBoard(61, boardId, cursor, limit)
+        val accessToken = tokenManager.getAccessToken()
+        if (boardId != null && accessToken != null) {
+            wishService.getWishBoard(accessToken, boardId, cursor, limit)
         }
     }
 

@@ -6,75 +6,74 @@ import retrofit2.http.*
 interface WishRetrofitInterfaces {
 
     //위시리스트 장바구니 목록 조회
-    @GET("wishlist/{user_id}")
+    @GET("wishlist")
     fun getWishList(
-        @Path("user_id") userId: Int,
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Query("cursor") cursor: Int?,
         @Query("limit") limit: Int?
     ): Call<WishResponse>
 
     //제품 장바구니에 담기
-//    @POST("product/add-cart/{product_id}")
-//    fun addCart(
-//        @Path("product_id") productId: Int,
-//        @Body userId: Int
-//    ): Call<CartResponse>
+    @POST("product/add-cart/{product_id}")
+    fun addCart(
+        @Path("product_id") productId: Int,
+    ): Call<CartResponse>
 
     //제품 장바구니에 빼기
-//    @POST("product/delete-cart/{product_id}")
-//    fun delCart(
-//        @Path("product_id") productId: Int,
-//        @Body userId: Int
-//    ): Call<WishBoardDeleteResponse>
+    @POST("product/delete-cart/{product_id}")
+    fun delCart(
+        @Path("product_id") productId: Int,
+    ): Call<WishBoardDeleteResponse>
 
     //위시리스트 폴더 목록 조회
-    @GET("wishlist/user-folders/{user_id}")
+    @GET("wishlist/user-folders")
     fun getWishBoardList(
-        @Path("user_id") userId: Int,
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Query("cursor") cursor: Int?,
         @Query("limit") limit: Int?
     ): Call<WishBoardResponse>
 
     //위시리스트 폴더 상세 조회
-    @GET("wishlist/folder-products/{user_id}/{folderId}")
+    @GET("wishlist/folder-products/{folderId}")
     fun getWishBoard(
-        @Path("user_id") userId: Int,
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Path("folderId") folderId: Int,
         @Query("cursor") cursor: Int?,
         @Query("limit") limit: Int?
     ): Call<WishResponse>
 
     //위시리스트 폴더 생성
-    @POST("wishlist/create-folder/{user_id}")
+    @POST("wishlist/create-folder")
     fun postWishListCreate(
-        @Path("user_id") userId: Int,
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Body request: WishListCreateRequest
     ): Call<WishBoardResponse>
 
     //위시리스트 폴더 상품 담기
-    @POST("wishlist/add-product/{user_id}")
+    @POST("wishlist/add-product")
     fun postWishtoBoard(
-        @Path("user_id") userId: Int,
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Body request: WishListAddRequest
     ): Call<WishBoardResponse>
 
     //위시리스트 폴더 이름 변경
-    @POST("wishlist/update-folder/{user_id}")
+    @POST("wishlist/update-folder")
     fun postWishListReName(
-        @Path("user_id") userId: Int,
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Body request: WishListEditRequest
     ): Call<WishBoardNameResponse>
 
     //위시리스트 폴더 삭제 *request 부분 추가 예정
-    @POST("wishlist/delete-folders/{user_id}")
+    @POST("wishlist/delete-folders")
     fun delWishBoardList(
-        @Path("user_id") userId: Int,
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Body folderIds: List<Int>
     ): Call<WishBoardDeleteResponse>
 
     //위시리스트 폴더 목록 삭제 *request 부분 추가 예정
-    @POST("wishlist/folder-products/{folderId}")
+    @POST("wishlist/folder-products/{folderId}/delete")
     fun deltoWishBoard(
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Path("folderId") folderId: Int,
         @Body productIds: List<Int>
     ): Call<WishBoardDeleteResponse>
