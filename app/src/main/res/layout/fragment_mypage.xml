@@ -52,7 +52,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/suitbold"
-                android:text="주황색옷을입은고양이"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 

@@ -43,13 +43,11 @@ class MypageFragment : Fragment() {
         // TokenManager 초기화
         tokenManager = TokenManager(requireContext().getSharedPreferences("auth_prefs", Context.MODE_PRIVATE))
 
+        // 유저 정보 조회
+        fetchUserInfo()
+
         //오버스크롤 제한
         binding.nestedScrollView.overScrollMode = View.OVER_SCROLL_NEVER
-
-        // 닉네임 관찰하여 UI에 반영
-        sharedViewModel.nickname.observe(viewLifecycleOwner) { nickname ->
-            binding.mypageNickname.text = nickname
-        }
 
         binding.mypageAccountinfoMore.setOnClickListener {
             // AccountinfoFragment로 전환
@@ -97,6 +95,7 @@ class MypageFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        // 유저 정보 조회
         (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
 
     }
@@ -144,5 +143,37 @@ class MypageFragment : Fragment() {
     private fun handleLogoutFailure() {
         // 실패 시 처리 (로그아웃 실패 메시지 표시 등)
         Log.d("MypageFragment", "로그아웃에 실패했습니다.")
+    }
+
+    private fun fetchUserInfo() {
+        val accessToken = tokenManager.getAccessToken()
+
+        if (accessToken != null) {
+            val retrofit = TokenRetrofitManager(requireContext())
+            val userService = retrofit.create(UserService::class.java)
+
+            val call = userService.getUserInfo("Bearer $accessToken")
+            call.enqueue(object : Callback<UserInfoResponse> {
+                override fun onResponse(call: Call<UserInfoResponse>, response: Response<UserInfoResponse>) {
+                    if (response.isSuccessful && response.body()?.isSuccess == true) {
+                        val userInfo = response.body()?.result
+                        userInfo?.let {
+                            binding.mypageNickname.text = it.usernickname
+
+                            Log.d("MypageFragment", "유저 정보 조회 성공")
+
+                        }
+                    } else {
+                        Log.d("MypageFragment", "유저 정보 조회 실패: ${response.body()?.message}")
+                    }
+                }
+
+                override fun onFailure(call: Call<UserInfoResponse>, t: Throwable) {
+                    Log.d("MypageFragment", "유저 정보 조회 API 호출 실패: ${t.message}")
+                }
+            })
+        } else {
+            Log.d("MypageFragment", "액세스 토큰이 없습니다.")
+        }
     }
 }
