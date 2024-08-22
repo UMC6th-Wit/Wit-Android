@@ -36,7 +36,7 @@ class BoardsAdapter(
         holder.bind(wishboards[position])
 
         // 스크롤이 끝에 도달했을 때 더 많은 아이템을 로드
-        if (position == wishboards.size - 1) {
+        if (position == wishboards.size - 1 && currentCursor != 0) {
             loadMoreBoards(currentCursor, limit)
         }
     }

@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.CategoryDto
+import com.umc.umc_6th_wit_android.data.remote.home.ProductVer2
 import com.umc.umc_6th_wit_android.databinding.ItemHomeCategoryBinding
 
-class CategoryRVAdapter (val items : ArrayList<CategoryDto>)
+class CategoryRVAdapter (val items : ArrayList<ProductVer2>)
     : RecyclerView.Adapter<CategoryRVAdapter.CateogoryViewHolder>() {
     val TAG = "CategoryRVAdapter"
 
@@ -22,13 +24,13 @@ class CategoryRVAdapter (val items : ArrayList<CategoryDto>)
 
     override fun onBindViewHolder(holder: CateogoryViewHolder, position: Int) {
         holder.itemBinding.rankingNum.text = "${position + 1}"
-        holder.itemBinding.itemCoverImgIv.setImageResource(items[position].image)
-        holder.itemBinding.tvAddress.text = items[position].address
-        holder.itemBinding.itemTitleTv.text = items[position].title
-        holder.itemBinding.itemYenTv2.text = items[position].yen
-        holder.itemBinding.itemWonTv2.text = items[position].won
+        Glide.with( holder.itemView.context).load(items[position].imageUrl).into(holder.itemBinding.itemCoverImgIv)
+//        holder.itemBinding.tvAddress.text = items[position].address
+        holder.itemBinding.itemTitleTv.text = items[position].name
+        holder.itemBinding.itemYenTv2.text = items[position].enPrice.toString() + "¥"
+        holder.itemBinding.itemWonTv2.text = items[position].wonPrice.toString() +"₩"
 
-        if(!items[position].isLike){
+        if(!items[position].isHeart){
             holder.itemBinding.likeIv.setImageResource(R.drawable.home_off_heart)
         }else{
             holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
@@ -36,11 +38,11 @@ class CategoryRVAdapter (val items : ArrayList<CategoryDto>)
 
         //test
         holder.itemBinding.likeIv.setOnClickListener {
-            if(!items[position].isLike){
-                items[position].isLike = true
+            if(!items[position].isHeart){
+                items[position].isHeart = true
                 holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
             }else{
-                items[position].isLike = false
+                items[position].isHeart = false
                 holder.itemBinding.likeIv.setImageResource(R.drawable.home_off_heart)
             }
         }

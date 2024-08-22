@@ -24,10 +24,10 @@ class WishService {
     }
 
     //위시리스트 장바구니 목록 조회
-    fun getWishList(userId: Int, cursor: Int?, limit: Int?){
+    fun getWishList(accessToken: String, cursor: Int?, limit: Int?){
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.getWishList(userId, cursor, limit).enqueue(object : Callback<WishResponse>{
+        wishService.getWishList("Bearer $accessToken", cursor, limit).enqueue(object : Callback<WishResponse>{
             override fun onResponse(call: Call<WishResponse>, response: Response<WishResponse>) {
                 if (response.body()?.message.equals("Products retrieved successfully")) {
                     val wishResponse: WishResponse = response.body()!!
@@ -51,10 +51,10 @@ class WishService {
     }
 
     //위시리스트 폴더 목록 조회
-    fun getWishBoardList(userId: Int, cursor: Int?, limit: Int?){
+    fun getWishBoardList(accessToken: String,cursor: Int?, limit: Int?){
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.getWishBoardList(userId, cursor, limit).enqueue(object : Callback<WishBoardResponse>{
+        wishService.getWishBoardList("Bearer $accessToken", cursor, limit).enqueue(object : Callback<WishBoardResponse>{
             override fun onResponse(call: Call<WishBoardResponse>, response: Response<WishBoardResponse>) {
                 if (response.body()?.message.equals("Folders retrieved successfully")) {
                     val wishBoardResponse: WishBoardResponse = response.body()!!
@@ -77,10 +77,10 @@ class WishService {
     }
 
     //위시리스트 폴더 상세 조회
-    fun getWishBoard(userId: Int, folderId: Int, cursor: Int?, limit: Int?) {
+    fun getWishBoard(accessToken: String,folderId: Int, cursor: Int?, limit: Int?) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.getWishBoard(userId, folderId, cursor, limit).enqueue(object : Callback<WishResponse> {
+        wishService.getWishBoard("Bearer $accessToken", folderId, cursor, limit).enqueue(object : Callback<WishResponse> {
             override fun onResponse(call: Call<WishResponse>, response: Response<WishResponse>) {
                 Log.d("folder", response.toString())
                 if (response.body()?.message.equals("Products retrieved successfully")) {
@@ -105,10 +105,10 @@ class WishService {
     }
 
     //위시리스트 폴더 상품 담기
-    fun postWishtoBoard(userId: Int, request: WishListAddRequest) {
+    fun postWishtoBoard(accessToken: String,request: WishListAddRequest) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.postWishtoBoard(userId, request).enqueue(object : Callback<WishBoardResponse> {
+        wishService.postWishtoBoard("Bearer $accessToken", request).enqueue(object : Callback<WishBoardResponse> {
             override fun onResponse(call: Call<WishBoardResponse>, response: Response<WishBoardResponse>) {
                 if (response.message().equals("폴더에 제품이 성공적으로 추가되었습니다")) {
                     val wishToBoardResponse: WishBoardResponse = response.body()!!
@@ -136,10 +136,10 @@ class WishService {
     }
 
     //위시리스트 폴더 생성
-    fun postWishListCreate(userId: Int, request: WishListCreateRequest) {
+    fun postWishListCreate(accessToken: String,request: WishListCreateRequest) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.postWishListCreate(userId, request).enqueue(object : Callback<WishBoardResponse> {
+        wishService.postWishListCreate("Bearer $accessToken", request).enqueue(object : Callback<WishBoardResponse> {
             override fun onResponse(call: Call<WishBoardResponse>, response: Response<WishBoardResponse>) {
                 if (response.message().equals("Folder created successfully")) {
                     val wishListCreateResponse: WishBoardResponse = response.body()!!
@@ -165,10 +165,10 @@ class WishService {
     }
 
     //위시리스트 폴더 이름 변경
-    fun postWishListReName(userId: Int, request: WishListEditRequest) {
+    fun postWishListReName(accessToken: String,request: WishListEditRequest) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.postWishListReName(userId, request).enqueue(object : Callback<WishBoardNameResponse> {
+        wishService.postWishListReName("Bearer $accessToken", request).enqueue(object : Callback<WishBoardNameResponse> {
             override fun onResponse(call: Call<WishBoardNameResponse>, response: Response<WishBoardNameResponse>) {
                 if (response.message().equals("Folder name updated successfully")) {
                     val wishListReNameResponse: WishBoardNameResponse = response.body()!!
@@ -194,10 +194,10 @@ class WishService {
     }
 
     //위시리스트 폴더 삭제
-    fun delWishBoardList(userId: Int, folderId: List<Int>) {
+    fun delWishBoardList(accessToken: String, folderId: List<Int>) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.delWishBoardList(userId, folderId).enqueue(object : Callback<WishBoardDeleteResponse> {
+        wishService.delWishBoardList("Bearer $accessToken", folderId).enqueue(object : Callback<WishBoardDeleteResponse> {
             override fun onResponse(call: Call<WishBoardDeleteResponse>, response: Response<WishBoardDeleteResponse>) {
                 if (response.message().equals("Folders deleted successfully")) {
                     val wishBoardListResponse: WishBoardDeleteResponse = response.body()!!
@@ -223,10 +223,10 @@ class WishService {
     }
 
     //위시리스트 폴더 목록 삭제
-    fun deltoWishBoard(folderId: Int, productIds: List<Int>) {
+    fun deltoWishBoard(accessToken: String, folderId: Int, productIds: List<Int>) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.deltoWishBoard(folderId, productIds).enqueue(object : Callback<WishBoardDeleteResponse> {
+        wishService.deltoWishBoard("Bearer $accessToken", folderId, productIds).enqueue(object : Callback<WishBoardDeleteResponse> {
             override fun onResponse(call: Call<WishBoardDeleteResponse>, response: Response<WishBoardDeleteResponse>) {
                 if (response.message().equals("Products deleted successfully")) {
                     val wishBoardListResponse: WishBoardDeleteResponse = response.body()!!

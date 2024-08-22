@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.umc.umc_6th_wit_android.data.remote.home.Product
 import com.umc.umc_6th_wit_android.databinding.ItemHomeCustomBinding
 import ddwu.com.mobile.finalreport.data.PersonalDto
 
-class HomeCustomRVAdapter(val items : ArrayList<PersonalDto>, val rvType : String)
+class HomeCustomRVAdapter(val items : ArrayList<Product>, val rvType : String)
     : RecyclerView.Adapter<HomeCustomRVAdapter.CustomViewHolder>() {
     val TAG = "HomeCustomRVAdapter"
 
@@ -29,11 +31,11 @@ class HomeCustomRVAdapter(val items : ArrayList<PersonalDto>, val rvType : Strin
             layoutParams.height = heightInPx
             holder.itemBinding.itemCoverImgCv.layoutParams = layoutParams
         }
-        holder.itemBinding.itemTitleTv.text = items[position].title
-        holder.itemBinding.itemYenTv.text = items[position].yen + "¥"
-        holder.itemBinding.itemStarTv.text = items[position].star
-        holder.itemBinding.itemReviewNumTv.text = "(" + items[position].reviewNum.toString() + ")"
-        holder.itemBinding.itemCoverImgIv.setImageResource(items[position].image)
+        holder.itemBinding.itemTitleTv.text = items[position].name
+        holder.itemBinding.itemYenTv.text = items[position].enPrice.toString() + "¥"
+        holder.itemBinding.itemStarTv.text = items[position].rating.toString()
+        holder.itemBinding.itemReviewNumTv.text = "(" + items[position].reviewCount.toString() + ")"
+        Glide.with( holder.itemView.context).load(items[position].imageUrl).into(holder.itemBinding.itemCoverImgIv)
     }
 
     inner class CustomViewHolder(val itemBinding: ItemHomeCustomBinding)
