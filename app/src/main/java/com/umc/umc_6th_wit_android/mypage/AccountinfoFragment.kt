@@ -124,7 +124,6 @@ class AccountinfoFragment : Fragment() {
         userResult?.let {
             binding.accountinfoNameEt.setText(it.username)
             binding.accountinfoNicknameEt.setText(it.usernickname)
-
             // 성별 설정
             if (it.gender == "male") {
                 binding.accountinfoMaleRb.isChecked = true
