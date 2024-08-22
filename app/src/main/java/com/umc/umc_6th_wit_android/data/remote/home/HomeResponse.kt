@@ -28,6 +28,7 @@ data class HomePersonalResponse(
 )
 
 data class HomePersonalResult(
+    @SerializedName(value = "user") val user: User,
     @SerializedName("recommendations") val recommendations: List<Product>
 )
 
@@ -59,9 +60,9 @@ data class Product(
     @SerializedName(value = "image") val imageUrl: String,
     @SerializedName(value = "wish_count") val wishCount: Int,
     @SerializedName(value = "main_category_name") val mainCategoryName: String,
-    @SerializedName(value = "is_heart") val isHeart: Int,
+    @SerializedName(value = "is_heart") var isHeart: Int,
     @SerializedName(value = "review_count") val reviewCount: Int,
-    @SerializedName(value = "average_rating") val rating: Int
+    @SerializedName(value = "average_rating") val rating: Float
 )
 @Parcelize
 data class ProductVer2(
@@ -73,7 +74,7 @@ data class ProductVer2(
     @SerializedName(value = "wish_count") val wishCount: Int,
     @SerializedName(value = "is_heart") var isHeart: Boolean,
     @SerializedName(value = "review_count") val reviewCount: Int,
-    @SerializedName(value = "review_avg") val rating: Int
+    @SerializedName(value = "review_avg") val rating: Float
 ) : Parcelable
 
 //카테고리

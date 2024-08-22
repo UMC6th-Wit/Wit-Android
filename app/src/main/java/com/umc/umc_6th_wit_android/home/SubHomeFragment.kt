@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -81,6 +82,8 @@ class SubHomeFragment : Fragment(), SubHomeView{
 
         return binding.root
     }
+
+
 //    private fun changeActivity(personal : PersonalDto) {
 //        val intent = Intent(activity, DetailActivity::class.java)
 //        intent.putExtra("dto", personal)   // 클릭한 RecyclerView 항목 위치의 dto 전달
@@ -111,15 +114,29 @@ class SubHomeFragment : Fragment(), SubHomeView{
         initPersonalRV(result.recommendations)
         initCategoryVp(result.popularProducts)
         initFoodRV(result.nyamRecommendations)
-        //공지사항도 작업해야함.
+        //공지사항
+        val notices = result.notices ?: emptyList() // notices가 null인 경우 빈 리스트로 처리
+
+        // 첫 번째 공지
+        binding.noticeTag.text = "[${notices.getOrNull(0)?.title}]" ?: ""
+        binding.noticeContent.text = notices.getOrNull(0)?.content ?: ""
+
+        // 두 번째 공지
+        binding.noticeTag2.text = "[${notices.getOrNull(1)?.title}]" ?: ""
+        binding.noticeContent2.text = notices.getOrNull(1)?.content ?: ""
+
+        // 세 번째 공지
+        binding.noticeTag3.text = "[${notices.getOrNull(2)?.title}]" ?: ""
+        binding.noticeContent3.text = notices.getOrNull(2)?.content ?: ""
     }
 
     override fun onGetHomeFailure(code: String, message: String) {
-        TODO("Not yet implemented")
+        Log.d("HOME-FAILURE", code)
     }
 
     private fun initPersonalRV(result: List<Product>){
 //        val items = PersonalDao().items
+        Log.d("initPersonalRV", result.toString())
 
         val items = ArrayList(result)
         val adapter = HomeCustomRVAdapter(items, "personal")

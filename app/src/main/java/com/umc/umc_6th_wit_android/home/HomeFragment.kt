@@ -46,7 +46,7 @@ class HomeFragment : Fragment(), HomePopupRVAdapter.OnItemRemovedListener {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 binding.homeSv.smoothScrollTo(0, 0)
-                updatePagerHeightForFragment(position)
+//                updatePagerHeightForFragment(position)
             }
         })
         TabLayoutMediator(binding.homeTb, binding.homeVp) {//TabLayout와 Vp를 연결하는 중재자
@@ -56,7 +56,7 @@ class HomeFragment : Fragment(), HomePopupRVAdapter.OnItemRemovedListener {
 
         // 초기 높이 설정
         binding.homeVp.post {
-            updatePagerHeightForFragment(binding.homeVp.currentItem)
+//            updatePagerHeightForFragment(binding.homeVp.currentItem)
         }
 
         //최상단 스크롤 이동
