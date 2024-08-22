@@ -26,7 +26,7 @@ class HomeCategoryFragment : Fragment() {
         val adapter = CategoryRVAdapter(items)
         adapter.setOnItemClickListener(object : CategoryRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
-                val intent = Intent(activity, ProductDetailActivity::class.java)
+                val intent = Intent(activity, ProductDetailFragment::class.java)
                 startActivity(intent)
 //                changeActivity(items[position])
             }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.umc.umc_6th_wit_android.databinding.ActivityLoginBinding
+import com.umc.umc_6th_wit_android.onboarding.OnboardingActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -14,15 +15,13 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.kakaoLoginButton.setOnClickListener {
-            val intent = Intent(this, OnboardingActivity::class.java)
+            val intent = Intent(this, KakaoActivity::class.java)
             startActivity(intent)
         }
         binding.naverLoginButton.setOnClickListener {
-            val intent = Intent(this, OnboardingActivity::class.java)
+            val intent = Intent(this, NaverActivity::class.java)
             startActivity(intent)
         }
-
-
 
     }
 }

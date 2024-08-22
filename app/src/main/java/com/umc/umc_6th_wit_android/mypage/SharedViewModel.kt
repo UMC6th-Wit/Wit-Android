@@ -5,14 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class SharedViewModel : ViewModel() {
-    private val _name = MutableLiveData<String>("김가영")
+
+    private val _name = MutableLiveData<String>()
     val name: LiveData<String> get() = _name
 
-    private val _nickname = MutableLiveData<String>("주황색옷을입은고양이")
+    private val _nickname = MutableLiveData<String>()
     val nickname: LiveData<String> get() = _nickname
 
-    private val _birthdate = MutableLiveData<String>("2000.01.01")
+    private val _birthdate = MutableLiveData<String>()
     val birthdate: LiveData<String> get() = _birthdate
+
+    private val _gender = MutableLiveData<String>()
+    val gender: LiveData<String> get() = _gender
+
 
     fun setName(newName: String) {
         _name.value = newName
@@ -21,7 +26,12 @@ class SharedViewModel : ViewModel() {
     fun setNickname(newNickname: String) {
         _nickname.value = newNickname
     }
+
     fun setBirthdate(newBirthdate: String) {
         _birthdate.value = newBirthdate
+    }
+
+    fun setGender(newGender: String) {
+        _gender.value = newGender
     }
 }

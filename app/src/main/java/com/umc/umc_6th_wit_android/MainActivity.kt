@@ -1,12 +1,18 @@
 package com.umc.umc_6th_wit_android
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import com.umc.umc_6th_wit_android.home.HomeFragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.umc.umc_6th_wit_android.databinding.ActivityMainBinding
 import com.umc.umc_6th_wit_android.list.ListFragment
+import com.umc.umc_6th_wit_android.login.TokenManager
 import com.umc.umc_6th_wit_android.mypage.MypageFragment
+import com.umc.umc_6th_wit_android.mypage.SharedViewModel
+import com.umc.umc_6th_wit_android.search.SearchFragment
 import com.umc.umc_6th_wit_android.search.SearchMainFragment
 import com.umc.umc_6th_wit_android.wish.WishFragment
 import com.umc.umc_6th_wit_android.wish.WishListFragment
@@ -14,12 +20,22 @@ import com.umc.umc_6th_wit_android.wish.WishListFragment
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+    private lateinit var tokenManager: TokenManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.MainTheme)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        val sharedPreferences = getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
+        tokenManager = TokenManager(sharedPreferences)
+
+        // TokenManager에서 userId를 불러와 SharedViewModel에 설정
+        val userId = tokenManager.getUserId()
+        val refreshToken = tokenManager.getRefreshToken()
+        Log.d("MainActivity", "userId: $userId, refreshToken: $refreshToken")
 
         this.window.apply {
             statusBarColor = resources.getColor(R.color.color_translate, null)

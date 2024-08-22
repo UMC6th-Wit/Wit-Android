@@ -40,27 +40,33 @@
 
     <ImageView
         android:id="@+id/review_rating_background_iv"
-        android:layout_width="378dp"
-        android:layout_height="220dp"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vector_bar_iv"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintWidth_default="spread"
+        app:layout_constraintHorizontal_chainStyle="spread"
         app:srcCompat="@drawable/review_rating_background_image"
         tools:ignore="MissingConstraints" />
 
     <RatingBar
         android:id="@+id/ratingBar"
         style="@style/ImageRatingBar"
-        android:layout_width="109dp"
-        android:layout_height="23dp"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="72dp"
         android:numStars="5"
         android:rating="4.5"
         android:stepSize="0.5"
         app:layout_constraintBottom_toBottomOf="@+id/review_rating_background_iv"
         app:layout_constraintStart_toStartOf="@+id/review_rating_background_iv"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/rating_number_tv"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/go_to_review_write_btn_tv"
@@ -78,12 +84,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="4.5"
-        android:textStyle="bold"
         android:textColor="#111111"
         android:textSize="45sp"
-        app:layout_constraintBottom_toTopOf="@+id/ratingBar"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/vector_bar2_iv"
         app:layout_constraintEnd_toEndOf="@+id/ratingBar"
-        app:layout_constraintStart_toStartOf="@+id/ratingBar" />
+        app:layout_constraintHorizontal_bias="0.547"
+        app:layout_constraintStart_toStartOf="@+id/ratingBar"
+        app:layout_constraintTop_toTopOf="@+id/review_rating_background_iv"
+        app:layout_constraintVertical_bias="0.405" />
 
     <ImageView
         android:id="@+id/vector_bar2_iv"
@@ -130,7 +139,7 @@
 
     <ImageView
         android:id="@+id/review_percentage_empty_iv"
-        android:layout_width="129dp"
+        android:layout_width="130dp"
         android:layout_height="8dp"
         android:layout_marginStart="104dp"
         android:layout_marginTop="66dp"
@@ -139,8 +148,29 @@
         app:srcCompat="@drawable/review_percentage_empty" />
 
     <ImageView
+        android:id="@+id/review_percentage_full_iv"
+        android:layout_width="65dp"
+        android:layout_height="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty_iv"
+        app:layout_constraintStart_toStartOf="@+id/review_percentage_empty_iv"
+        app:layout_constraintTop_toTopOf="@+id/review_percentage_empty_iv"
+        app:srcCompat="@drawable/review_percentage_full" />
+
+    <TextView
+        android:id="@+id/review_5_number_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:layout_marginStart="5dp"
+        android:textSize="10sp"
+        android:textColor="#111111"
+        app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty_iv"
+        app:layout_constraintStart_toEndOf="@+id/review_percentage_empty_iv"
+        app:layout_constraintTop_toTopOf="@+id/review_percentage_empty_iv" />
+
+    <ImageView
         android:id="@+id/review_percentage_empty2_iv"
-        android:layout_width="129dp"
+        android:layout_width="130dp"
         android:layout_height="8dp"
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="@+id/review_percentage_empty_iv"
@@ -148,8 +178,28 @@
         app:srcCompat="@drawable/review_percentage_empty" />
 
     <ImageView
+        android:id="@+id/review_percentage_full2_iv"
+        android:layout_width="52dp"
+        android:layout_height="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty2_iv"
+        app:layout_constraintStart_toStartOf="@+id/review_percentage_empty2_iv"
+        app:layout_constraintTop_toTopOf="@+id/review_percentage_empty2_iv"
+        app:srcCompat="@drawable/review_percentage_full" />
+
+    <TextView
+        android:id="@+id/review_4_number_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8"
+        android:layout_marginStart="5dp"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty2_iv"
+        app:layout_constraintStart_toEndOf="@+id/review_percentage_empty2_iv"
+        app:layout_constraintTop_toTopOf="@+id/review_percentage_empty2_iv" />
+
+    <ImageView
         android:id="@+id/review_percentage_empty3_iv"
-        android:layout_width="129dp"
+        android:layout_width="130dp"
         android:layout_height="8dp"
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="@+id/review_percentage_empty2_iv"
@@ -157,8 +207,28 @@
         app:srcCompat="@drawable/review_percentage_empty" />
 
     <ImageView
+        android:id="@+id/review_percentage_full3_iv"
+        android:layout_width="13dp"
+        android:layout_height="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty3_iv"
+        app:layout_constraintStart_toStartOf="@+id/review_percentage_empty3_iv"
+        app:layout_constraintTop_toTopOf="@+id/review_percentage_empty3_iv"
+        app:srcCompat="@drawable/review_percentage_full" />
+
+    <TextView
+        android:id="@+id/review_3_number_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:layout_marginStart="5dp"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty3_iv"
+        app:layout_constraintStart_toEndOf="@+id/review_percentage_empty3_iv"
+        app:layout_constraintTop_toTopOf="@+id/review_percentage_empty3_iv" />
+
+    <ImageView
         android:id="@+id/review_percentage_empty4_iv"
-        android:layout_width="129dp"
+        android:layout_width="130dp"
         android:layout_height="8dp"
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="@+id/review_percentage_empty3_iv"
@@ -166,13 +236,55 @@
         app:srcCompat="@drawable/review_percentage_empty" />
 
     <ImageView
+        android:id="@+id/review_percentage_full4_iv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty4_iv"
+        app:layout_constraintStart_toStartOf="@+id/review_percentage_empty4_iv"
+        app:layout_constraintTop_toTopOf="@+id/review_percentage_empty4_iv"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/review_percentage_full" />
+
+    <TextView
+        android:id="@+id/review_2_number_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginStart="5dp"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty4_iv"
+        app:layout_constraintStart_toEndOf="@+id/review_percentage_empty4_iv"
+        app:layout_constraintTop_toTopOf="@+id/review_percentage_empty4_iv" />
+
+    <ImageView
         android:id="@+id/review_percentage_empty5_iv"
-        android:layout_width="129dp"
+        android:layout_width="130dp"
         android:layout_height="8dp"
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="@+id/review_percentage_empty4_iv"
         app:layout_constraintTop_toBottomOf="@+id/review_percentage_empty4_iv"
         app:srcCompat="@drawable/review_percentage_empty" />
+
+    <ImageView
+        android:id="@+id/review_percentage_full5_iv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty5_iv"
+        app:layout_constraintStart_toStartOf="@+id/review_percentage_empty5_iv"
+        app:layout_constraintTop_toTopOf="@+id/review_percentage_empty5_iv"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/review_percentage_full" />
+
+    <TextView
+        android:id="@+id/review_1_number_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginStart="5dp"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty5_iv"
+        app:layout_constraintStart_toEndOf="@+id/review_percentage_empty5_iv"
+        app:layout_constraintTop_toTopOf="@+id/review_percentage_empty5_iv" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -182,6 +294,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/vector_bar3_iv" />
+
 
 
 

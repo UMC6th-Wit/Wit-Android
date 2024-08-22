@@ -74,7 +74,7 @@
         android:background="#E7E7E7"
         app:layout_constraintBottom_toTopOf="@id/birthdate_save_btn" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/birthdate_save_btn"
         android:layout_width="match_parent"
         android:layout_height="55dp"

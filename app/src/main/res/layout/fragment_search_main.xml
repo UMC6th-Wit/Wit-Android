@@ -287,7 +287,7 @@
         <TextView
             android:id="@+id/name1"
             style="@style/CommonTextViewStyle"
-            android:text="초콜릿"
+            android:text=""
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
             />
@@ -303,7 +303,7 @@
         <TextView
             android:id="@+id/name6"
             style="@style/CommonTextViewStyle"
-            android:text="커피"
+            android:text=""
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
             />
@@ -321,7 +321,7 @@
         <TextView
             android:id="@+id/name2"
             style="@style/CommonTextViewStyle"
-            android:text="향수"
+            android:text=""
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
             />
@@ -338,7 +338,7 @@
         <TextView
             android:id="@+id/name7"
             style="@style/CommonTextViewStyle"
-            android:text="7"
+            android:text=""
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
             />
@@ -354,7 +354,7 @@
         <TextView
             android:id="@+id/name3"
             style="@style/CommonTextViewStyle"
-            android:text="3"
+            android:text=""
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
             />
@@ -370,7 +370,7 @@
         <TextView
             android:id="@+id/name8"
             style="@style/CommonTextViewStyle"
-            android:text="8"
+            android:text=""
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
             />
@@ -387,7 +387,7 @@
         <TextView
             android:id="@+id/name4"
             style="@style/CommonTextViewStyle"
-            android:text="4"
+            android:text=""
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
             />
@@ -405,7 +405,7 @@
         <TextView
             android:id="@+id/name9"
             style="@style/CommonTextViewStyle"
-            android:text="9"
+            android:text=""
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
             />
@@ -421,7 +421,7 @@
         <TextView
             android:id="@+id/name5"
             style="@style/CommonTextViewStyle"
-            android:text="5"
+            android:text=""
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
             />
@@ -437,7 +437,7 @@
         <TextView
             android:id="@+id/name10"
             style="@style/CommonTextViewStyle"
-            android:text="10"
+            android:text=""
             android:layout_rowWeight="1"
             android:layout_columnWeight="20"
             />

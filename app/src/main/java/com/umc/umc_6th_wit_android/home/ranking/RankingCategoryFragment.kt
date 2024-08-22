@@ -7,13 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.CategoryDao
 import com.umc.umc_6th_wit_android.data.local.CategoryDto
 import com.umc.umc_6th_wit_android.databinding.FragmentRankingCategoryBinding
-import com.umc.umc_6th_wit_android.home.CategoryRVAdapter
-import com.umc.umc_6th_wit_android.home.ProductDetailActivity
+import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 
 
 class RankingCategoryFragment : Fragment() {
@@ -39,7 +37,7 @@ class RankingCategoryFragment : Fragment() {
         val adapter = RankingCategoryRVAdapter(items)
         adapter.setOnItemClickListener(object : RankingCategoryRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
-                val intent = Intent(activity, ProductDetailActivity::class.java)
+                val intent = Intent(activity, ProductDetailFragment::class.java)
                 startActivity(intent)
 //                changeActivity(items[position])
             }

@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <ImageButton
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_gravity="center_horizontal"
@@ -59,7 +59,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/cosmetic_iv"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -94,7 +94,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/medicine_iv"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -128,7 +128,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/daily_iv"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"

@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:text="미니 사이즈와 큰 사이즈가 있어서 더욱 좋았어요~
+        android:text="text 미니 사이즈와 큰 사이즈가 있어서 더욱 좋았어요~
       맛은 고소하고 아이들과 간식으로 먹기 좋아요!
      돈키호테에서 쉽게 구할 수 있으니 꼭 구매하세요!"
         android:textSize="12sp"
