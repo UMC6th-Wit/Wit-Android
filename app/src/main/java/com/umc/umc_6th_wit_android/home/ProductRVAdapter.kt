@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.data.remote.search.Souvenir
+import com.umc.umc_6th_wit_android.data.remote.home.Product
 import com.umc.umc_6th_wit_android.databinding.ItemCustomBinding
 
+class ProductRVAdapter(val items: ArrayList<Product>)
+    : RecyclerView.Adapter<ProductRVAdapter.CustomViewHolder>() {
 
-class CustomRVAdapter (val items : ArrayList<Souvenir>)
-    : RecyclerView.Adapter<CustomRVAdapter.CustomViewHolder>() {
-    val TAG = "CustomRVAdapter"
+    val TAG = "ProductRVAdapter"
 
     override fun getItemCount(): Int = items.size
 
@@ -21,13 +21,15 @@ class CustomRVAdapter (val items : ArrayList<Souvenir>)
         val itemBinding = ItemCustomBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CustomViewHolder(itemBinding)
     }
-
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        Glide.with( holder.itemView.context).load(items[position].imageUrl).into(holder.itemBinding.itemCoverImgIv)
+        Glide.with(holder.itemView.context)
+            .load(items[position].imageUrl)
+            .into(holder.itemBinding.itemCoverImgIv)
         holder.itemBinding.itemTitleTv.text = items[position].name
         holder.itemBinding.itemYenTv2.text = items[position].enPrice.toString() + "¥"
         holder.itemBinding.itemWonTv2.text = items[position].wonPrice.toString() +"₩"
         holder.itemBinding.itemStarTv.text = String.format("%.2f", items[position].rating)
+//        holder.itemBinding.itemStarTv.text = items[position].rating.toString()
         holder.itemBinding.itemReviewNumTv.text = "(${items[position].reviewCount})"
 
         //하트 눌린건지 여부.
@@ -56,22 +58,10 @@ class CustomRVAdapter (val items : ArrayList<Souvenir>)
             itemBinding.root.setOnClickListener{
                 listener?.onItemClick(it, adapterPosition)  // RecyclerView 항목 클릭 시 외부에서 지정한 리스너 호출
             }
-            itemBinding.root.setOnLongClickListener {
-                Log.d(TAG, "long Click")
-                longClickListener?.onItemLongClick(it, adapterPosition)
-                true
-            }
         }
     }
 
-    interface OnItemLongClickListener {
-        fun onItemLongClick(view: View, position: Int) : Boolean
-    }
-    var longClickListener: OnItemLongClickListener? = null
 
-    fun setOnItemLongClickListener (listener: OnItemLongClickListener?) {
-        this.longClickListener = listener
-    }
 
     var listener : OnItemClickListener? = null
 

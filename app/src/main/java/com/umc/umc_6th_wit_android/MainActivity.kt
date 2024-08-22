@@ -37,6 +37,9 @@ class MainActivity : AppCompatActivity() {
         val refreshToken = tokenManager.getRefreshToken()
         Log.d("MainActivity", "userId: $userId, refreshToken: $refreshToken")
 
+        val accessToken = tokenManager.getAccessToken()
+        Log.d("MainActivityAccess", "accessToken: $accessToken")
+
         this.window.apply {
             statusBarColor = resources.getColor(R.color.color_translate, null)
         }

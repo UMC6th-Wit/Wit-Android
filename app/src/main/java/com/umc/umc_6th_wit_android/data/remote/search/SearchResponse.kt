@@ -27,7 +27,7 @@ data class Souvenir(
     @SerializedName("won_price") val wonPrice: Int,
     @SerializedName("en_price") val enPrice: Int,
     @SerializedName("image") val imageUrl: String,
-    @SerializedName("reviews") val reviews: Int,
+    @SerializedName("reviews") val reviewCount: Int,
     @SerializedName("rating") val rating: Float,
     @SerializedName("is_heart") var isHeart: Int,
     @SerializedName("row_num") val rowNum: Int
