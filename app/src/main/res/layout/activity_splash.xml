@@ -9,11 +9,36 @@
     tools:context=".SplashActivity"
     android:background="#202020">
   <ImageView
+      android:id="@+id/splash_img2"
       android:layout_width="match_parent"
       android:layout_height="300dp"
       android:scaleType="fitEnd"
       app:layout_constraintBottom_toBottomOf="parent"
       android:src="@drawable/splash_img2"/>
+
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:layout_marginBottom="30dp"
+      app:layout_constraintBottom_toTopOf="@id/splash_img2">
+
+  <ImageView
+      android:layout_width="110dp"
+      android:layout_height="160dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/splash_img1"
+      android:layout_marginBottom="25dp"/>
+    <ImageView
+        android:id="@+id/splash_img3"
+        android:layout_width="128dp"
+        android:layout_height="80dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/splash_img3" />
+  </LinearLayout>
+
 
 
 
