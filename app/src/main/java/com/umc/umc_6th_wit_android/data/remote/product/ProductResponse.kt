@@ -8,10 +8,10 @@ data class ProductResponse(
     @SerializedName("isSuccess") val isSuccess: Boolean,
     @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,
-    @SerializedName("result") val result: Product
+    @SerializedName("result") val result: ProductResult
 )
 
-data class Product(
+data class ProductResult(
     @SerializedName("id") val id: Int,
     @SerializedName("name") val name: String,
     @SerializedName("description") val description: String,
