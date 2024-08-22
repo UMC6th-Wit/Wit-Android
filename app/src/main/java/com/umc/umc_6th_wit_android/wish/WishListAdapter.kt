@@ -5,16 +5,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.ItemWishBinding
+import java.text.NumberFormat
 
 // WishListAdapter 클래스 정의: RecyclerView.Adapter를 상속받아 WishItem 리스트를 관리합니다.
-class WishListAdapter(private var items: List<WishItem>, private val selectionListener: SelectionListener) : RecyclerView.Adapter<WishListAdapter.WishBoardViewHolder>() {
+class WishListAdapter(
+    private var items: MutableList<WishItem>,
+    private val selectionListener: SelectionListener,
+    private val loadMoreItems: (cursor: Int?, limit: Int?) -> Unit
+) : RecyclerView.Adapter<WishListAdapter.WishBoardViewHolder>() {
 
     // 선택된 아이템들을 저장하는 MutableSet
     val selectedItems = mutableSetOf<WishItem>()
     // 편집 모드 여부를 나타내는 변수
     private var isEditMode = false
+    var currentCursor: Int? = null
+    private val limit = 20 // 한 번에 가져올 아이템 수
 
     // ViewHolder를 생성합니다.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WishBoardViewHolder {
@@ -25,6 +33,18 @@ class WishListAdapter(private var items: List<WishItem>, private val selectionLi
     // ViewHolder와 데이터를 바인딩합니다.
     override fun onBindViewHolder(holder: WishBoardViewHolder, position: Int) {
         holder.bind(items[position])
+
+        // 스크롤이 끝에 도달했을 때 더 많은 아이템을 로드
+        if (position == items.size - 1) {
+            loadMoreItems(currentCursor, limit)
+        }
+    }
+
+    // 데이터 추가를 위한 메서드
+    fun addItems(newItems: List<WishItem>) {
+        val startPos = items.size
+        items.addAll(newItems)
+        notifyItemRangeInserted(startPos, newItems.size)
     }
 
     // 아이템 개수를 반환합니다.
@@ -62,7 +82,7 @@ class WishListAdapter(private var items: List<WishItem>, private val selectionLi
 
     // 아이템 리스트를 업데이트합니다.
     private fun updateItems(newItems: List<WishItem>) {
-        items = newItems
+        items = newItems.toMutableList()
         notifyDataSetChanged()
     }
 
@@ -71,17 +91,22 @@ class WishListAdapter(private var items: List<WishItem>, private val selectionLi
         // 아이템을 바인딩합니다.
         fun bind(item: WishItem) {
             // 아이템 이미지를 설정
-            binding.itemImage.setImageResource(item.image_url!!)
+            item.image?.let { imageUrl ->
+                Glide.with(binding.itemImage.context)
+                    .load(imageUrl)
+                    .into(binding.itemImage)
+            }
+
             // 아이템 제목을 설정
             binding.itemTitle.text = item.name
             // 일본 엔화 가격을 설정
-            binding.priceJpy.text = item.en_price
+            binding.priceJpy.text = NumberFormat.getNumberInstance().format(item.en_price)
             // 한국 원화 가격을 설정
-            binding.priceKrw.text = item.won_price
+            binding.priceKrw.text = NumberFormat.getNumberInstance().format(item.won_price)
             // 아이템 평점을 설정
-            binding.itemRating.text = item.rating.toString()
+            binding.itemRating.text = item.average_rating.toString()
             // 아이템 리뷰 수를 설정
-            binding.itemNop.text = item.reviews.toString()
+            binding.itemNop.text = item.review_count.toString()
 
             // 편집 모드에 따른 UI 설정을 합니다.
             if (isEditMode) {

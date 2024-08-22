@@ -1,7 +1,5 @@
 package com.umc.umc_6th_wit_android.wish
 
-import android.app.Dialog
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -45,7 +43,7 @@ class FolderPopUpAdapter(private var folders: List<Wishboard>, private val selec
     inner class FolderPopUpViewHolder(private val binding: ItemRadioFolderBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(board: Wishboard, position: Int) {
-            binding.cbBtn1.text = board.folder_Name
+            binding.cbBtn1.text = board.folder_name
 
             // 첫 번째 아이템의 경우 folder_line을 GONE으로 설정
             if (position == 0) {
@@ -62,14 +60,14 @@ class FolderPopUpAdapter(private var folders: List<Wishboard>, private val selec
                     selectBoard(board)
 //                    Log.d("folder", selectedFolders.toString())
 //                    Log.d("folder", binding.cbBtn1.isChecked.toString())
-                    Log.d("folder", board.folder_Name + " add")
+                    Log.d("folder", board.folder_name + " add")
                 } else {
 //                    binding.cbBtn1.isChecked = false
                     // 체크 해제되면 deselectBoard 호출
                     deselectBoard(board)
 //                    Log.d("folder", selectedFolders.toString())
 //                    Log.d("folder", binding.cbBtn1.isChecked.toString())
-                    Log.d("folder", board.folder_Name + " del")
+                    Log.d("folder", board.folder_name + " del")
                 }
             }
         }

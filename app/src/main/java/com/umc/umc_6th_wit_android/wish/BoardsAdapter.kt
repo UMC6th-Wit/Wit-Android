@@ -1,21 +1,29 @@
 package com.umc.umc_6th_wit_android.wish
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.BoardWishBinding
 
 // BoardsAdapter 클래스 정의: RecyclerView.Adapter를 상속받아 Wishboard 리스트를 관리합니다.
-class BoardsAdapter(private var wishboards: List<Wishboard>, private val selectionListener: SelectionListener) : RecyclerView.Adapter<BoardsAdapter.BoardViewHolder>() {
+class BoardsAdapter(
+    private var wishboards: MutableList<Wishboard>,
+    private val selectionListener: SelectionListener,
+    private val loadMoreBoards: (cursor: Int?, limit: Int?) -> Unit
+) : RecyclerView.Adapter<BoardsAdapter.BoardViewHolder>() {
 
     // 선택된 보드들을 저장하는 MutableSet
     val selectedBoards = mutableSetOf<Wishboard>()
     // 편집 모드 여부를 나타내는 변수
     private var isEditMode = false
+    var currentCursor: Int? = null
+    private val limit = 20 // 한 번에 가져올 아이템 수
 
     // ViewHolder를 생성합니다.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardViewHolder {
@@ -26,7 +34,20 @@ class BoardsAdapter(private var wishboards: List<Wishboard>, private val selecti
     // ViewHolder와 데이터를 바인딩합니다.
     override fun onBindViewHolder(holder: BoardViewHolder, position: Int) {
         holder.bind(wishboards[position])
+
+        // 스크롤이 끝에 도달했을 때 더 많은 아이템을 로드
+        if (position == wishboards.size - 1) {
+            loadMoreBoards(currentCursor, limit)
+        }
     }
+
+    // 데이터 추가를 위한 메서드
+    fun addBoards(newBoards: List<Wishboard>) {
+        val startPos = wishboards.size
+        wishboards.addAll(newBoards)
+        notifyItemRangeInserted(startPos, newBoards.size)
+    }
+
 
     // 아이템 개수를 반환합니다.
     override fun getItemCount() = wishboards.size
@@ -34,7 +55,7 @@ class BoardsAdapter(private var wishboards: List<Wishboard>, private val selecti
     // 새로운 보드를 추가합니다.
     fun addBoard(wishboard: Wishboard) {
         // 새로운 보드의 ID를 마지막 보드의 ID + 1로 설정
-        wishboard.folder_Id = wishboards.last().folder_Id + 1
+        wishboard.folder_id = wishboards.last().folder_id + 1
         // 새로운 보드를 추가한 리스트로 교체
         wishboards = wishboards.toMutableList().apply { add(wishboard) }
         // 새로운 아이템 삽입을 어댑터에 알림
@@ -58,7 +79,7 @@ class BoardsAdapter(private var wishboards: List<Wishboard>, private val selecti
         val mutableBoard = wishboards.toMutableList()
 
         // selectedBoards의 첫 번째 요소와 일치하는 요소를 찾아서 이름을 변경합니다.
-        mutableBoard.find { it == selectedBoards.first() }?.let { it.folder_Name = edited_name }
+        mutableBoard.find { it == selectedBoards.first() }?.let { it.folder_name = edited_name }
 
         selectedBoards.clear()
 
@@ -93,7 +114,7 @@ class BoardsAdapter(private var wishboards: List<Wishboard>, private val selecti
 
     // 보드 리스트를 업데이트합니다.
     private fun updateBoards(newBoards: List<Wishboard>) {
-        wishboards = newBoards
+        wishboards = newBoards.toMutableList()
         // 데이터가 변경되었음을 어댑터에 알림
         notifyDataSetChanged()
     }
@@ -103,25 +124,38 @@ class BoardsAdapter(private var wishboards: List<Wishboard>, private val selecti
         // 보드를 바인딩합니다.
         fun bind(board: Wishboard) {
             // 보드 제목을 설정
-            binding.boardTitle.text = board.folder_Name
+            binding.boardTitle.text = board.folder_name
             // 보드 수량을 설정
-            binding.boardQuantity.text = board.products.size.toString()
+            binding.boardQuantity.text = board.images.size.toString()
 
             // 이미지를 설정합니다.
-            if (board.products.isNotEmpty()) {
-                board.products.last().image_url?.let { binding.boardImage1.setImageResource(it) }
+            if (board.images.isNotEmpty()) {
+                board.images.last().let { imageUrl ->
+                    Glide.with(binding.boardImage1.context)
+                        .load(imageUrl)
+                        .into(binding.boardImage1)
+                }
+
             } else {
                 binding.boardImage1.setImageResource(R.drawable.empty)
             }
 
-            if (board.products.size > 1) {
-                board.products[board.products.lastIndex-1].image_url?.let { binding.boardImage2.setImageResource(it) }
+            if (board.images.size > 1) {
+                board.images.getOrNull(board.images.lastIndex - 1)?.let { imageUrl ->
+                    Glide.with(binding.boardImage2.context)
+                        .load(imageUrl)
+                        .into(binding.boardImage2)
+                }
             } else {
                 binding.boardImage2.setImageResource(R.drawable.empty)
             }
 
-            if (board.products.size > 2) {
-                board.products[board.products.lastIndex-2].image_url?.let { binding.boardImage3.setImageResource(it) }
+            if (board.images.size > 2) {
+                board.images.getOrNull(board.images.lastIndex - 2)?.let { imageUrl ->
+                    Glide.with(binding.boardImage3.context)
+                        .load(imageUrl)
+                        .into(binding.boardImage3)
+                }
             } else {
                 binding.boardImage3.setImageResource(R.drawable.empty)
             }
@@ -179,11 +213,12 @@ class BoardsAdapter(private var wishboards: List<Wishboard>, private val selecti
                     }
                 } else {
                     // 편집 모드가 아닐 때
-                    val boardTitle = board.folder_Name
+                    val boardId = board.folder_id
+                    val boardTitle = board.folder_name
                     val context = itemView.context
                     if (context is MainActivity) {
                         // MainActivity의 changeWishListFragment 메서드를 호출하여 화면을 변경
-                        context.changeWishListFragment(boardTitle)
+                        context.changeWishListFragment(boardId, boardTitle)
                     }
                 }
             }
