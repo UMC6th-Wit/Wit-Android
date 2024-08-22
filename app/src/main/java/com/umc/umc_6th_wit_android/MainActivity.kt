@@ -105,9 +105,10 @@ class MainActivity : AppCompatActivity() {
         binding.mainCard.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
-    fun changeWishListFragment(boardTitle: String) {
+    fun changeWishListFragment(boardId: Int, boardTitle: String) {
         val fragment = WishListFragment()
         val bundle = Bundle()
+        bundle.putInt("boardId", boardId)
         bundle.putString("boardTitle", boardTitle)
         fragment.arguments = bundle
 

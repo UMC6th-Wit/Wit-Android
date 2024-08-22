@@ -24,20 +24,20 @@ class WishService {
     }
 
     //위시리스트 장바구니 목록 조회
-    private fun getWishList(userId: Int){
+    fun getWishList(userId: Int, cursor: Int?, limit: Int?){
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.getWishList(userId).enqueue(object : Callback<WishResponse>{
+        wishService.getWishList(userId, cursor, limit).enqueue(object : Callback<WishResponse>{
             override fun onResponse(call: Call<WishResponse>, response: Response<WishResponse>) {
-                if (response.isSuccessful) {
+                if (response.body()?.message.equals("Products retrieved successfully")) {
                     val wishResponse: WishResponse = response.body()!!
 
                     Log.d("WISHLIST200-RESPONSE", wishResponse.toString())
 
-                    when (val code = wishResponse.code) {
-                        "WISHLIST200" -> wishView.onGetWishListSuccess(code, wishResponse.data)
+                    when (val message = wishResponse.message) {
+                        "Products retrieved successfully" -> wishView.onGetWishListSuccess(message, wishResponse.data)
                         else -> {
-                            wishView.onGetWishListFailure(code, wishResponse.message)
+                            wishView.onGetWishListFailure(message, wishResponse.message)
                         }
                     }
                 }
@@ -51,22 +51,22 @@ class WishService {
     }
 
     //위시리스트 폴더 목록 조회
-    private fun getWishBoardList(userId: Int){
+    fun getWishBoardList(userId: Int, cursor: Int?, limit: Int?){
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.getWishBoardList(userId).enqueue(object : Callback<WishBoardResponse>{
+        wishService.getWishBoardList(userId, cursor, limit).enqueue(object : Callback<WishBoardResponse>{
             override fun onResponse(call: Call<WishBoardResponse>, response: Response<WishBoardResponse>) {
-                if (response.isSuccessful) {
+                if (response.body()?.message.equals("Folders retrieved successfully")) {
                     val wishBoardResponse: WishBoardResponse = response.body()!!
 
                     Log.d("WISHLIST200-RESPONSE", wishBoardResponse.toString())
 
-//                    when (val code = wishBoardResponse.code) {
-//                        "WISHLIST200" -> wishView.onGetWishBoardListSuccess(code, wishBoardResponse.data)
-//                        else -> {
-//                            wishView.onGetWishBoardListFailure(code, wishBoardResponse.message)
-//                        }
-//                    }
+                    when (val message = wishBoardResponse.message) {
+                        "Folders retrieved successfully" -> wishView.onGetWishBoardListSuccess(message, wishBoardResponse.data)
+                        else -> {
+                            wishView.onGetWishBoardListFailure(message, wishBoardResponse.message)
+                        }
+                    }
                 }
             }
 
@@ -77,26 +77,27 @@ class WishService {
     }
 
     //위시리스트 폴더 상세 조회
-    private fun getWishBoard(folderId: Int) {
+    fun getWishBoard(userId: Int, folderId: Int, cursor: Int?, limit: Int?) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.getWishBoard(folderId).enqueue(object : Callback<WishBoardResponse> {
-            override fun onResponse(call: Call<WishBoardResponse>, response: Response<WishBoardResponse>) {
-                if (response.isSuccessful) {
-                    val wishBoardResponse: WishBoardResponse = response.body()!!
+        wishService.getWishBoard(userId, folderId, cursor, limit).enqueue(object : Callback<WishResponse> {
+            override fun onResponse(call: Call<WishResponse>, response: Response<WishResponse>) {
+                Log.d("folder", response.toString())
+                if (response.body()?.message.equals("Products retrieved successfully")) {
+                    val wishItemResponse: WishResponse = response.body()!!
 
-                    Log.d("FOLDER300-RESPONSE", wishBoardResponse.toString())
+                    Log.d("FOLDER300-RESPONSE", wishItemResponse.toString())
 
-//                    when (val code = wishBoardResponse.code) {
-//                        "FOLDER300" -> wishListView.onGetWishBoardSuccess(code, wishBoardResponse.data)
-//                        else -> {
-//                            wishListView.onGetWishBoardFailure(code, wishBoardResponse.message)
-//                        }
-//                    }
+                    when (val message = wishItemResponse.message) {
+                        "Products retrieved successfully" -> wishListView.onGetWishBoardSuccess(message, wishItemResponse.data)
+                        else -> {
+                            wishListView.onGetWishBoardFailure(message, wishItemResponse.message)
+                        }
+                    }
                 }
             }
 
-            override fun onFailure(call: Call<WishBoardResponse>, t: Throwable) {
+            override fun onFailure(call: Call<WishResponse>, t: Throwable) {
                 //실패 처리
                 Log.d("FOLDER300-ERROR", t.message.toString())
             }
@@ -104,26 +105,26 @@ class WishService {
     }
 
     //위시리스트 폴더 상품 담기
-    private fun postWishtoBoard(wishboard: Wishboard, wishitems: List<WishItem>) {
+    fun postWishtoBoard(userId: Int, request: WishListAddRequest) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.postWishtoBoard(wishboard, wishitems).enqueue(object : Callback<WishBoardResponse> {
+        wishService.postWishtoBoard(userId, request).enqueue(object : Callback<WishBoardResponse> {
             override fun onResponse(call: Call<WishBoardResponse>, response: Response<WishBoardResponse>) {
-                if (response.isSuccessful) {
+                if (response.message().equals("폴더에 제품이 성공적으로 추가되었습니다")) {
                     val wishToBoardResponse: WishBoardResponse = response.body()!!
 
                     Log.d("FOLDER100-RESPONSE", wishToBoardResponse.toString())
 
-//                    when (val code = wishToBoardResponse.code) {
-//                        "FOLDER100" -> {
-//                            wishView.onPostWishtoBoardSuccess(code, wishToBoardResponse.data)
-//                            wishListView.onPostWishtoBoardSuccess(code, wishToBoardResponse.data)
-//                        }
-//                        else -> {
-//                            wishView.onPostWishtoBoardFailure(code, wishToBoardResponse.message)
-//                            wishListView.onPostWishtoBoardFailure(code, wishToBoardResponse.message)
-//                        }
-//                    }
+                    when (val message = wishToBoardResponse.message) {
+                        "폴더에 제품이 성공적으로 추가되었습니다" -> {
+                            wishView.onPostWishtoBoardSuccess(message, wishToBoardResponse.data)
+                            wishListView.onPostWishtoBoardSuccess(message, wishToBoardResponse.data)
+                        }
+                        else -> {
+                            wishView.onPostWishtoBoardFailure(message, wishToBoardResponse.message)
+                            wishListView.onPostWishtoBoardFailure(message, wishToBoardResponse.message)
+                        }
+                    }
                 }
             }
 
@@ -164,22 +165,22 @@ class WishService {
     }
 
     //위시리스트 폴더 이름 변경
-    private fun postWishListReName(folderId: Int, newFolderName: String) {
+    fun postWishListReName(userId: Int, request: WishListEditRequest) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.postWishListReName(folderId, newFolderName).enqueue(object : Callback<WishBoardNameResponse> {
+        wishService.postWishListReName(userId, request).enqueue(object : Callback<WishBoardNameResponse> {
             override fun onResponse(call: Call<WishBoardNameResponse>, response: Response<WishBoardNameResponse>) {
-                if (response.isSuccessful) {
+                if (response.message().equals("Folder name updated successfully")) {
                     val wishListReNameResponse: WishBoardNameResponse = response.body()!!
 
                     Log.d("FOLDER201-RESPONSE", wishListReNameResponse.toString())
 
-                    when (val code = wishListReNameResponse.code) {
-                        "FOLDER201" -> {
-                            wishView.onPostWishListReNameSuccess(code, wishListReNameResponse.message)
+                    when (val message = wishListReNameResponse.message) {
+                        "Folder name updated successfully" -> {
+                            wishView.onPostWishListReNameSuccess(message, wishListReNameResponse.message)
                         }
                         else -> {
-                            wishView.onPostWishListReNameFailure(code, wishListReNameResponse.message)
+                            wishView.onPostWishListReNameFailure(message, wishListReNameResponse.message)
                         }
                     }
                 }
@@ -193,22 +194,22 @@ class WishService {
     }
 
     //위시리스트 폴더 삭제
-    private fun delWishBoardList(userId: Int, folderId: List<Int>) {
+    fun delWishBoardList(userId: Int, folderId: List<Int>) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
         wishService.delWishBoardList(userId, folderId).enqueue(object : Callback<WishBoardDeleteResponse> {
             override fun onResponse(call: Call<WishBoardDeleteResponse>, response: Response<WishBoardDeleteResponse>) {
-                if (response.isSuccessful) {
+                if (response.message().equals("Folders deleted successfully")) {
                     val wishBoardListResponse: WishBoardDeleteResponse = response.body()!!
 
                     Log.d("FOLDER201-RESPONSE", wishBoardListResponse.toString())
 
-                    when (val code = wishBoardListResponse.code) {
-                        "FOLDER201" -> {
-                            wishView.onDeleteWishBoardListSuccess(code, wishBoardListResponse.message)
+                    when (val message = wishBoardListResponse.message) {
+                        "Folders deleted successfully" -> {
+                            wishView.onDeleteWishBoardListSuccess(message, wishBoardListResponse.message)
                         }
                         else -> {
-                            wishView.onDeleteWishBoardListFailure(code, wishBoardListResponse.message)
+                            wishView.onDeleteWishBoardListFailure(message, wishBoardListResponse.message)
                         }
                     }
                 }
@@ -222,22 +223,22 @@ class WishService {
     }
 
     //위시리스트 폴더 목록 삭제
-    private fun deltoWishBoard(folderId: Int, productIds: List<Int>) {
+    fun deltoWishBoard(folderId: Int, productIds: List<Int>) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
         wishService.deltoWishBoard(folderId, productIds).enqueue(object : Callback<WishBoardDeleteResponse> {
             override fun onResponse(call: Call<WishBoardDeleteResponse>, response: Response<WishBoardDeleteResponse>) {
-                if (response.isSuccessful) {
+                if (response.message().equals("Products deleted successfully")) {
                     val wishBoardListResponse: WishBoardDeleteResponse = response.body()!!
 
                     Log.d("FOLDER301-RESPONSE", wishBoardListResponse.toString())
 
-                    when (val code = wishBoardListResponse.code) {
-                        "FOLDER301" -> {
-                            wishListView.onDeleteToWishBoardSuccess(code, wishBoardListResponse.message)
+                    when (val message = wishBoardListResponse.message) {
+                        "Products deleted successfully" -> {
+                            wishListView.onDeleteToWishBoardSuccess(message, wishBoardListResponse.message)
                         }
                         else -> {
-                            wishListView.onDeleteToWishBoardFailure(code, wishBoardListResponse.message)
+                            wishListView.onDeleteToWishBoardFailure(message, wishBoardListResponse.message)
                         }
                     }
                 }

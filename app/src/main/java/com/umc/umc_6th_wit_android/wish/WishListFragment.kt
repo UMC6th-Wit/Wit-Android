@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentWishlistBinding
+import kotlin.properties.Delegates
 
 // WishListFragment 클래스 정의: 위시리스트를 관리하는 프래그먼트
 class WishListFragment : Fragment(), SelectionListener, WishListView {
@@ -28,6 +29,8 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
     private lateinit var wishListAdapter: WishListAdapter
     // 편집 모드 상태 변수
     private var isEditMode = false
+    private val wishService = WishService()
+    private var boardId = 0
 
     // Fragment의 View를 생성하는 메소드
     override fun onCreateView(
@@ -36,6 +39,7 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
     ): View? {
         // ViewBinding을 이용해 Fragment의 레이아웃을 설정
         binding = FragmentWishlistBinding.inflate(inflater, container, false)
+        wishService.setWishListView(this)
         return binding.root
     }
 
@@ -47,8 +51,14 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
         binding.wishListRecyclerView.layoutManager = GridLayoutManager(context, 2)
 
         // 어댑터를 초기화하고 RecyclerView에 설정
-        wishListAdapter = WishListAdapter(getWishListItems(), this)
+        wishListAdapter = WishListAdapter(mutableListOf(), this) { currentCursor, limit ->
+            loadMoreItems(currentCursor, limit)
+        }
         binding.wishListRecyclerView.adapter = wishListAdapter
+
+        boardId = arguments?.getInt("boardId")!!
+        // 처음 데이터 로드
+        loadMoreItems(1, 20)
 
         // 아이템의 선택 상태에 따른 버튼 상태 업데이트
         updateItemButtonState(wishListAdapter.selectedItems.size)
@@ -95,6 +105,13 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
         val boardTitle = arguments?.getString("boardTitle")
         if (boardTitle != null) {
             binding.wishListTitle.text = boardTitle.toString()
+        }
+        Log.d("folder", "boardId: $boardId")
+    }
+
+    fun loadMoreItems(cursor: Int?, limit: Int?) {
+        if (boardId != null) {
+            wishService.getWishBoard(61, boardId, cursor, limit)
         }
     }
 
@@ -206,16 +223,15 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
     private fun getWishListItems(): List<WishItem> {
         // 예제 데이터를 생성
         val itemList = listOf(
-            WishItem(0, "아이템 1", "367", "3,151", R.drawable.item_ex, "상품 설명", 1, 4.4),
-            WishItem(1, "아이템 2", "367", "3,151", R.drawable.item_ex, "상품 설명", 2, 4.4),
-            WishItem(2, "아이템 3", "367", "3,151", R.drawable.item_ex, "상품 설명", 3, 4.4),
-            WishItem(3, "아이템 4", "367", "3,151", R.drawable.item_ex, "상품 설명", 4, 4.4),
-            WishItem(4, "아이템 5", "367", "3,151", R.drawable.item_ex, "상품 설명", 5, 4.4),
-            WishItem(5, "아이템 6", "367", "3,151", R.drawable.item_ex, "상품 설명", 6, 4.4),
+            WishItem(0, "아이템 1", 367, 3151, R.drawable.item_ex.toString(), 4.4, 1, true),
+            WishItem(1, "아이템 2", 367, 3151, R.drawable.item_ex.toString(), 4.4, 2, true),
+            WishItem(2, "아이템 3", 367, 3151, R.drawable.item_ex.toString(), 4.4, 3, true),
+            WishItem(3, "아이템 4", 367, 3151, R.drawable.item_ex.toString(), 4.4, 4, true),
+            WishItem(4, "아이템 5", 367, 3151, R.drawable.item_ex.toString(), 4.4, 5, true),
+            WishItem(5, "아이템 6", 367, 3151, R.drawable.item_ex.toString(), 4.4, 6, true),
         )
         // 아이템 개수를 설정
         binding.wishListCount.text = itemList.size.toString()
-        Log.d("count", itemList.size.toString())
         return itemList
     }
 
@@ -226,13 +242,16 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
     }
 
     //위시리스트 폴더 상세 조회 성공
-    override fun onGetWishBoardSuccess(code: String, result: WishBoardItemResult) {
-        TODO("Not yet implemented")
+    override fun onGetWishBoardSuccess(code: String, result: WishItemResult) {
+        Log.d("board_product", "Success")
+        wishListAdapter.addItems(result.products)
+        wishListAdapter.currentCursor = result.nextCursor
+        binding.wishListCount.text = result.count.toString()
     }
 
     //위시리스트 폴더 상세 조회 실패
     override fun onGetWishBoardFailure(code: String, message: String) {
-        TODO("Not yet implemented")
+        Log.d("board_product", "Fail")
     }
 
     //위시리스트 폴더 상품 담기 성공
