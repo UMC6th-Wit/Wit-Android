@@ -11,7 +11,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.GridLayoutManager
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.remote.search.SearchResult
-import com.umc.umc_6th_wit_android.data.remote.search.SearchService
 import com.umc.umc_6th_wit_android.data.remote.search.Souvenir
 import com.umc.umc_6th_wit_android.databinding.FragmentSearchRsltBinding
 import com.umc.umc_6th_wit_android.home.CustomRVAdapter

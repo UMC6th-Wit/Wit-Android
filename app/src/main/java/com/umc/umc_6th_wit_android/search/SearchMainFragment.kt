@@ -13,7 +13,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.data.remote.search.SearchService
 import com.umc.umc_6th_wit_android.databinding.FragmentSearchMainBinding
 
 class SearchMainFragment  : Fragment(), SearchMainView {
