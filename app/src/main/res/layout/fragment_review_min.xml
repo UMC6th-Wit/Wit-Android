@@ -98,25 +98,29 @@
         app:layout_constraintStart_toStartOf="@+id/review_page_tv"
         app:layout_constraintTop_toBottomOf="@+id/review_page_tv" />
 
-    <androidx.appcompat.widget.AppCompatRatingBar
-        android:id="@+id/review_rate_btn"
-        style="@style/Widget.AppCompat.RatingBar.Indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/review_rate_tv"
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/ImageRatingBar_yellow"
+        android:layout_width="115dp"
+        android:layout_height="24dp"
         android:layout_marginStart="4dp"
+        android:numStars="5"
+        android:rating="4"
+        android:stepSize="0.5"
+        app:layout_constraintBottom_toBottomOf="@+id/review_rate_tv"
         app:layout_constraintStart_toEndOf="@id/review_rate_tv" />
 
     <TextView
         android:id="@+id/reciew_num_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="3dp"
         android:text="(18)"
-        android:textColor="#DDDDDD"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/review_rate_tv"
-        app:layout_constraintStart_toEndOf="@+id/review_rate_btn" />
+        android:textColor="#BEBEBE"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
+        app:layout_constraintStart_toEndOf="@+id/ratingBar" />
 
     <ImageView
         android:id="@+id/go_to_review_btn_iv"

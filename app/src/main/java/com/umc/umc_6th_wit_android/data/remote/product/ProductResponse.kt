@@ -119,6 +119,22 @@ data class ReviewPageDataResult(
     @SerializedName("image") val image: List<String>
 )
 
+//상품 별점 불러오기 (별점별 리뷰 개수)
+data class RatingStatsResponse(
+    @SerializedName("isSuccess") val isSuccess: Boolean,
+    @SerializedName("code") val code: Int,
+    @SerializedName("message") val message: String,
+    @SerializedName("result") val result: RatingStatsResult
+)
+
+data class RatingStatsResult(
+    @SerializedName("rating_5_count") val rating5Count: Int?,
+    @SerializedName("rating_4_count") val rating4Count: Int?,
+    @SerializedName("rating_3_count") val rating3Count: Int?,
+    @SerializedName("rating_2_count") val rating2Count: Int?,
+    @SerializedName("rating_1_count") val rating1Count: Int?
+)
+
 //리뷰에 도움이 돼요 누르기
 data class HelpfulResponse(
     @SerializedName("message") val message: String,

@@ -43,7 +43,7 @@ interface ProductRetrofitInterface {
     @GET("/products/{productId}/rating-stats")
     fun getRatingStats(
         @Path("productId") productId: Int
-    ): Call<HelpfulResponse>
+    ): Call<RatingStatsResponse>
 
     // 리뷰에 도움이 돼요 누르기
     @POST("/products/{productId}/reviews/{reviewId}/helpful")
