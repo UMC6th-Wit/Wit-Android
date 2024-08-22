@@ -1,27 +1,35 @@
 package com.umc.umc_6th_wit_android.wish
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.ActivityFolderBinding
+import com.umc.umc_6th_wit_android.login.TokenManager
 
 // FolderActivity 클래스 정의: 새로운 폴더를 생성하는 Activity
 class FolderActivity : AppCompatActivity(), FolderView {
 
     // View Binding 객체를 지연 초기화
     lateinit var binding: ActivityFolderBinding
+    private lateinit var tokenManager: TokenManager
 
     // 액티비티 생성 시 호출되는 메서드
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // TokenManager 초기화
+        tokenManager = TokenManager(getSharedPreferences("auth_prefs", Context.MODE_PRIVATE))
         // View Binding 초기화
         binding = ActivityFolderBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -63,7 +71,10 @@ class FolderActivity : AppCompatActivity(), FolderView {
                     product_ids = listOf(1, 2),
                     folder_name = binding.folderNameEditText.text.toString()
                 )
-                wishService.postWishListCreate(38, request)
+                val accessToken = tokenManager.getAccessToken()
+                if (accessToken != null) {
+                    wishService.postWishListCreate(accessToken, request)
+                }
                 // 폴더 이름이 비어있지 않으면 결과를 설정하고 액티비티 종료
                 setResult(Activity.RESULT_OK)
                 finish()

@@ -2,6 +2,7 @@ package com.umc.umc_6th_wit_android.wish
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentWishBinding
+import com.umc.umc_6th_wit_android.login.TokenManager
 
 
 // WishFragment 클래스: 위시리스트 및 보드의 UI를 관리하는 프래그먼트
@@ -37,6 +39,7 @@ class WishFragment : Fragment(), SelectionListener, WishView {
 
     private val ADD_FOLDER_REQUEST_CODE = 1
     private val wishService = WishService()
+    private lateinit var tokenManager: TokenManager
 
     // Fragment의 View를 생성하는 메소드
     override fun onCreateView(
@@ -48,6 +51,8 @@ class WishFragment : Fragment(), SelectionListener, WishView {
         // ViewBinding을 이용해 Fragment의 레이아웃을 설정
         binding = FragmentWishBinding.inflate(inflater, container, false)
         wishService.setWishView(this)
+        // TokenManager 초기화
+        tokenManager = TokenManager(requireContext().getSharedPreferences("auth_prefs", Context.MODE_PRIVATE))
         return binding.root
     }
 
@@ -132,11 +137,17 @@ class WishFragment : Fragment(), SelectionListener, WishView {
     }
 
     fun loadMoreItems(cursor: Int?, limit: Int?) {
-        wishService.getWishList(61, cursor, limit)
+        val accessToken = tokenManager.getAccessToken()
+        if (accessToken != null) {
+            wishService.getWishList(accessToken, cursor, limit)
+        }
     }
 
     fun loadMoreBoards(cursor: Int?, limit: Int?) {
-        wishService.getWishBoardList(61, cursor, limit)
+        val accessToken = tokenManager.getAccessToken()
+        if (accessToken != null) {
+            wishService.getWishBoardList(accessToken, cursor, limit)
+        }
     }
 
     // Activity 결과 처리
@@ -333,7 +344,10 @@ class WishFragment : Fragment(), SelectionListener, WishView {
                 folder_id = 45,
                 new_folder_name = tvPopupText.text.toString()
             )
-            wishService.postWishListReName(38, request)
+            val accessToken = tokenManager.getAccessToken()
+            if (accessToken != null) {
+                wishService.postWishListReName(accessToken, request)
+            }
             renameSelectedBoard(tvPopupText.text.toString())
             dialog.dismiss()
         }
@@ -371,8 +385,11 @@ class WishFragment : Fragment(), SelectionListener, WishView {
         }
         // 삭제 버튼 클릭 이벤트 리스너 설정
         dialogView.findViewById<Button>(R.id.btn_delete).setOnClickListener {
+            val accessToken = tokenManager.getAccessToken()
             // 폴더 삭제 로직
-            wishService.delWishBoardList(38, listOf(45))
+            if (accessToken != null) {
+                wishService.delWishBoardList(accessToken, listOf(45))
+            }
             deleteSelectedBoards()
             dialog.dismiss()
         }
@@ -476,7 +493,7 @@ class WishFragment : Fragment(), SelectionListener, WishView {
 
     //위시리스트 장바구니 목록 조회 성공
     override fun onGetWishListSuccess(code: String, result: WishItemResult) {
-        Log.d("cart", "Success")
+        Log.d("cart", result.nextCursor.toString())
         wishAdapter.addItems(result.products)
         wishAdapter.currentCursor = result.nextCursor
         binding.wishCount.text = result.count.toString()
