@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentOnboarding2Binding
@@ -14,7 +15,7 @@ import com.umc.umc_6th_wit_android.databinding.FragmentOnboarding2Binding
 class OnboardingFragment2 : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var binding: FragmentOnboarding2Binding
-
+    private val sharedViewModel: SharedOnboardingViewModel by activityViewModels()
     private val selectedImages = mutableListOf<String>()
 
     override fun onCreateView(
@@ -37,6 +38,7 @@ class OnboardingFragment2 : Fragment() {
         nextButton.setOnClickListener {
             if (nextButton.isClickable) {
                 //선택한 정보 백엔드에 전송 처리 부분
+                sharedViewModel.destinationImages.value = selectedImages.toMutableList()
 
                 val currentItem = viewPager.currentItem
                 viewPager.currentItem = currentItem + 1
@@ -60,8 +62,8 @@ class OnboardingFragment2 : Fragment() {
             binding.onboarding2Img9,
         )
 
-        val imageNames = listOf("img1", "img2", "img3", "img4",
-            "img5", "img6", "img7", "img8", "img9")
+        val imageNames = listOf("type1", "type2", "type3", "type4",
+            "type5", "type6", "type7", "type8", "type9")
         val imageResources = listOf(
             R.drawable.onboarding2_img1,
             R.drawable.onboarding2_img2,

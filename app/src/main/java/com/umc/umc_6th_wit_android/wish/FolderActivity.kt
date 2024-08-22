@@ -65,9 +65,7 @@ class FolderActivity : AppCompatActivity(), FolderView {
                 )
                 wishService.postWishListCreate(38, request)
                 // 폴더 이름이 비어있지 않으면 결과를 설정하고 액티비티 종료
-                val resultIntent = Intent()
-                resultIntent.putExtra("folderName", folderName)
-                setResult(Activity.RESULT_OK, resultIntent)
+                setResult(Activity.RESULT_OK)
                 finish()
             }
         }
@@ -82,7 +80,7 @@ class FolderActivity : AppCompatActivity(), FolderView {
 
     //위시리스트 폴더 생성 성공
     override fun onPostWishListCreateSuccess(code: String, result: WishBoardItemResult) {
-        Log.d("FOLDER-RESPONSE", result.board_Products.toString())
+        Log.d("FOLDER-RESPONSE", result.folders.toString())
     }
 
     //위시리스트 폴더 생성 실패

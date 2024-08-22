@@ -3,7 +3,7 @@ package com.umc.umc_6th_wit_android.wish
 interface WishListView {
 
     //위시리스트 폴더 상세 조회
-    fun onGetWishBoardSuccess(code: String, result: WishBoardItemResult)
+    fun onGetWishBoardSuccess(code: String, result: WishItemResult)
     fun onGetWishBoardFailure(code: String, message: String)
 
     //위시리스트 폴더 상품 담기
