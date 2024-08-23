@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import com.umc.umc_6th_wit_android.login.TokenManager
 import com.umc.umc_6th_wit_android.network.TokenRetrofitManager
-import com.umc.umc_6th_wit_android.product.ProductDetailActivity
 import com.umc.umc_6th_wit_android.product.ProductView
 import com.umc.umc_6th_wit_android.product.ReviewCreationView
 import com.umc.umc_6th_wit_android.product.ReviewOverviewView
@@ -14,6 +13,7 @@ import com.umc.umc_6th_wit_android.wish.CartResponse
 import com.umc.umc_6th_wit_android.wish.WishBoardDeleteResponse
 import com.umc.umc_6th_wit_android.wish.WishBoardListDelRequest
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -105,7 +105,7 @@ class ProductService(private val context: Context) { //매개변수에 , private
     }
 
     // 리뷰 작성하기 (이미지 포함)
-    fun createReview(productId: Int, rating: RatingResponse, content: ContentResponse, image: MultipartBody.Part) {
+    fun createReview(productId: Int, rating: Double, content: RequestBody, image: List<MultipartBody.Part>) {
         // TokenManager에서 저장된 액세스 토큰을 가져옴
         val accessToken = tokenManager.getAccessToken()
         if (accessToken != null) {
@@ -114,6 +114,7 @@ class ProductService(private val context: Context) { //매개변수에 , private
             val productServiceApi = retrofit.create(ProductRetrofitInterface::class.java)
             productServiceApi.createReview("Bearer $accessToken", productId, rating, content, image).enqueue(object : Callback<ReviewCreationResponse> {
                 override fun onResponse(call: Call<ReviewCreationResponse>, response: Response<ReviewCreationResponse>) {
+                    Log.d("review_", response.body().toString())
                     if (response.isSuccessful) {
                         val reviewCreationResponse: ReviewCreationResponse = response.body()!!
 

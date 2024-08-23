@@ -97,11 +97,11 @@ data class ReviewCreationResponse(
 )
 
 data class RatingResponse(
-    @SerializedName("rating") val rating: Double?
+    @SerializedName("rating") val rating: String?
 )
 
 data class ContentResponse(
-    @SerializedName("content") val message: String?,
+    @SerializedName("content") val content: String?,
 )
 
 data class ReviewCreationResult(
