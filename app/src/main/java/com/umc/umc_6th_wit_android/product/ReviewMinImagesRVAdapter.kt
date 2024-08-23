@@ -9,7 +9,7 @@ import com.umc.umc_6th_wit_android.data.remote.product.TopHelpfulReview
 import com.umc.umc_6th_wit_android.databinding.ItemProductImgMinBinding
 import com.umc.umc_6th_wit_android.databinding.ItemReviewBinding
 
-class ReviewMinImagesRVAdapter (val items: List<TopHelpfulReview>)
+class ReviewMinImagesRVAdapter (val items: List<String>)
     : RecyclerView.Adapter<ReviewMinImagesRVAdapter.ReviewMinImagesViewHolder>() {
 
     val TAG = "ReviewMinRVAdapter"
@@ -21,8 +21,9 @@ class ReviewMinImagesRVAdapter (val items: List<TopHelpfulReview>)
         return ReviewMinImagesViewHolder(itemBinding)
     }
     override fun onBindViewHolder(holder: ReviewMinImagesViewHolder, position: Int) {
+        val imageUrl = items[position]
         Glide.with(holder.itemView.context)
-            .load(items[position].firstImage)
+            .load(imageUrl)
             .into(holder.binding.reviewPhotoIv)
 
     }
@@ -30,10 +31,10 @@ class ReviewMinImagesRVAdapter (val items: List<TopHelpfulReview>)
     inner class ReviewMinImagesViewHolder(val binding: ItemProductImgMinBinding)
         : RecyclerView.ViewHolder(binding.root) {
         init {
-            //RecyclerView 항목 클릭 시 외부 click 이벤트 리스너 호출
-            binding.root.setOnClickListener{
-                listener?.onItemClick(it, adapterPosition)  // RecyclerView 항목 클릭 시 외부에서 지정한 리스너 호출
-            }
+//            //RecyclerView 항목 클릭 시 외부 click 이벤트 리스너 호출
+//            binding.root.setOnClickListener{
+//                listener?.onItemClick(it, adapterPosition)  // RecyclerView 항목 클릭 시 외부에서 지정한 리스너 호출
+//            }
         }
     }
 

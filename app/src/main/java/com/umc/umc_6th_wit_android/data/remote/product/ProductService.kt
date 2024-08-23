@@ -78,29 +78,6 @@ class ProductService(private val context: ProductDetailActivity) { //매개변�
         }
     }
 
-    // 새로운 리뷰 목록 불러오기
-    fun getReviewOverview(productId: Int) {
-        val productServiceApi = getInstance().create(ProductRetrofitInterface::class.java)
-        productServiceApi.getReviewOverview(productId).enqueue(object : Callback<NewReviewOverviewResponse> {
-            override fun onResponse(call: Call<NewReviewOverviewResponse>, response: Response<NewReviewOverviewResponse>) {
-                if (response.isSuccessful && response.body()?.message == "Review overview retrieved successfully") {
-                    val reviewOverviewResponse: NewReviewOverviewResponse = response.body()!!
-
-                    Log.d("REVIEW_OVERVIEW", reviewOverviewResponse.toString())
-
-                    reviewoverviewView.onGetReviewOverviewSuccess(response.body()?.code.toString(), reviewOverviewResponse.result)
-                } else {
-                    reviewoverviewView.onGetReviewOverviewFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
-                }
-            }
-
-            override fun onFailure(call: Call<NewReviewOverviewResponse>, t: Throwable) {
-                Log.d("REVIEW_OVERVIEW_ERROR", t.message.toString())
-                reviewoverviewView.onGetReviewOverviewFailure("500", t.message ?: "Unknown error")
-            }
-        })
-    }
-
     // 제품 리뷰 목록 불러오기 (베스트순, 최신순)
     fun getProductReviews(productId: Int) {
         val productServiceApi = getInstance().create(ProductRetrofitInterface::class.java)

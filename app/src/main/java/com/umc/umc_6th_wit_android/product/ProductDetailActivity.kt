@@ -77,7 +77,8 @@ import java.util.Locale
         binding.whereWidget2Tv.text = "${result.sales_area}"
 
         //ProductDetailFragment에 정보 전달
-        val fragment = ProductDetailFragment.newInstance("${result.name}", "${result.product_type}", "${result.manufacturing_country}", "${result.review_count}")
+        val id = intent.getIntExtra("id", -1)
+        val fragment = ProductDetailFragment.newInstance("$id", "${result.name}", "${result.product_type}", "${result.manufacturing_country}")
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_product_detail, fragment)
             .commit()

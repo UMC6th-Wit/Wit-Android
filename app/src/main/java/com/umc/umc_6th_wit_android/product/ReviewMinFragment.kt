@@ -1,7 +1,6 @@
 package com.umc.umc_6th_wit_android.product
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,13 +10,19 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.remote.product.ProductResult
+import com.umc.umc_6th_wit_android.data.remote.product.ProductService
+import com.umc.umc_6th_wit_android.data.remote.product.Review
+import com.umc.umc_6th_wit_android.data.remote.product.ReviewOverviewResult
 import com.umc.umc_6th_wit_android.databinding.FragmentReviewMinBinding
 import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 
-class ReviewMinFragment : Fragment(), ProductView {
+class ReviewMinFragment : Fragment(), ProductView, ReviewOverviewView {
 
     private var _binding: FragmentReviewMinBinding? = null
     private val binding get() = _binding!!
+    private var id: Int? = null
+    private lateinit var Reviewitems: List<Review>
+    private lateinit var Imageitems: List<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,10 +36,13 @@ class ReviewMinFragment : Fragment(), ProductView {
         super.onViewCreated(view, savedInstanceState)
 
         binding.productDetailSelectTv.setOnClickListener {
-            val fragment = ProductDetailFragment()
+            val fragment = ProductDetailFragment.newInstance(id.toString(), "", "", "") // id를 넘기기
 
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_product_detail, fragment)  // fragment_container = 현재 프래그먼트를 표시하는 뷰의 ID
+                .replace(
+                    R.id.fragment_product_detail,
+                    fragment
+                )  // fragment_container = 현재 프래그먼트를 표시하는 뷰의 ID
                 .addToBackStack(null)  // 뒤로 가기 버튼을 사용하여 이전 프래그먼트로 돌아가기
                 .commit()
         }
@@ -44,17 +52,43 @@ class ReviewMinFragment : Fragment(), ProductView {
             startActivity(intent)
         }
 
-        binding.moreReviewBtnIv.setOnClickListener{
+        binding.moreReviewBtnIv.setOnClickListener {
             val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
             startActivity(intent)
         }
 
-        val recyclerView = binding.reviewMinRv
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val itemList = listOf("Item 1", "Item 2", "Item 3", "Item 4", "Item 5")
-        val adapter = ReviewMinAdapter(itemList)
-        recyclerView.adapter = adapter
+        binding.reviewMinImagesRv.layoutManager = LinearLayoutManager(requireContext())
+        // 어댑터 설정1
+        val imageAdapter = ReviewMinImagesRVAdapter(Imageitems)
+        binding.reviewMinRv.adapter = imageAdapter
+
+        binding.reviewMinRv.layoutManager = LinearLayoutManager(requireContext())
+        // 어댑터 설정2
+        val ReviewAdapter = ReviewMinRVAdapter(Reviewitems)
+        binding.reviewMinRv.adapter = ReviewAdapter
+
+    }
+
+    override fun onGetProductSuccess(code: String, result: ProductResult) {
+        Log.d("Product-SUCCESS", code + result.name)
+
+        //정보 가져 오는데 성공 -> 뷰에 반영
+        binding.reviewRateTv.text = "${result.average_rating}"
+        binding.reciewNumTv.text = "${result.review_count}"
+        binding.productReviewSelectTv.text = "리뷰(${result.review_count})"
+        binding.ratingBar.rating = result.average_rating.toFloat()
+
+        Reviewitems = result.top_reviews
+    }
+
+    override fun onGetProductFailure(code: String, message: String) {
+        Log.d("ReviewMin-FAILURE", code)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getProductDetail()
     }
 
     override fun onDestroyView() {
@@ -62,17 +96,39 @@ class ReviewMinFragment : Fragment(), ProductView {
         _binding = null
     }
 
-    override fun onGetProductSuccess(code: String, result: ProductResult) {
-        Log.d("Product-SUCCESS", code + result.name)
+    companion object {
+        fun newInstance(id: Int): ReviewMinFragment {
+            val fragment = ReviewMinFragment()
+            val args = Bundle().apply {
+                putInt("id", id)
+            }
+            fragment.arguments = args
+            return fragment
+        }
 
-        //정보 가져 오는데 성공 -> 뷰에 반영
-        binding.reviewRateTv.text = "${result.average_rating.toFloat()}"
-        binding.reciewNumTv.text = "${result.review_count}"
-        binding.productReviewSelectTv.text = "리뷰(${result.review_count})"
-        binding.ratingBar.rating = result.average_rating.toFloat()
     }
 
-    override fun onGetProductFailure(code: String, message: String) {
-        Log.d("Product-FAILURE", code)
+    private fun getProductDetail() {
+        val id: Int? = null
+
+        if (id != -1) {
+            Log.d("ReviewMinFragment", "Ok id received")
+            val productService = ProductService(ProductDetailActivity())
+            productService.setProductDetailView(this)
+            productService.getProductDetail(id!!)
+
+        } else {
+            Log.d("ReviewMinFragment", "No id received")
+        }
+    }
+
+    override fun onGetReviewOverviewSuccess(code: String, result: ReviewOverviewResult) {
+        Log.d("ReviewOverview-SUCCESS", code + result)
+        Imageitems = result.latestImages
+    }
+
+    override fun onGetReviewOverviewFailure(code: String, message: String) {
+        Log.d("ReviewOverview-Failure", code)
     }
 }
+

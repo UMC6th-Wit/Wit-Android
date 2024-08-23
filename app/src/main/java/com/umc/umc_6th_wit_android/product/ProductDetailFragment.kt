@@ -37,7 +37,7 @@ class ProductDetailFragment : Fragment() {
         binding.productTypeTv.text = arguments?.getString("product_type")
         binding.productCountryTv.text = arguments?.getString("manufacturing_country")
         reviewCount = arguments?.getString("review_count")?.toIntOrNull() ?: 0
-        binding.productReviewSelectTv.text = "리뷰(${reviewCount})"
+        val id = arguments?.getString("id")?.toIntOrNull() ?: -1
 
         binding.productReviewSelectTv.setOnClickListener {
             val fragment = if (reviewCount == 0) {
@@ -45,6 +45,9 @@ class ProductDetailFragment : Fragment() {
             } else {
                 ReviewMinFragment()  // ReviewMinFragment로 이동
             }
+
+            if(fragment == ReviewMinFragment())
+                ReviewMinFragment.newInstance(id) //리뷰 오버뷰 프레그먼트에 상품 id 전달e
 
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_product_detail, fragment)  // fragment_container = 현재 프래그먼트를 표시하는 뷰의 ID
@@ -60,13 +63,13 @@ class ProductDetailFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(name: String, product_type: String, manufacturing_country: String, review_count: String): ProductDetailFragment {
+        fun newInstance(id: String, name: String, product_type: String, manufacturing_country: String): ProductDetailFragment {
             val fragment = ProductDetailFragment()
             val args = Bundle().apply {
+                putString("id", id)
                 putString("name", name)
                 putString("product_type", product_type)
                 putString("manufacturing_country", manufacturing_country)
-                putString("review_count", review_count)
             }
             fragment.arguments = args
             return fragment
