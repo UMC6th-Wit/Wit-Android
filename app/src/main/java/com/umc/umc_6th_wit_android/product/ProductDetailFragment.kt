@@ -20,7 +20,7 @@ class ProductDetailFragment : Fragment() {
     private var _binding: FragmentProductDetailBinding? = null
     private val binding get() = _binding!!
 
-    private var reviewCount: Int = 0 // 현재 리뷰 개수, 페이지 로딩 시 마다
+    private var reviewCount= "0" // 현재 리뷰 개수, 페이지 로딩 시 마다
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,11 +37,11 @@ class ProductDetailFragment : Fragment() {
         binding.productDetailNameTv.text = arguments?.getString("name")
         binding.productTypeTv.text = arguments?.getString("product_type")
         binding.productCountryTv.text = arguments?.getString("manufacturing_country")
-        reviewCount = arguments?.getString("review_count")?.toIntOrNull() ?: 0
+        reviewCount = arguments?.getString("review_count")!!
         val id = arguments?.getString("id")?.toIntOrNull() ?: -1
 
         binding.productReviewSelectTv.setOnClickListener {
-            val fragment = if (reviewCount == 0) {
+            val fragment = if (reviewCount == "0") {
                 ReviewZeroFragment()  // ReviewZeroFragment로 이동
             } else {
                 ReviewMinFragment()  // ReviewMinFragment로 이동
