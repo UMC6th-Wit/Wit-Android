@@ -13,6 +13,7 @@ import com.umc.umc_6th_wit_android.product.ReviewView
 import com.umc.umc_6th_wit_android.wish.CartResponse
 import com.umc.umc_6th_wit_android.wish.WishBoardDeleteResponse
 import com.umc.umc_6th_wit_android.wish.WishBoardListDelRequest
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,7 +62,6 @@ class ProductService(private val context: Context) { //매개변수에 , private
             val productServiceApi = retrofit.create(ProductRetrofitInterface::class.java)
             productServiceApi.getProductDetail("Bearer $accessToken", productId).enqueue(object : Callback<ProductResponse> {
                 override fun onResponse(call: Call<ProductResponse>, response: Response<ProductResponse>) {
-                    Log.d("product_response", response.body().toString())
                     if (response.isSuccessful && response.body()?.message == "Product retrieved successfully") {
                         val productResponse: ProductResponse = response.body()!!
 
@@ -105,26 +105,32 @@ class ProductService(private val context: Context) { //매개변수에 , private
     }
 
     // 리뷰 작성하기 (이미지 포함)
-    fun createReview(productId: Int, rating: Int, content: String, images: String) {
-        val productServiceApi = getInstance().create(ProductRetrofitInterface::class.java)
-        productServiceApi.createReview(productId, rating, content, images).enqueue(object : Callback<ReviewCreationResponse> {
-            override fun onResponse(call: Call<ReviewCreationResponse>, response: Response<ReviewCreationResponse>) {
-                if (response.isSuccessful) {
-                    val reviewCreationResponse: ReviewCreationResponse = response.body()!!
+    fun createReview(productId: Int, rating: RatingResponse, content: ContentResponse, image: MultipartBody.Part) {
+        // TokenManager에서 저장된 액세스 토큰을 가져옴
+        val accessToken = tokenManager.getAccessToken()
+        if (accessToken != null) {
 
-                    Log.d("REVIEW_CREATION", reviewCreationResponse.toString())
+            val retrofit = TokenRetrofitManager(context)
+            val productServiceApi = retrofit.create(ProductRetrofitInterface::class.java)
+            productServiceApi.createReview("Bearer $accessToken", productId, rating, content, image).enqueue(object : Callback<ReviewCreationResponse> {
+                override fun onResponse(call: Call<ReviewCreationResponse>, response: Response<ReviewCreationResponse>) {
+                    if (response.isSuccessful) {
+                        val reviewCreationResponse: ReviewCreationResponse = response.body()!!
 
-                    reviewcreationView.onPostReviewCreationSuccess(response.body()?.code.toString(), reviewCreationResponse.result)
-                } else {
-                    reviewcreationView.onPostReviewCreationFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
+                        Log.d("REVIEW_CREATION", reviewCreationResponse.toString())
+
+                        reviewcreationView.onPostReviewCreationSuccess(response.body()?.code.toString(), reviewCreationResponse.result)
+                    } else {
+                        reviewcreationView.onPostReviewCreationFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<ReviewCreationResponse>, t: Throwable) {
-                Log.d("REVIEW_CREATION_ERROR", t.message.toString())
-                reviewcreationView.onPostReviewCreationFailure("500", t.message ?: "Unknown error")
-            }
-        })
+                override fun onFailure(call: Call<ReviewCreationResponse>, t: Throwable) {
+                    Log.d("REVIEW_CREATION_ERROR", t.message.toString())
+                    reviewcreationView.onPostReviewCreationFailure("500", t.message ?: "Unknown error")
+                }
+            })
+        }
     }
 
     // 리뷰 작성 페이지 불러오기

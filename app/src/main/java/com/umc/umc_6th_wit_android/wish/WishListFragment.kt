@@ -62,7 +62,7 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
         binding.wishListRecyclerView.layoutManager = GridLayoutManager(context, 2)
 
         // 어댑터를 초기화하고 RecyclerView에 설정
-        wishListAdapter = WishListAdapter(mutableListOf(), this) { currentCursor, limit ->
+        wishListAdapter = WishListAdapter(requireContext(), mutableListOf(), this) { currentCursor, limit ->
             loadMoreItems(currentCursor, limit)
         }
         binding.wishListRecyclerView.adapter = wishListAdapter

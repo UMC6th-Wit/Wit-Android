@@ -88,6 +88,7 @@ import java.util.Locale
         binding.whereWidget1Tv.text = "${result.sales_area}"
         binding.whereWidget2Tv.text = "${result.sales_area}"
         isHelpIv = result.is_heart == 1
+        binding.heartBtnTv.text = "${result.heart_count}"
         if (!isHelpIv) {
             binding.heartBtnIv.setImageResource(R.drawable.heart_btn_empty_image)
         } else {
@@ -129,6 +130,7 @@ import java.util.Locale
 
     private fun getProductDetail() {
         val id = intent.getIntExtra("id", -1)  // 기본값을 -1로 설정
+        Log.d("PRODUCT_DETAIL", id.toString())
         if (id != -1) {
             Log.d("ProductDetailActivity", "Ok id received")
             val productService = ProductService(this@ProductDetailActivity)
