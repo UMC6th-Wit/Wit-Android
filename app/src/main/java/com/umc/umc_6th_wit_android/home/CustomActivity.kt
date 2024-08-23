@@ -39,8 +39,8 @@ class CustomActivity : AppCompatActivity() , PersonalView {
     }
 
     override fun onGetPersonalSuccess(code: String, result: HomePersonalResult) {
-        Log.d("PERSONAL-SUCCESS", code + result.user.username + result.recommendations)
-        binding.title.text = "${result.user.username}님을 위한 추천템"
+        Log.d("PERSONAL-SUCCESS", code + result.user.userNickname + result.recommendations)
+        binding.title.text = "${result.user.userNickname}님을 위한 추천템"
         initCustomRV(result.recommendations)
     }
 

@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.CategoryDto
+import com.umc.umc_6th_wit_android.data.remote.home.ProductVer2
 import com.umc.umc_6th_wit_android.databinding.ItemRankingBinding
 
-class RankingCategoryRVAdapter (val items : ArrayList<CategoryDto>)
+class RankingCategoryRVAdapter (val items : ArrayList<ProductVer2>, val part : String)
     : RecyclerView.Adapter<RankingCategoryRVAdapter.RankingCateogoryViewHolder>() {
     val TAG = "RankingCategoryRVAdapter"
 
@@ -21,30 +23,35 @@ class RankingCategoryRVAdapter (val items : ArrayList<CategoryDto>)
     }
 
     override fun onBindViewHolder(holder: RankingCateogoryViewHolder, position: Int) {
+        if(part == "category"){
+            holder.itemBinding.rankingNum.text = "${position + 1}"
+        }
+        Log.d("SIZECATEGORY", items.size.toString())
         holder.itemBinding.rankingNum.text = "${position + 1}"
-        holder.itemBinding.itemCoverImgIv.setImageResource(items[position].image)
-        holder.itemBinding.itemTitleTv.text = items[position].title
-        holder.itemBinding.itemYenTv2.text = items[position].yen
-        holder.itemBinding.itemWonTv2.text = items[position].won
+        Glide.with( holder.itemView.context).load(items[position].imageUrl).into(holder.itemBinding.itemCoverImgIv)
+        holder.itemBinding.itemTitleTv.text = items[position].name
+        holder.itemBinding.itemYenTv2.text = items[position].enPrice.toString() + "¥"
+        holder.itemBinding.itemWonTv2.text = items[position].wonPrice.toString() +"₩"
+        holder.itemBinding.itemStarTv.text = String.format("%.2f", items[position].rating)
+        holder.itemBinding.itemReviewNumTv.text = "(${items[position].reviewCount})"
 
-        if(!items[position].isLike){
-            holder.itemBinding.likeIv.setImageResource(R.drawable.off_heart)
+        if(!items[position].isHeart){
+            holder.itemBinding.likeIv.setImageResource(R.drawable.home_off_heart)
         }else{
             holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
         }
 
         //test
         holder.itemBinding.likeIv.setOnClickListener {
-            if(!items[position].isLike){
-                items[position].isLike = true
+            if(!items[position].isHeart){
+                items[position].isHeart = true
                 holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
             }else{
-                items[position].isLike = false
-                holder.itemBinding.likeIv.setImageResource(R.drawable.off_heart)
+                items[position].isHeart = false
+                holder.itemBinding.likeIv.setImageResource(R.drawable.home_off_heart)
             }
         }
     }
-
     inner class RankingCateogoryViewHolder(val itemBinding: ItemRankingBinding)
         : RecyclerView.ViewHolder(itemBinding.root) {
         init {

@@ -16,12 +16,13 @@ import com.umc.umc_6th_wit_android.data.remote.search.Souvenir
 import com.umc.umc_6th_wit_android.databinding.FragmentSearchRsltBinding
 import com.umc.umc_6th_wit_android.home.CustomRVAdapter
 import com.umc.umc_6th_wit_android.product.ProductDetailActivity
+import com.umc.umc_6th_wit_android.wish.WishAdapter
 
 
 class SearchRsltFragment : Fragment(), SearchRsltView {
     lateinit var binding: FragmentSearchRsltBinding
     private var searchQuery: String? = null
-
+    private lateinit var adapter: CustomRVAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,17 +81,19 @@ class SearchRsltFragment : Fragment(), SearchRsltView {
             .addToBackStack(null) // 백스택에 추가하여 뒤로가기 시 이전 화면으로 돌아감
             .commit()
     }
+
     override fun onResume() {
         super.onResume()
-        getSearches()
+        initRecyclerView()
+        getSearches(0, 20)//화면이 생성될때마다 = 검색할때마다 요청
     }
-    private fun getSearches() {
+    private fun getSearches(cursor: Int?, limit: Int?) {
         val searchService = SearchService(requireContext())
         searchService.setSearchRsltView(this)
 
-        searchService.getSearches(searchQuery)
+        searchService.getSearches(searchQuery, cursor, limit)
     }
-    private fun initRecyclerView(result: SearchResult) {
+    private fun initRecyclerView() {
         // ArrayList 초기화
         var items: ArrayList<Souvenir> = ArrayList()
 
@@ -105,8 +108,10 @@ class SearchRsltFragment : Fragment(), SearchRsltView {
         items.add(Souvenir(8,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
 */
         // result.souvenirs 데이터를 사용하려면 아래 주석을 해제합니다.
-         items = ArrayList(result.souvenirs)
-        val adapter = CustomRVAdapter(items)
+//         items = ArrayList(result.souvenirs)
+        adapter = CustomRVAdapter(items){ currentCursor, limit ->
+            getSearches(currentCursor, limit)
+        }
         adapter.setOnItemClickListener(object : CustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
@@ -119,8 +124,9 @@ class SearchRsltFragment : Fragment(), SearchRsltView {
     }
     override fun onGetSearchSuccess(code: String, result: SearchResult) {
         Log.d("SEARCH-SUCCESS", code + result.souvenirs)
-        initRecyclerView(result)
         binding.totalTv.text = "총 ${result.total}개"
+        adapter.addItems(ArrayList(result.souvenirs))
+        adapter.currentCursor = result.nextCursor
     }
 
     override fun onGetSearchFailure(code: String, message: String) {

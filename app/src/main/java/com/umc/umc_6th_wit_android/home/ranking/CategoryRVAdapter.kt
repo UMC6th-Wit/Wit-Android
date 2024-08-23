@@ -1,4 +1,4 @@
-package com.umc.umc_6th_wit_android.home
+package com.umc.umc_6th_wit_android.home.ranking
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,33 +7,41 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.R
+import com.umc.umc_6th_wit_android.data.local.CategoryDto
+import com.umc.umc_6th_wit_android.data.remote.home.ProductVer2
 import com.umc.umc_6th_wit_android.data.remote.search.Souvenir
-import com.umc.umc_6th_wit_android.databinding.ItemCustomBinding
-import com.umc.umc_6th_wit_android.wish.WishItem
+import com.umc.umc_6th_wit_android.databinding.ItemRankingBinding
 
-
-class CustomRVAdapter (
-    val items : ArrayList<Souvenir>,
-    private val getSearches: (cursor: Int?, limit: Int?) -> Unit
+class CategoryRVAdapter (
+    val items : ArrayList<ProductVer2>,
+    val part : String,
+    val category: Int?,
+    private val getCategory : (category: Int?, cursor: Int?) -> Unit
 )
-    : RecyclerView.Adapter<CustomRVAdapter.CustomViewHolder>() {
-    val TAG = "CustomRVAdapter"
+    : RecyclerView.Adapter<CategoryRVAdapter.RankingCateogoryViewHolder>() {
+    val TAG = "RankingCategoryRVAdapter"
     var currentCursor: Int? = null
-    private val limit = 20 // 한 번에 가져올 아이템 수
 
     override fun getItemCount(): Int = items.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
-        val itemBinding = ItemCustomBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CustomViewHolder(itemBinding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankingCateogoryViewHolder {
+        val itemBinding = ItemRankingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return RankingCateogoryViewHolder(itemBinding)
     }
 
-    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RankingCateogoryViewHolder, position: Int) {
         // 스크롤이 끝에 도달했을 때 더 많은 아이템을 로드
-        if (position == items.size - 1 && currentCursor != 0) {
-            getSearches(currentCursor, limit)
+        if (position == items.size - 1 && currentCursor != null) {
+            getCategory(category, currentCursor)//category는 고정 값
+        }else if(currentCursor == null){
+            getCategory(category, 0)//category는 고정 값
         }
 
+        if(part != "ranking"){
+            holder.itemBinding.rankingNum.visibility = View.GONE
+        }
+        Log.d("SIZECATEGORY", items.size.toString())
+        holder.itemBinding.rankingNum.text = "${position + 1}"
         Glide.with( holder.itemView.context).load(items[position].imageUrl).into(holder.itemBinding.itemCoverImgIv)
         holder.itemBinding.itemTitleTv.text = items[position].name
         holder.itemBinding.itemYenTv2.text = items[position].enPrice.toString() + "¥"
@@ -41,32 +49,31 @@ class CustomRVAdapter (
         holder.itemBinding.itemStarTv.text = String.format("%.2f", items[position].rating)
         holder.itemBinding.itemReviewNumTv.text = "(${items[position].reviewCount})"
 
-        //하트 눌린건지 여부.
-        if(items[position].isHeart != 1){
-            holder.itemBinding.likeIv.setImageResource(R.drawable.off_heart)
+        if(!items[position].isHeart){
+            holder.itemBinding.likeIv.setImageResource(R.drawable.home_off_heart)
         }else{
             holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
         }
 
         //test
         holder.itemBinding.likeIv.setOnClickListener {
-            if(items[position].isHeart != 1){
-                items[position].isHeart = 1 //SearchResponse에서 isHeart 임시로 var로 해놓음 val로 변경해야함.
+            if(!items[position].isHeart){
+                items[position].isHeart = true
                 holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
             }else{
-                items[position].isHeart = 0
-                holder.itemBinding.likeIv.setImageResource(R.drawable.off_heart)
+                items[position].isHeart = false
+                holder.itemBinding.likeIv.setImageResource(R.drawable.home_off_heart)
             }
         }
     }
-
     // 데이터 추가를 위한 메서드
-    fun addItems(newItems: ArrayList<Souvenir>) {
+    fun addItems(newItems: ArrayList<ProductVer2>) {
         val startPos = items.size
         items.addAll(newItems)
         notifyItemRangeInserted(startPos, newItems.size)
     }
-    inner class CustomViewHolder(val itemBinding: ItemCustomBinding)
+
+    inner class RankingCateogoryViewHolder(val itemBinding: ItemRankingBinding)
         : RecyclerView.ViewHolder(itemBinding.root) {
         init {
             /*RecyclerView 항목 클릭 시 외부 click 이벤트 리스너 호출*/

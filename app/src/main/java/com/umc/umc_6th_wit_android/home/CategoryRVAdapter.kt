@@ -25,7 +25,7 @@ class CategoryRVAdapter (val items : ArrayList<ProductVer2>)
     override fun onBindViewHolder(holder: CateogoryViewHolder, position: Int) {
         holder.itemBinding.rankingNum.text = "${position + 1}"
         Glide.with( holder.itemView.context).load(items[position].imageUrl).into(holder.itemBinding.itemCoverImgIv)
-//        holder.itemBinding.tvAddress.text = items[position].address
+        holder.itemBinding.tvAddress.text = items[position].salesArea
         holder.itemBinding.itemTitleTv.text = items[position].name
         holder.itemBinding.itemYenTv2.text = items[position].enPrice.toString() + "¥"
         holder.itemBinding.itemWonTv2.text = items[position].wonPrice.toString() +"₩"
