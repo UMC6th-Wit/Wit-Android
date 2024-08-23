@@ -52,4 +52,3 @@ interface ProductRetrofitInterface {
         @Path("reviewId") reviewId: Int
     ): Call<HelpfulResponse>
 }
-

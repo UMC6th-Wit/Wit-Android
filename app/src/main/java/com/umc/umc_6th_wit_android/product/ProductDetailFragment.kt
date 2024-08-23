@@ -1,16 +1,19 @@
 package com.umc.umc_6th_wit_android.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.umc.umc_6th_wit_android.R
+import com.umc.umc_6th_wit_android.data.remote.product.ProductResult
 import com.umc.umc_6th_wit_android.databinding.FragmentProductDetailBinding
+import com.umc.umc_6th_wit_android.product.ProductView
 import com.umc.umc_6th_wit_android.product.ReviewMinFragment
 import com.umc.umc_6th_wit_android.product.ReviewZeroFragment
 
-class ProductDetailFragment : Fragment() {
+class ProductDetailFragment : Fragment(), ProductView {
 
     private var _binding: FragmentProductDetailBinding? = null
     private val binding get() = _binding!!
@@ -46,5 +49,18 @@ class ProductDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onGetProductSuccess(code: String, result: ProductResult) {
+        Log.d("ProductFragment-SUCCESS", code + result.name)
+
+        //정보 가져 오는데 성공 -> 뷰에 반영
+        binding.productDetailNameTv.text = "${result.name}"
+        binding.productTypeTv.text = "${result.product_type}"
+        binding.productCountryTv.text = "${result.manufacturing_country}"
+    }
+
+    override fun onGetProductFailure(code: String, message: String) {
+        Log.d("ProductFragment-FAILURE", code)
     }
 }

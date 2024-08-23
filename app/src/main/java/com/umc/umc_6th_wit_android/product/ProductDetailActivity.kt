@@ -1,13 +1,13 @@
 package com.umc.umc_6th_wit_android.product
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.umc.umc_6th_wit_android.PriceActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.remote.product.ProductResult
-import com.umc.umc_6th_wit_android.data.remote.product.RatingStatsResult
 import com.umc.umc_6th_wit_android.databinding.ActivityProductDetailBinding
 import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 
@@ -52,12 +52,14 @@ class ProductDetailActivity : AppCompatActivity(), ProductView {
         Log.d("Product-SUCCESS", code + result.name)
 
         //정보 가져 오는데 성공 -> 뷰에 반영
+        val imageUri = Uri.parse(result.image)
+        binding.productDetailImg.setImageURI(imageUri)
         binding.productNameTv.text = "${result.name}"
         //binding.heartBtnTv.text = "${result.}" 제품 장바구니에 담기, 빼기 하트 숫자에 적용해야함
         binding.currencyYenTv.text = "${result.en_price}"
         binding.currencyWonTv.text = "${result.won_price}"
         binding.whereWidget1Tv.text = "${result.sales_area}"
-        binding.whereWidget2Tv.text = "${result.manufacturing_country}"
+        binding.whereWidget2Tv.text = "${result.sales_area}"
     }
 
     override fun onGetProductFailure(code: String, message: String) {

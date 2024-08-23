@@ -1,7 +1,6 @@
 package com.umc.umc_6th_wit_android.product
 
 import com.umc.umc_6th_wit_android.data.remote.product.ProductResult
-import com.umc.umc_6th_wit_android.data.remote.product.RatingStatsResult
 
 interface ProductView {
 
