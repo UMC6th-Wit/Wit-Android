@@ -133,7 +133,7 @@ class ProductService(private val context: Context) { //매개변수에 , private
         }
     }
 
-    // 리뷰 작성 페이지 불러오기
+    // 리뷰 작성 페이지 불러오기 -> 굳이 필요 없음
     fun getReviewPageData(productId: Int) {
         val productServiceApi = getInstance().create(ProductRetrofitInterface::class.java)
         productServiceApi.getReviewPageData(productId).enqueue(object : Callback<ReviewPageDataResponse> {

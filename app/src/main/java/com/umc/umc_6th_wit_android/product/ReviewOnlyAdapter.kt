@@ -1,45 +1,65 @@
 package com.umc.umc_6th_wit_android.product
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.data.local.ReviewDetailDto
+import com.umc.umc_6th_wit_android.data.remote.product.Review
+import com.umc.umc_6th_wit_android.databinding.ItemReviewDetailBinding
 
-class ReviewOnlyAdapter(private val itemList: List<ReviewDetailDto>) : RecyclerView.Adapter<ReviewOnlyAdapter.MyViewHolder>() {
+class ReviewOnlyAdapter(private val items: List<Review>) : RecyclerView.Adapter<ReviewOnlyAdapter.MyViewHolder>() {
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.review_help_btn_iv)
-    }
+    // ViewHolder 클래스
+    inner class MyViewHolder(val binding: ItemReviewDetailBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_review_detail, parent, false)
-        return MyViewHolder(view)
+        // View Binding을 사용하여 뷰를 인플레이트합니다.
+        val binding = ItemReviewDetailBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val item = itemList[position]
+        // 현재 위치의 데이터를 가져옵니다.
+        val review = items[position]
 
-        // 초기 이미지 설정
-        holder.imageView.setImageResource(item.imageResId)
+        // 데이터 클래스의 값을 ViewHolder에 바인딩합니다.
+        holder.binding.reviewNameTv.text = review.user_name
+        holder.binding.reviewDetailTv.text = review.content
+        holder.binding.reviewHelpPeopleNumTv.text = review.helpful_count.toString()
 
-        // 이미지 클릭 이벤트 처리
-        holder.imageView.setOnClickListener {
-            // 현재 이미지 리소스와 다른 이미지로 변경
-            if (item.imageResId == R.drawable.review_help_btn_image) {
-                item.imageResId = R.drawable.review_helped_btn_image
+        // 이미지 로드 - Glide를 사용하여 이미지를 로드합니다.
+        Glide.with(holder.itemView.context)
+            .load(review.user_profile_image)
+            .into(holder.binding.reviewProfileImageIv)
+
+        holder.binding.ratingBar.rating = review.rating.toFloat()
+
+        // RecyclerView 설정 및 어댑터 설정
+        val reviewImages = review.images.split(",")
+        val imageAdapter = ReviewOnlyImagesRVAdapter(reviewImages)
+        holder.binding.imageRvOnly.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
+        holder.binding.imageRvOnly.adapter = imageAdapter
+
+        // 초기 태그 설정
+        holder.binding.reviewHelpBtnIv.tag = R.drawable.review_help_btn_image
+
+        // 이미지뷰 클릭 이벤트 처리
+        holder.binding.reviewHelpBtnIv.setOnClickListener {
+            val currentImage = holder.binding.reviewHelpBtnIv.tag as Int
+
+            if (currentImage == R.drawable.review_help_btn_image) {
+                holder.binding.reviewHelpBtnIv.setImageResource(R.drawable.review_helped_btn_iv)
+                holder.binding.reviewHelpBtnIv.tag = R.drawable.review_helped_btn_iv
             } else {
-                item.imageResId = R.drawable.review_help_btn_image
+                holder.binding.reviewHelpBtnIv.setImageResource(R.drawable.review_help_btn_image)
+                holder.binding.reviewHelpBtnIv.tag = R.drawable.review_help_btn_image
             }
-
-            // 이미지 변경 반영
-            holder.imageView.setImageResource(item.imageResId)
         }
     }
 
     override fun getItemCount(): Int {
-        return itemList.size
+        return items.size
     }
 }
