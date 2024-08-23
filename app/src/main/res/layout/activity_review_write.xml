@@ -184,7 +184,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/button_folder_background_enabled"
-        android:enabled="false"
+        android:enabled="true"
         android:padding="17dp"
         android:text="리뷰 등록하기"
         android:textColor="@color/folderBlack"

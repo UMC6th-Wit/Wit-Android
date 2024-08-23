@@ -18,7 +18,8 @@ import androidx.appcompat.widget.AppCompatRatingBar
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.ActivityReviewWriteBinding
 
-class ReviewWriteActivity : AppCompatActivity() {
+
+class ReviewWriteActivity : AppCompatActivity(), ReviewCreationView {
 
     lateinit var binding: ActivityReviewWriteBinding
 
@@ -83,15 +84,59 @@ class ReviewWriteActivity : AppCompatActivity() {
                     imagePickerLauncher.launch(intent)
                 }
             }
+
+            createReviewBtn.setOnClickListener{
+                val productService = ProductService(this@ReviewWriteActivity)
+                productService.setReviewCreationView(this)
+                Log.d("rating", rating.rating.toString())
+                Log.d("editText", editText.text.toString())
+                val rating = RatingResponse(
+                    rating.rating.toString()
+                )
+                val content = ContentResponse(
+                    editText.text.toString()
+                )
+                val emptyMultipartList: List<MultipartBody.Part> = emptyList()
+                rating.rating?.let { it1 -> productService.createReview(1, it1.toDouble(), RequestBody.create("text/plain".toMediaTypeOrNull(), editText.text.toString()), emptyMultipartList) }
+            }
         }
 
     // 갤러리에서 이미지 선택 후 결과 처리
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-            result.data?.data?.let { uri ->
-
+            result.data?.let { data ->
+                val clipData = data.clipData
+                if (clipData != null) {
+                    // 사용자가 여러 이미지를 선택한 경우
+                    for (i in 0 until clipData.itemCount) {
+                        val imageUri = clipData.getItemAt(i).uri
+                        // 각 이미지의 URI를 처리
+                        handleSelectedImage(imageUri)
+                    }
+                } else {
+                    // 사용자가 단일 이미지를 선택한 경우
+                    data.data?.let { uri ->
+                        handleSelectedImage(uri)
+                    }
+                }
             }
         }
+    }
+
+    // 이미지 URI를 처리하는 함수 예시
+    private fun handleSelectedImage(uri: Uri) {
+        // 선택된 이미지 URI를 처리하는 코드 (예: 이미지뷰에 표시하거나 서버에 업로드)
+        Log.d("ImagePicker", "Selected image URI: $uri")
+    }
+
+    override fun onPostReviewCreationSuccess(code: String, result: ReviewCreationResult) {
+        if(code.equals("201")){
+            finish()
+        }
+    }
+
+    override fun onPostReviewCreationFailure(code: String, message: String) {
+        TODO("Not yet implemented")
     }
 }
 
