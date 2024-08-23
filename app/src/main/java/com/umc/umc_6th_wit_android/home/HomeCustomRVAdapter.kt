@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.data.remote.home.Product
+import com.umc.umc_6th_wit_android.data.remote.home.ProductVer2
 import com.umc.umc_6th_wit_android.databinding.ItemHomeCustomBinding
 import ddwu.com.mobile.finalreport.data.PersonalDto
 
-class HomeCustomRVAdapter(val items : ArrayList<Product>, val rvType : String)
-    : RecyclerView.Adapter<HomeCustomRVAdapter.CustomViewHolder>() {
+class HomeCustomRVAdapter<T>(val items: ArrayList<T>, val rvType: String) : RecyclerView.Adapter<HomeCustomRVAdapter<T>.CustomViewHolder>() {
     val TAG = "HomeCustomRVAdapter"
 
     override fun getItemCount(): Int = items.size
@@ -31,11 +31,24 @@ class HomeCustomRVAdapter(val items : ArrayList<Product>, val rvType : String)
             layoutParams.height = heightInPx
             holder.itemBinding.itemCoverImgCv.layoutParams = layoutParams
         }
-        holder.itemBinding.itemTitleTv.text = items[position].name
-        holder.itemBinding.itemYenTv.text = items[position].enPrice.toString() + "¥"
-        holder.itemBinding.itemStarTv.text = String.format("%.1f", items[position].rating)
-        holder.itemBinding.itemReviewNumTv.text = "(" + items[position].reviewCount.toString() + ")"
-        Glide.with( holder.itemView.context).load(items[position].imageUrl).into(holder.itemBinding.itemCoverImgIv)
+        val item = items[position]
+
+        when (item) {
+            is ProductVer2 -> {
+                holder.itemBinding.itemTitleTv.text = item.name
+                holder.itemBinding.itemYenTv.text = item.enPrice.toString() + "¥"
+                holder.itemBinding.itemStarTv.text = String.format("%.1f", item.rating)
+                holder.itemBinding.itemReviewNumTv.text = "(" + item.reviewCount.toString() + ")"
+                Glide.with(holder.itemView.context).load(item.imageUrl).into(holder.itemBinding.itemCoverImgIv)
+            }
+            is Product -> {
+                holder.itemBinding.itemTitleTv.text = item.name
+                holder.itemBinding.itemYenTv.text = item.enPrice.toString() + "¥" // `price` 사용
+                holder.itemBinding.itemStarTv.text = String.format("%.1f", item.rating)
+                holder.itemBinding.itemReviewNumTv.text = "(" + item.reviewCount.toString() + ")"
+                Glide.with(holder.itemView.context).load(item.imageUrl).into(holder.itemBinding.itemCoverImgIv)
+            }
+        }
     }
 
     inner class CustomViewHolder(val itemBinding: ItemHomeCustomBinding)

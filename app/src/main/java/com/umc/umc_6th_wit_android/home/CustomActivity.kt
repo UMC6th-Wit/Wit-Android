@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.umc.umc_6th_wit_android.data.remote.home.HomePersonalResult
 import com.umc.umc_6th_wit_android.data.remote.home.HomeService
 import com.umc.umc_6th_wit_android.data.remote.home.Product
+import com.umc.umc_6th_wit_android.data.remote.home.ProductVer2
 import com.umc.umc_6th_wit_android.databinding.ActivityCustomBinding
 import com.umc.umc_6th_wit_android.product.ProductDetailActivity
 import com.umc.umc_6th_wit_android.wish.HeartView
@@ -49,10 +50,10 @@ class CustomActivity : AppCompatActivity() , PersonalView, HeartView {
         Log.d("PERSONAL-FAILURE", code)
     }
 
-    private fun initCustomRV(result: List<Product>) {
+    private fun initCustomRV(result: List<ProductVer2>) {
 // ArrayList 초기화
 //        var items: ArrayList<Product> = ArrayList()
-        var items: ArrayList<Product> = ArrayList(result)
+        var items: ArrayList<ProductVer2> = ArrayList(result)
 
        /* // 임의 test data 추가
         items.add(
