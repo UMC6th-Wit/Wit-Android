@@ -29,7 +29,8 @@ data class ProductResult(
 
     @SerializedName("user_id") val user_id: Int?,
     @SerializedName("is_heart") val is_heart: Int?,
-    @SerializedName("average_rating") val average_rating: Int,
+    @SerializedName("heart_count") val heart_count: Int?,
+    @SerializedName("average_rating") val average_rating: Double,
     @SerializedName("review_count") val review_count: Int,
     @SerializedName("latest_review_images") val latest_review_images: List<String>,
     @SerializedName("top_reviews") val top_reviews: List<Review>
@@ -38,7 +39,7 @@ data class ProductResult(
 //review
 data class Review(
     @SerializedName("review_id") val review_id: Int,
-    @SerializedName("rating") val rating: Int,
+    @SerializedName("rating") val rating: Double,
     @SerializedName("content") val content: String,
     @SerializedName("created_at") val created_at: String,
 
@@ -58,14 +59,14 @@ data class NewReviewOverviewResponse(
 
 data class ReviewOverviewResult(
     @SerializedName("review_count") val reviewCount: Int,
-    @SerializedName("average_rating") val averageRating: Int,
+    @SerializedName("average_rating") val averageRating: Double,
     @SerializedName("latest_images") val latestImages: List<String>,
     @SerializedName("top_helpful_reviews") val topHelpfulReviews: List<TopHelpfulReview>
 )
 
 data class TopHelpfulReview(
     @SerializedName("review_id") val reviewId: Int,
-    @SerializedName("rating") val rating: Int,
+    @SerializedName("rating") val rating: Double,
     @SerializedName("content") val content: String,
     @SerializedName("created_at") val createdAt: String,
     @SerializedName("user_name") val userName: String,
@@ -82,7 +83,7 @@ data class ProductReviewsResponse(
 
 data class ReviewsResult(
     @SerializedName("reviews") val reviews: List<Review>,
-    @SerializedName("average_rating") val averageRating: Int,
+    @SerializedName("average_rating") val averageRating: Double,
     @SerializedName("total_reviews") val totalReviews: Int,
     @SerializedName("nextCursor") val nextCursor: Int
 )
@@ -95,9 +96,17 @@ data class ReviewCreationResponse(
     @SerializedName("result") val result: ReviewCreationResult
 )
 
+data class RatingResponse(
+    @SerializedName("rating") val rating: Double?
+)
+
+data class ContentResponse(
+    @SerializedName("content") val message: String?,
+)
+
 data class ReviewCreationResult(
     @SerializedName("review_id") val reviewId: Int,
-    @SerializedName("rating") val rating: Int,
+    @SerializedName("rating") val rating: Double,
     @SerializedName("content") val content: String,
     @SerializedName("created_at") val createdAt: String,
     @SerializedName("user_name") val userName: String,
@@ -116,7 +125,7 @@ data class ReviewPageDataResponse(
 data class ReviewPageDataResult(
     @SerializedName("name") val name: String,
     @SerializedName("user_name") val userName: String,
-    @SerializedName("rating") val rating: Int?,
+    @SerializedName("rating") val rating: Double?,
     @SerializedName("content") val content: String?,
     @SerializedName("image") val image: List<String>
 )

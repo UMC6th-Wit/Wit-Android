@@ -177,16 +177,21 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextText"
         app:srcCompat="@drawable/review_input_photo" />
 
-    <ImageView
-        android:id="@+id/review_complete_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="55dp"
-        android:layout_marginBottom="16dp"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/review_create_btn"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_folder_background_enabled"
+        android:enabled="false"
+        android:padding="17dp"
+        android:text="리뷰 등록하기"
+        android:textColor="@color/folderBlack"
+        android:layout_alignParentBottom="true"
+        android:windowSoftInputMode="adjustResize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/review_complete_image" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 

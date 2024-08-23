@@ -77,9 +77,10 @@ class WishFragment : Fragment(), SelectionListener, WishView {
         binding.boardsRecyclerView.layoutManager = GridLayoutManager(context, 2)
 
         // 어댑터를 초기화하고 RecyclerView에 설정
-        wishAdapter = WishAdapter(mutableListOf(), this) { currentCursor, limit ->
+        wishAdapter = WishAdapter(requireContext(), mutableListOf(), this) { currentCursor, limit ->
             loadMoreItems(currentCursor, limit)
         }
+
         boardsAdapter = BoardsAdapter(mutableListOf(), this) { currentCursor, limit ->
             loadMoreBoards(currentCursor, limit)
         }

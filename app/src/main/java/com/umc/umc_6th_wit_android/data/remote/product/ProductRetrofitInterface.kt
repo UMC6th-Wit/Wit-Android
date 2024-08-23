@@ -3,6 +3,7 @@ package com.umc.umc_6th_wit_android.data.remote.product
 import com.umc.umc_6th_wit_android.wish.CartResponse
 import com.umc.umc_6th_wit_android.wish.WishBoardDeleteResponse
 import com.umc.umc_6th_wit_android.wish.WishBoardListDelRequest
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -29,12 +30,13 @@ interface ProductRetrofitInterface {
 
     // 리뷰 작성하기 (이미지 포함)
     @POST("products/{productId}/reviews")
-    @FormUrlEncoded
+    @Multipart
     fun createReview(
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Path("productId") productId: Int,
-        @Field("rating") rating: Int,
-        @Field("content") content: String,
-        @Field("images") images: String
+        @Part("rating") rating: RatingResponse,  // rating 값을 담는 RequestBody
+        @Part("content") content: ContentResponse,  // content 값을 담는 RequestBody
+        @Part("image") image: MultipartBody.Part
     ): Call<ReviewCreationResponse>
 
     // 리뷰 작성 페이지 불러오기
