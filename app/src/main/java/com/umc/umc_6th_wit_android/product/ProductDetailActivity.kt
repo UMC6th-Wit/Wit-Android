@@ -51,7 +51,7 @@ import java.util.Locale
             // 하트 버튼 이미지 변경 로직
             if (!isHelpIv) {
                 val request = WishBoardListDelRequest(
-                    product_ids = listOf(1)   //product_id 넣기
+                    product_ids = listOf(intent.getIntExtra("id", -1))   //product_id 넣기
                 )
                 val productService = ProductService(this@ProductDetailActivity)
                 productService.setProductDetailView(this)
@@ -60,7 +60,7 @@ import java.util.Locale
             } else {
                 val productService = ProductService(this@ProductDetailActivity)
                 productService.setProductDetailView(this)
-                productService.addCart(1)   //product_id 넣기
+                productService.addCart(intent.getIntExtra("id", -1))   //product_id 넣기
                 binding.heartBtnIv.setImageResource(R.drawable.heart_btn_full_image)
             }
             isHelpIv = !isHelpIv // 하트 버튼 상태 변경
