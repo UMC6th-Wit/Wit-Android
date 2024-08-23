@@ -19,7 +19,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ProductService(private val context: ProductDetailActivity) { //매개변수에 , private val productServiceApi: ProductRetrofitInterface 필요하면 사용
+class ProductService(private val context: Context) { //매개변수에 , private val productServiceApi: ProductRetrofitInterface 필요하면 사용
 
     private lateinit var productView: ProductView
     private lateinit var reviewView: ReviewView
@@ -127,7 +127,7 @@ class ProductService(private val context: ProductDetailActivity) { //매개변�
         })
     }
 
-    // 리뷰 작성 페이지 불러오기
+    // 리뷰 작성 페이지 불러오기 -> 굳이 필요 없음
     fun getReviewPageData(productId: Int) {
         val productServiceApi = getInstance().create(ProductRetrofitInterface::class.java)
         productServiceApi.getReviewPageData(productId).enqueue(object : Callback<ReviewPageDataResponse> {
