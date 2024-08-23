@@ -2,6 +2,7 @@ package com.umc.umc_6th_wit_android.home.ranking
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,11 @@ import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.umc.umc_6th_wit_android.R
+import com.umc.umc_6th_wit_android.data.remote.home.CategoryResult
+import com.umc.umc_6th_wit_android.data.remote.home.HomeService
+import com.umc.umc_6th_wit_android.data.remote.home.ProductVer2
 import com.umc.umc_6th_wit_android.databinding.FragmentRankingBinding
+import com.umc.umc_6th_wit_android.home.CategoryView
 
 class RankingFragment : Fragment() {
 
@@ -22,17 +27,6 @@ class RankingFragment : Fragment() {
     ): View? {
         binding = FragmentRankingBinding.inflate(inflater, container, false)
 
-        val category : Array<String> = resources.getStringArray(R.array.CATEGORY)
-
-        val rankingAdapter = RankingCategoryVPAdapter(this)
-        binding.rankingCategoryVp.adapter = rankingAdapter
-
-        TabLayoutMediator(binding.rankingCategoryTl, binding.rankingCategoryVp){
-                tab, position->
-            tab.text= category[position]  //포지션에 따른 텍스트
-        }.attach()  //탭레이아웃과 뷰페이저를 붙여주는 기능
-
-        tabItemMargin(binding.rankingCategoryTl)
 
         binding.gender.setOnClickListener {
             val intent = Intent(activity, RankingActivity::class.java)
@@ -52,6 +46,18 @@ class RankingFragment : Fragment() {
             startActivity(intent)
         }
 
+        val category : Array<String> = resources.getStringArray(R.array.CATEGORY)
+
+        val rankingAdapter = RankingCategoryVPAdapter(this)
+        binding.rankingCategoryVp.adapter = rankingAdapter
+
+        TabLayoutMediator(binding.rankingCategoryTl, binding.rankingCategoryVp){
+                tab, position->
+            tab.text= category[position]  //포지션에 따른 텍스트
+        }.attach()  //탭레이아웃과 뷰페이저를 붙여주는 기능
+
+        tabItemMargin(binding.rankingCategoryTl)
+
         return binding.root
     }
 
@@ -64,4 +70,5 @@ class RankingFragment : Fragment() {
             tab.requestLayout()
         }
     }
+
 }

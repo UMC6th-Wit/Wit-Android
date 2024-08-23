@@ -71,6 +71,7 @@ data class ProductVer2(
     @SerializedName(value = "won_price") val wonPrice: Int,
     @SerializedName(value = "en_price") val enPrice: Int,
     @SerializedName(value = "image") val imageUrl: String,
+    @SerializedName(value = "sales_area") val salesArea: String,
     @SerializedName(value = "wish_count") val wishCount: Int,
     @SerializedName(value = "is_heart") var isHeart: Boolean,
     @SerializedName(value = "review_count") val reviewCount: Int,
@@ -85,7 +86,9 @@ data class CategoryResponse(
     @SerializedName("result") val result: CategoryResult
 )
 data class CategoryResult(
-    @SerializedName("popularProducts") val popularProducts: Map<String, List<ProductVer2>>
+    @SerializedName(value = "user") val user: User,
+    @SerializedName("groupedProducts") val popularProducts: Map<String, List<ProductVer2>>?,
+    @SerializedName(value = "cursor") val nextCursor: Int? = 0,
 )
 
 

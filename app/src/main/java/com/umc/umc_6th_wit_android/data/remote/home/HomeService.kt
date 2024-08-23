@@ -2,6 +2,7 @@ package com.umc.umc_6th_wit_android.data.remote.home
 import android.content.Context
 import android.util.Log
 import com.umc.umc_6th_wit_android.home.BestFoodView
+import com.umc.umc_6th_wit_android.home.CategoryView
 import com.umc.umc_6th_wit_android.home.SubHomeView
 import com.umc.umc_6th_wit_android.home.PersonalView
 import com.umc.umc_6th_wit_android.login.TokenManager
@@ -14,6 +15,7 @@ class HomeService(private val context: Context) {
     private lateinit var subHomeView: SubHomeView
     private lateinit var personalView: PersonalView
     private lateinit var bestFoodView: BestFoodView
+    private lateinit var categoryView: CategoryView
 
     //    private lateinit var searchMainView: SearchMainView
     //tokenManager 미리 설정
@@ -28,18 +30,22 @@ class HomeService(private val context: Context) {
     fun setBestFoodView(bestFoodView: BestFoodView) {
         this.bestFoodView = bestFoodView
     }
-
+    fun setCategoryView(categoryView: CategoryView) {
+        this.categoryView = categoryView
+    }
 
     //홈 불러오기
     fun getHomeProducts() {
         // TokenManager에서 저장된 액세스 토큰을 가져옴
         val accessToken = tokenManager.getAccessToken()
+        Log.d("HomeAccess", "$accessToken")
+
         if (accessToken != null) {
 
             val retrofit = TokenRetrofitManager(context)
             val homeService = retrofit.create(HomeRetrofitInterface::class.java)
 
-            homeService.getHomeProducts("Bearer $accessToken", 3).enqueue(object : Callback<HomeResponse> {
+            homeService.getHomeProducts("Bearer $accessToken").enqueue(object : Callback<HomeResponse> {
                 override fun onResponse(call: Call<HomeResponse>, response: Response<HomeResponse>) {
                     if (response.isSuccessful && response.code() == 200) {
                         val searchResponse: HomeResponse = response.body()!!
@@ -125,10 +131,46 @@ class HomeService(private val context: Context) {
                 }
 
                 override fun onFailure(call: Call<HomeBestFoodResponse>, t: Throwable) {
-                    personalView.onGetPersonalFailure("HOME_FAILURE400", "${t.message}")
+                    bestFoodView.onGetBestFoodFailure("HOME_FAILURE400", "${t.message}")
                 }
             })
 
         }
     }
+
+    //랭킹 category 불러오기 count=20 서버에서 고정
+    fun getCategory(category: Int?, cursor: Int?) {
+        // TokenManager에서 저장된 액세스 토큰을 가져옴
+        val accessToken = tokenManager.getAccessToken()
+        Log.d("CATEGORYINDEX3",category.toString() + cursor.toString())
+        if (accessToken != null) {
+
+            val retrofit = TokenRetrofitManager(context)
+            val homeService = retrofit.create(HomeRetrofitInterface::class.java)
+
+            homeService.getCategory("Bearer $accessToken", category, cursor).enqueue(object : Callback<CategoryResponse> {
+                override fun onResponse(call: Call<CategoryResponse>, response: Response<CategoryResponse>) {
+                    if (response.isSuccessful && response.code() == 200) {
+                        val categoryResponse: CategoryResponse = response.body()!!
+
+                        Log.d("CATEGORY-RESPONSE", categoryResponse.toString())
+
+                        when (val code = categoryResponse.code) {
+                            "HOME_SUCCESS200" -> {
+                                categoryView.onGetCategorySuccess(code, categoryResponse.result!!)
+                            }
+                            //MEMBER401
+                            else -> categoryView.onGetCategoryFailure(code, categoryResponse.message)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<CategoryResponse>, t: Throwable) {
+                    categoryView.onGetCategoryFailure("CATEGORY_FAILURE400", "${t.message}")
+                }
+            })
+
+        }
+    }
+
 }

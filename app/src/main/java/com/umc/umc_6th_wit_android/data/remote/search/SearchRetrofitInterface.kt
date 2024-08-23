@@ -12,6 +12,8 @@ interface SearchRetrofitInterface {
     fun getSearches(
         @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Query("query") query: String? = " ",
+        @Query("cursor") cursor: Int?,
+        @Query("limit") limit: Int?
     ): Call<SearchResponse>
 
     @GET("user/recent-searches")

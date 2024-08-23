@@ -109,8 +109,9 @@ class SubHomeFragment : Fragment(), SubHomeView{
         homeService.getHomeProducts()
     }
     override fun onGetHomeSuccess(code: String, result: HomeResult) {
-        Log.d("HOME-SUCCESS", code)
-        binding.recommendTitle.text = "${result.user.username}님을 위한 추천템"
+        Log.d("HOME-SUCCESS", code + result)
+        binding.recommendTitle.text = "${result.user.userNickname}님을 위한 추천템"
+        binding.recommendDetail.text ="${result.user.userNickname}님의 여행지에 찰떡인 기념품을 살펴보세요!"
         initPersonalRV(result.recommendations)
         initCategoryVp(result.popularProducts)
         initFoodRV(result.nyamRecommendations)

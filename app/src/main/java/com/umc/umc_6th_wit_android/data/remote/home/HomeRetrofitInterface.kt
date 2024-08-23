@@ -14,7 +14,7 @@ interface HomeRetrofitInterface {
     @GET("home")
     fun getHomeProducts(
         @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
-        @Query("count") count: Int
+//        @Query("count") count: Int
     ): Call<HomeResponse>
     
     //맞춤 추천템
@@ -35,8 +35,8 @@ interface HomeRetrofitInterface {
     @GET("home/category")
     fun getCategory(
         @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
-        @Query("category") category: Int,
-        @Query("count") count: Int
+        @Query("category") category: Int?,
+        @Query("cursor") cursor: Int?
     ) : Call<CategoryResponse>
 
 

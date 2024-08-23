@@ -25,7 +25,7 @@ class SearchService(private val context: Context) {
     }
 
     //검색결과
-    fun getSearches(query : String?) {
+    fun getSearches(query : String?, cursor: Int?, limit: Int?) {
         // TokenManager에서 저장된 액세스 토큰을 가져옴
         val accessToken = tokenManager.getAccessToken()
         if (accessToken != null) {
@@ -33,7 +33,7 @@ class SearchService(private val context: Context) {
             val retrofit = TokenRetrofitManager(context)
             val searchService = retrofit.create(SearchRetrofitInterface::class.java)
 
-            searchService.getSearches("Bearer $accessToken", query).enqueue(object : Callback<SearchResponse> {
+            searchService.getSearches("Bearer $accessToken", query, cursor, limit).enqueue(object : Callback<SearchResponse> {
                 override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
                     if (response.isSuccessful && response.code() == 200) {
                         val searchResponse: SearchResponse = response.body()!!

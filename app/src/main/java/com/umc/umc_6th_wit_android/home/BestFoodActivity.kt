@@ -38,7 +38,7 @@ class BestFoodActivity  : AppCompatActivity(), BestFoodView {
         homeService.getBestFood()
     }
     override fun onGetBestFoodSuccess(code: String, result: HomeBestFoodResult) {
-        Log.d("FOOD-SUCCESS", code)
+        Log.d("FOOD-SUCCESS1", code + result.nyamRecommendations)
         initCustomRV(result.nyamRecommendations)
     }
 
