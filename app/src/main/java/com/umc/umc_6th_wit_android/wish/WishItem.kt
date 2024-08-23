@@ -1,5 +1,8 @@
 package com.umc.umc_6th_wit_android.wish
 
+import java.io.Serializable
+
+
 data class WishItem(
     val product_id: Int,
     val name: String,
@@ -9,4 +12,4 @@ data class WishItem(
     val average_rating: Double,
     val review_count : Int,
     val heart: Boolean
-)
+) : Serializable

@@ -62,9 +62,31 @@ class WishService {
                     Log.d("WISHLIST200-RESPONSE", wishBoardResponse.toString())
 
                     when (val message = wishBoardResponse.message) {
-                        "Folders retrieved successfully" -> wishView.onGetWishBoardListSuccess(message, wishBoardResponse.data)
+                        "Folders retrieved successfully" -> {
+                            if (::wishView.isInitialized) {
+                                wishView.onGetWishBoardListSuccess(
+                                    message,
+                                    wishBoardResponse.data
+                                )
+                            } else if (::wishListView.isInitialized) {
+                                wishListView.onGetWishBoardListSuccess(
+                                    message,
+                                    wishBoardResponse.data
+                                )
+                            }
+                        }
                         else -> {
-                            wishView.onGetWishBoardListFailure(message, wishBoardResponse.message)
+                            if (::wishView.isInitialized) {
+                                wishView.onGetWishBoardListFailure(
+                                    message,
+                                    wishBoardResponse.message
+                                )
+                            } else if (::wishListView.isInitialized) {
+                                wishListView.onGetWishBoardListFailure(
+                                    message,
+                                    wishBoardResponse.message
+                                )
+                            }
                         }
                     }
                 }
@@ -136,7 +158,7 @@ class WishService {
     }
 
     //위시리스트 폴더 생성
-    fun postWishListCreate(accessToken: String,request: WishListCreateRequest) {
+    fun postWishListCreate(accessToken: String, request: WishListCreateRequest) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
         wishService.postWishListCreate("Bearer $accessToken", request).enqueue(object : Callback<WishBoardResponse> {
@@ -165,7 +187,7 @@ class WishService {
     }
 
     //위시리스트 폴더 이름 변경
-    fun postWishListReName(accessToken: String,request: WishListEditRequest) {
+    fun postWishListReName(accessToken: String, request: WishListEditRequest) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
         wishService.postWishListReName("Bearer $accessToken", request).enqueue(object : Callback<WishBoardNameResponse> {
@@ -194,10 +216,9 @@ class WishService {
     }
 
     //위시리스트 폴더 삭제
-    fun delWishBoardList(accessToken: String, folderId: List<Int>) {
+    fun delWishBoardList(accessToken: String, request: WishBoardDelRequest) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
-
-        wishService.delWishBoardList("Bearer $accessToken", folderId).enqueue(object : Callback<WishBoardDeleteResponse> {
+        wishService.delWishBoardList("Bearer $accessToken", request).enqueue(object : Callback<WishBoardDeleteResponse> {
             override fun onResponse(call: Call<WishBoardDeleteResponse>, response: Response<WishBoardDeleteResponse>) {
                 if (response.message().equals("Folders deleted successfully")) {
                     val wishBoardListResponse: WishBoardDeleteResponse = response.body()!!
@@ -223,10 +244,10 @@ class WishService {
     }
 
     //위시리스트 폴더 목록 삭제
-    fun deltoWishBoard(accessToken: String, folderId: Int, productIds: List<Int>) {
+    fun deltoWishBoard(accessToken: String, folderId: Int, request: WishBoardListDelRequest) {
         val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
 
-        wishService.deltoWishBoard("Bearer $accessToken", folderId, productIds).enqueue(object : Callback<WishBoardDeleteResponse> {
+        wishService.deltoWishBoard("Bearer $accessToken", folderId, request).enqueue(object : Callback<WishBoardDeleteResponse> {
             override fun onResponse(call: Call<WishBoardDeleteResponse>, response: Response<WishBoardDeleteResponse>) {
                 if (response.message().equals("Products deleted successfully")) {
                     val wishBoardListResponse: WishBoardDeleteResponse = response.body()!!
@@ -251,5 +272,62 @@ class WishService {
         })
     }
 
+    //장바구니에 추가
+    fun addCart(accessToken: String, productId: Int){
+        val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
+
+        wishService.addCart("Bearer $accessToken", productId).enqueue(object : Callback<CartResponse> {
+            override fun onResponse(call: Call<CartResponse>, response: Response<CartResponse>) {
+                if (response.message().equals("제품이 장바구니에 성공적으로 추가되었습니다.")) {
+                    val cartResponse: CartResponse = response.body()!!
+
+                    Log.d("CART201-RESPONSE", cartResponse.toString())
+
+                    when (val message = cartResponse.message) {
+                        "제품이 장바구니에 성공적으로 추가되었습니다." -> {
+                            wishListView.onDeleteToWishBoardSuccess(message, cartResponse.message)
+                        }
+                        else -> {
+                            wishListView.onDeleteToWishBoardFailure(message, cartResponse.message)
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<CartResponse>, t: Throwable) {
+                // 실패 처리
+                Log.d("CART201-ERROR", t.message.toString())
+            }
+        })
+    }
+
+    //장바구니에서 제거
+    fun delCart(accessToken: String, request: WishBoardListDelRequest){
+        val wishService = getInstance().create(WishRetrofitInterfaces::class.java)
+
+        wishService.delCart("Bearer $accessToken", request).enqueue(object : Callback<WishBoardDeleteResponse> {
+            override fun onResponse(call: Call<WishBoardDeleteResponse>, response: Response<WishBoardDeleteResponse>) {
+                if (response.message().equals("제품이 장바구니에서 성공적으로 제거되었습니다.")) {
+                    val wishBoardListResponse: WishBoardDeleteResponse = response.body()!!
+
+                    Log.d("CART301-RESPONSE", wishBoardListResponse.toString())
+
+                    when (val message = wishBoardListResponse.message) {
+                        "제품이 장바구니에서 성공적으로 제거되었습니다." -> {
+                            wishListView.onDeleteToWishBoardSuccess(message, wishBoardListResponse.message)
+                        }
+                        else -> {
+                            wishListView.onDeleteToWishBoardFailure(message, wishBoardListResponse.message)
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<WishBoardDeleteResponse>, t: Throwable) {
+                // 실패 처리
+                Log.d("CART301-ERROR", t.message.toString())
+            }
+        })
+    }
 
 }

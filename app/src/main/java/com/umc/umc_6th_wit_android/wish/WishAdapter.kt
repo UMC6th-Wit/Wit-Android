@@ -1,7 +1,6 @@
 package com.umc.umc_6th_wit_android.wish
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,6 +45,10 @@ class WishAdapter(
         val startPos = items.size
         items.addAll(newItems)
         notifyItemRangeInserted(startPos, newItems.size)
+    }
+
+    fun resetItems(){
+        items.clear()
     }
 
     // 아이템 개수를 반환합니다.

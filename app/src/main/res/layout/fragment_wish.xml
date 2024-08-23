@@ -75,7 +75,7 @@
             android:id="@+id/wish_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10"
+            android:text="0"
             android:background="#00ff0000"
             android:textColor="@android:color/black"
             android:textStyle="bold"
@@ -181,7 +181,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
             android:background="#00ff0000"
-            android:text="10"
+            android:text="0"
             android:textColor="@android:color/black"
             android:textSize="13sp"
             android:textStyle="bold" />
