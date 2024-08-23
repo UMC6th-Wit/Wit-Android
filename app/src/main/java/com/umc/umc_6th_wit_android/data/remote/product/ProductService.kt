@@ -13,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ProductService(context: Context) { //매개변수에 , private val productServiceApi: ProductRetrofitInterface 필요하면 사용
 
-    // 뷰 지연 초기화 (lateinit)
     private lateinit var productView: ProductView
     private lateinit var reviewView: ReviewView
 
@@ -155,15 +154,15 @@ class ProductService(context: Context) { //매개변수에 , private val product
 
                     Log.d("RATING_STATS", ratingStatsResponse.toString())
 
-                    productView.onGetRatingStatsSuccess(response.body()?.code.toString(), ratingStatsResponse.result)
+                    reviewView.onGetRatingStatsSuccess(response.body()?.code.toString(), ratingStatsResponse.result)
                 } else {
-                    productView.onGetRatingStatsFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
+                    reviewView.onGetRatingStatsFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
                 }
             }
 
             override fun onFailure(call: Call<RatingStatsResponse>, t: Throwable) {
                 Log.d("RATING_STATS_ERROR", t.message.toString())
-                productView.onGetRatingStatsFailure("500", t.message ?: "Unknown error")
+                reviewView.onGetRatingStatsFailure("500", t.message ?: "Unknown error")
             }
         })
     }

@@ -1,6 +1,7 @@
 package com.umc.umc_6th_wit_android.product
 
 import com.umc.umc_6th_wit_android.data.remote.product.HelpfulResponse
+import com.umc.umc_6th_wit_android.data.remote.product.RatingStatsResult
 import com.umc.umc_6th_wit_android.data.remote.product.ReviewCreationResult
 import com.umc.umc_6th_wit_android.data.remote.product.ReviewOverviewResult
 import com.umc.umc_6th_wit_android.data.remote.product.ReviewPageDataResult
@@ -23,6 +24,10 @@ interface ReviewView {
     // 리뷰 작성 페이지 불러오기
     fun onGetReviewPageDataSuccess(code: String, result: ReviewPageDataResult)
     fun onGetReviewPageDataFailure(code: String, message: String)
+
+    // 상품 별점 불러오기 (별점별 리뷰 개수)
+    fun onGetRatingStatsSuccess(code: String, result: RatingStatsResult)
+    fun onGetRatingStatsFailure(code: String, message: String)
 
     // 리뷰에 도움이 돼요 누르기
     fun onPostHelpfulSuccess(code: String, result: HelpfulResponse)

@@ -1,6 +1,7 @@
 package com.umc.umc_6th_wit_android.product
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -33,11 +34,15 @@ class ReviewOnlyActivity : AppCompatActivity() {
         binding.reviewSequenceBestBtnTv.setOnClickListener {
             // 베스트순 클릭 시 Fragment로 교체
             replaceFragment(ReviewBestFragment())
+            binding.reviewSequenceBestBtnTv.setTextColor(Color.parseColor("#2572F6"))
+            binding.reviewSequenceRecentBtnTv.setTextColor(Color.parseColor("#9A9A9A"))
         }
 
         binding.reviewSequenceRecentBtnTv.setOnClickListener {
-            // 최신 클릭 시 Fragment로 교체
+            // 최신순 클릭 시 Fragment로 교체
             replaceFragment(ReviewNewFragment())
+            binding.reviewSequenceRecentBtnTv.setTextColor(Color.parseColor("#2572F6"))
+            binding.reviewSequenceBestBtnTv.setTextColor(Color.parseColor("#9A9A9A"))
         }
 
     }

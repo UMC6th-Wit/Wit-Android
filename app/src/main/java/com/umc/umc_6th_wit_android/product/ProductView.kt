@@ -9,7 +9,4 @@ interface ProductView {
     fun onGetProductSuccess(code: String, result: ProductResult)
     fun onGetProductFailure(code: String, message: String)
 
-    // 상품 별점 불러오기 (별점별 리뷰 개수)
-    fun onGetRatingStatsSuccess(code: String, result: RatingStatsResult)
-    fun onGetRatingStatsFailure(code: String, message: String)
 }
