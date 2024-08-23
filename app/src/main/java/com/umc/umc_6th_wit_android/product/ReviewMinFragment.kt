@@ -17,7 +17,7 @@ import com.umc.umc_6th_wit_android.databinding.FragmentReviewMinBinding
 import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 import com.umc.umc_6th_wit_android.wish.CartItem
 
-class ReviewMinFragment : Fragment(), ProductView, ReviewOverviewView {
+class ReviewMinFragment(id: Int) : Fragment(), ProductView, ReviewOverviewView {
 
     private var _binding: FragmentReviewMinBinding? = null
     private val binding get() = _binding!!
@@ -103,7 +103,7 @@ class ReviewMinFragment : Fragment(), ProductView, ReviewOverviewView {
 
     companion object {
         fun newInstance(id: Int): ReviewMinFragment {
-            val fragment = ReviewMinFragment()
+            val fragment = ReviewMinFragment(id)
             val args = Bundle().apply {
                 putInt("id", id)
             }

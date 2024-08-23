@@ -178,6 +178,7 @@
         app:srcCompat="@drawable/review_input_photo" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:translationZ="10dp"
         android:id="@+id/review_create_btn"
         android:visibility="gone"
         android:layout_width="0dp"
