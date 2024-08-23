@@ -105,6 +105,17 @@
         app:srcCompat="@drawable/vector_image" />
 
     <TextView
+        android:id="@+id/review_1_number_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginStart="5dp"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty5_iv"
+        app:layout_constraintStart_toEndOf="@+id/review_percentage_empty5_iv"
+        app:layout_constraintTop_toTopOf="@+id/review_percentage_empty5_iv" />
+
+    <TextView
         android:id="@+id/review_sequence_best_btn_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -115,7 +126,7 @@
         android:textColor="#2572F6"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vector_bar2_iv" />
+        app:layout_constraintTop_toBottomOf="@id/vector_bar2_iv" />
 
     <TextView
         android:id="@+id/review_sequence_recent_btn_tv"
@@ -125,6 +136,7 @@
         android:text="최신순"
         android:textSize="13sp"
         android:textStyle="bold"
+        android:textColor="#9A9A9A"
         app:layout_constraintBottom_toBottomOf="@+id/review_sequence_best_btn_tv"
         app:layout_constraintStart_toEndOf="@+id/review_sequence_best_btn_tv" />
 
@@ -137,13 +149,14 @@
         app:layout_constraintTop_toBottomOf="@id/review_sequence_best_btn_tv"
         app:srcCompat="@drawable/vector_image" />
 
+
     <ImageView
         android:id="@+id/review_percentage_empty_iv"
         android:layout_width="130dp"
         android:layout_height="8dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginTop="66dp"
-        app:layout_constraintStart_toEndOf="@+id/rating_number_tv"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="35dp"
+        app:layout_constraintEnd_toEndOf="@+id/review_rating_background_iv"
         app:layout_constraintTop_toTopOf="@+id/review_rating_background_iv"
         app:srcCompat="@drawable/review_percentage_empty" />
 
@@ -151,6 +164,7 @@
         android:id="@+id/review_percentage_full_iv"
         android:layout_width="65dp"
         android:layout_height="8dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty_iv"
         app:layout_constraintStart_toStartOf="@+id/review_percentage_empty_iv"
         app:layout_constraintTop_toTopOf="@+id/review_percentage_empty_iv"
@@ -181,6 +195,7 @@
         android:id="@+id/review_percentage_full2_iv"
         android:layout_width="52dp"
         android:layout_height="8dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty2_iv"
         app:layout_constraintStart_toStartOf="@+id/review_percentage_empty2_iv"
         app:layout_constraintTop_toTopOf="@+id/review_percentage_empty2_iv"
@@ -210,6 +225,7 @@
         android:id="@+id/review_percentage_full3_iv"
         android:layout_width="13dp"
         android:layout_height="8dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty3_iv"
         app:layout_constraintStart_toStartOf="@+id/review_percentage_empty3_iv"
         app:layout_constraintTop_toTopOf="@+id/review_percentage_empty3_iv"
@@ -275,27 +291,15 @@
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/review_percentage_full" />
 
-    <TextView
-        android:id="@+id/review_1_number_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_marginStart="5dp"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@+id/review_percentage_empty5_iv"
-        app:layout_constraintStart_toEndOf="@+id/review_percentage_empty5_iv"
-        app:layout_constraintTop_toTopOf="@+id/review_percentage_empty5_iv" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+
+    <FrameLayout
+        android:id="@+id/review_sequence_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vector_bar3_iv" />
-
-
-
+        app:layout_constraintTop_toBottomOf="@+id/vector_bar3_iv"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
