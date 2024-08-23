@@ -80,6 +80,7 @@ class FoodActivity : AppCompatActivity(), CategoryView , HeartView {
         adapter.setOnItemClickListener(object : CategoryRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(this@FoodActivity, ProductDetailActivity::class.java)
+                intent.putExtra("id", items[position].id)
                 startActivity(intent)
             }
         })

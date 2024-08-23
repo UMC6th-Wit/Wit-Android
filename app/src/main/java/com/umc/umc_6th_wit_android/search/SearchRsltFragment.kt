@@ -106,6 +106,7 @@ class SearchRsltFragment : Fragment(), SearchRsltView, HeartView {
         adapter.setOnItemClickListener(object : CustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
+                intent.putExtra("id", items[position].id)
                 startActivity(intent)
             }
         })

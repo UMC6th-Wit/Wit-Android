@@ -103,6 +103,7 @@ class RankingCategoryFragment(private val category : Int) : Fragment() , Categor
         adapter.setOnItemClickListener(object : RankingCategoryRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
+                intent.putExtra("id", items[position].id)
                 startActivity(intent)
 //                changeActivity(items[position])
             }
