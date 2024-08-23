@@ -109,7 +109,7 @@ class SubHomeFragment : Fragment(), SubHomeView{
         homeService.getHomeProducts()
     }
     override fun onGetHomeSuccess(code: String, result: HomeResult) {
-        Log.d("HOME-SUCCESS", code + result)
+        Log.d("HOME-SUCCESSTEST", code + result)
         binding.recommendTitle.text = "${result.user.userNickname}님을 위한 추천템"
         binding.recommendDetail.text ="${result.user.userNickname}님의 여행지에 찰떡인 기념품을 살펴보세요!"
         initPersonalRV(result.recommendations)
@@ -135,7 +135,7 @@ class SubHomeFragment : Fragment(), SubHomeView{
         Log.d("HOME-FAILURE", code)
     }
 
-    private fun initPersonalRV(result: List<Product>){
+    private fun initPersonalRV(result: List<ProductVer2>){
 //        val items = PersonalDao().items
         Log.d("initPersonalRV", result.toString())
 
