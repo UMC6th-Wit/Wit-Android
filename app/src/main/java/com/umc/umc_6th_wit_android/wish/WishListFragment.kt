@@ -2,6 +2,7 @@ package com.umc.umc_6th_wit_android.wish
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -15,10 +16,13 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentWishlistBinding
 import com.umc.umc_6th_wit_android.login.TokenManager
+import java.io.Serializable
 import kotlin.properties.Delegates
 
 // WishListFragment 클래스 정의: 위시리스트를 관리하는 프래그먼트
@@ -29,11 +33,13 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
 
     // 어댑터 객체 선언
     private lateinit var wishListAdapter: WishListAdapter
+    private lateinit var folderPopUpAdapter: FolderPopUpAdapter
     // 편집 모드 상태 변수
     private var isEditMode = false
     private val wishService = WishService()
     private var boardId = 0
     private lateinit var tokenManager: TokenManager
+    private val ADD_FOLDER_REQUEST_CODE = 1
 
     // Fragment의 View를 생성하는 메소드
     override fun onCreateView(
@@ -78,6 +84,13 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
             if (isEditMode) {
                 (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
             }
+
+            // WishFragment로 돌아갈 때 결과 전달
+            val result = Bundle().apply {
+                putString("resultKey", "refresh")
+            }
+            parentFragmentManager.setFragmentResult("wishFragmentKey", result)
+
             parentFragmentManager.popBackStack()
         }
 
@@ -118,6 +131,13 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
         val accessToken = tokenManager.getAccessToken()
         if (boardId != null && accessToken != null) {
             wishService.getWishBoard(accessToken, boardId, cursor, limit)
+        }
+    }
+
+    fun loadMoreBoards(cursor: Int?, limit: Int?) {
+        val accessToken = tokenManager.getAccessToken()
+        if (accessToken != null) {
+            wishService.getWishBoardList(accessToken, cursor, limit)
         }
     }
 
@@ -208,7 +228,14 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
         }
         // 삭제 버튼 클릭 이벤트 리스너 설정
         dialogView.findViewById<Button>(R.id.btn_delete).setOnClickListener {
-            // 폴더 삭제 로직 추가
+            val request = WishBoardListDelRequest(
+                product_ids = wishListAdapter.selectedItems.map { it.product_id }
+            )
+            val accessToken = tokenManager.getAccessToken()
+            // 폴더 삭제 로직
+            if (accessToken != null) {
+                wishService.deltoWishBoard(accessToken, boardId, request)
+            }
             deleteSelectedItems()
             dialog.dismiss()
         }
@@ -217,7 +244,64 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
 
     // 폴더에 추가하는 기능을 구현하는 함수 (현재 구현되지 않음)
     private fun addToFolder() {
-        // 폴더에 추가하는 기능 구현
+        // 폴더 담기 팝업 레이아웃을 인플레이트하고 다이얼로그를 생성
+        val dialogView = layoutInflater.inflate(R.layout.folder_select_popup, null)
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(dialogView)
+
+        //다이얼로그 어댑터 연결
+        folderPopUpAdapter = FolderPopUpAdapter(mutableListOf(), this) { currentCursor, limit ->
+            loadMoreItems(currentCursor, limit)
+        }
+        val recyclerView = dialogView.findViewById<RecyclerView>(R.id.folder_recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext()) // LayoutManager 설정
+        recyclerView.adapter = folderPopUpAdapter
+        // 처음 데이터 로드
+        folderPopUpAdapter.resetBoards()
+        loadMoreBoards(1, 20)
+
+        // 팝업 창을 중앙에 배치하고 가로 넓이를 300dp로 설정
+        val metrics = resources.displayMetrics
+        val width = (300 * metrics.density).toInt()
+
+        dialog.window?.setLayout(
+            width,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.attributes?.gravity = Gravity.CENTER
+
+        // 새 폴더 버튼 클릭 이벤트 리스너 설정
+        dialogView.findViewById<Button>(R.id.btn_new_folder).setOnClickListener {
+            val intent = Intent(activity, FolderActivity::class.java)
+
+            // getSelectedItems()의 리턴값을 ArrayList로 변환하여 추가
+            val selectedItemsList = ArrayList(wishListAdapter.selectedItems)
+            intent.putExtra("selected_items", selectedItemsList as Serializable)
+
+            startActivityForResult(intent, ADD_FOLDER_REQUEST_CODE)
+            if (isEditMode) {
+                toggleEditMode()
+            }
+            dialog.dismiss()
+        }
+        // 담기 완료 버튼 클릭 이벤트 리스너 설정
+        dialogView.findViewById<Button>(R.id.btn_add_folder).setOnClickListener {
+            val request = WishListAddRequest(
+                product_ids = wishListAdapter.selectedItems.map { it.product_id },
+                folder_id = folderPopUpAdapter.selectedFolders.map { it.folder_id }
+            )
+            val accessToken = tokenManager.getAccessToken()
+            if (accessToken != null) {
+                wishService.postWishtoBoard(accessToken, request)
+            }
+            if (isEditMode) {
+                toggleEditMode()
+            }
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
     // Fragment가 DestroyView될 때 호출되는 메소드
@@ -258,6 +342,18 @@ class WishListFragment : Fragment(), SelectionListener, WishListView {
     //위시리스트 폴더 상세 조회 실패
     override fun onGetWishBoardFailure(code: String, message: String) {
         Log.d("board_product", "Fail")
+    }
+
+    //위시리스트 폴더조회 성공
+    override fun onGetWishBoardListSuccess(code: String, result: WishBoardItemResult) {
+        Log.d("board_popup", "Success")
+        folderPopUpAdapter.addBoards(result.folders)
+        folderPopUpAdapter.currentCursor = result.nextCursor
+    }
+
+    //위시리스트 폴더 목록 실패
+    override fun onGetWishBoardListFailure(code: String, message: String) {
+        TODO("Not yet implemented")
     }
 
     //위시리스트 폴더 상품 담기 성공

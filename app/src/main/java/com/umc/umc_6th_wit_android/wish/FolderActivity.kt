@@ -36,6 +36,18 @@ class FolderActivity : AppCompatActivity(), FolderView {
         // 액션 바 숨기기
         supportActionBar?.hide()
 
+        // Intent로부터 데이터 받기
+        val selectedItemsList = intent.getSerializableExtra("selected_items") as? ArrayList<WishItem>
+        var selectedItemsIdsList: List<Int> = listOf()
+
+        // selectedItemsList가 null이 아닌지 확인한 후 작업 수행
+        selectedItemsList?.let {
+            // WishItem들의 product_id를 추출하여 리스트에 저장
+            selectedItemsIdsList = it.map { item -> item.product_id }
+        } ?: run {
+            // 리스트가 비어있는 경우 처리할 로직
+        }
+
         // EditText에 텍스트 변경 리스너 추가
         binding.folderNameEditText.addTextChangedListener(object : TextWatcher {
             // 텍스트 변경 전 호출되는 메서드 (사용하지 않음)
@@ -68,7 +80,7 @@ class FolderActivity : AppCompatActivity(), FolderView {
                 val wishService = WishService()
                 wishService.setFolderView(this)
                 val request = WishListCreateRequest(
-                    product_ids = listOf(1, 2),
+                    product_ids = selectedItemsIdsList,
                     folder_name = binding.folderNameEditText.text.toString()
                 )
                 val accessToken = tokenManager.getAccessToken()

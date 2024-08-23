@@ -69,3 +69,11 @@ data class WishListEditRequest(
     val folder_id: Int,
     val new_folder_name: String
 )
+
+data class WishBoardDelRequest(
+    val folder_ids: List<Int>
+)
+
+data class WishBoardListDelRequest(
+    val product_ids: List<Int>
+)

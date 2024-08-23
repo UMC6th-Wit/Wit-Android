@@ -24,6 +24,7 @@ import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentWishBinding
 import com.umc.umc_6th_wit_android.login.TokenManager
+import java.io.Serializable
 
 
 // WishFragment 클래스: 위시리스트 및 보드의 UI를 관리하는 프래그먼트
@@ -32,10 +33,11 @@ class WishFragment : Fragment(), SelectionListener, WishView {
     lateinit var binding: FragmentWishBinding
     // 어댑터 객체 선언
     private lateinit var wishAdapter: WishAdapter
-    private lateinit var boardsAdapter: BoardsAdapter
+    lateinit var boardsAdapter: BoardsAdapter
     private lateinit var folderPopUpAdapter: FolderPopUpAdapter
     // 편집 모드 상태 변수
     private var isEditMode = false
+    private var isPopUp = false
 
     private val ADD_FOLDER_REQUEST_CODE = 1
     private val wishService = WishService()
@@ -59,6 +61,16 @@ class WishFragment : Fragment(), SelectionListener, WishView {
     // View가 생성된 후 호출되는 메소드
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // FragmentResultListener를 통해 데이터를 수신
+        parentFragmentManager.setFragmentResultListener("wishFragmentKey", this) { key, bundle ->
+            val result = bundle.getString("resultKey")
+            if (result == "refresh") {
+                // 상태 변경 및 필요한 작업 수행
+                boardsAdapter.resetBoards()
+                loadMoreBoards(1, 20)
+            }
+        }
 
         // 위시리스트와 보드의 레이아웃을 GridLayout으로 설정
         binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
@@ -109,6 +121,10 @@ class WishFragment : Fragment(), SelectionListener, WishView {
         // 보드 추가 버튼 클릭 이벤트 설정
         binding.boardAdd.setOnClickListener {
             val intent = Intent(activity, FolderActivity::class.java)
+
+            // 빈 리스트 생성 및 추가
+            val emptyList = ArrayList<WishItem>()
+            intent.putExtra("selected_items", emptyList)
             startActivityForResult(intent, ADD_FOLDER_REQUEST_CODE)
         }
 
@@ -154,6 +170,8 @@ class WishFragment : Fragment(), SelectionListener, WishView {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ADD_FOLDER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Log.d("folderAdd", "success")
+            boardsAdapter.resetBoards()
             loadMoreBoards(1, 20)
         }
     }
@@ -173,7 +191,7 @@ class WishFragment : Fragment(), SelectionListener, WishView {
         if (selected) {
             // 장바구니 버튼이 선택된 경우
             if (isEditMode) {
-                toggleEditMode()
+                toggleBoardEditMode()
             }
             // 장바구니 버튼의 텍스트 색상을 활성화 색상으로 변경
             binding.btnCart.setTextColor(resources.getColor(R.color.selectedTextColor))
@@ -188,13 +206,15 @@ class WishFragment : Fragment(), SelectionListener, WishView {
 
             binding.wishTools.visibility = View.VISIBLE
             binding.recyclerView.visibility = View.VISIBLE
-            // 처음 데이터 로드
+            // 처음 데이터
+            wishAdapter.resetItems()
             loadMoreItems(1, 20)
         } else {
             // 폴더 버튼이 선택된 경우
             if (isEditMode) {
-                toggleBoardEditMode()
+                toggleEditMode()
             }
+            isPopUp = false
             // 폴더 버튼의 텍스트 색상을 활성화 색상으로 변경
             binding.btnCart.setTextColor(resources.getColor(R.color.unselectedTextColor))
             // 장바구니 버튼의 텍스트 색상을 비활성화 색상으로 변경
@@ -209,6 +229,7 @@ class WishFragment : Fragment(), SelectionListener, WishView {
             binding.boardTools.visibility = View.VISIBLE
             binding.boardsRecyclerView.visibility = View.VISIBLE
             // 처음 데이터 로드
+            boardsAdapter.resetBoards()
             loadMoreBoards(1, 20)
         }
     }
@@ -299,6 +320,13 @@ class WishFragment : Fragment(), SelectionListener, WishView {
 
     // 선택된 아이템을 삭제하는 함수
     private fun deleteSelectedItems() {
+        val request = WishBoardListDelRequest(
+            product_ids = wishAdapter.selectedItems.map { it.product_id }
+        )
+        val accessToken = tokenManager.getAccessToken()
+        if (accessToken != null) {
+            wishService.delCart(accessToken, request)
+        }
         // 선택된 아이템을 삭제하고 편집 모드를 종료
         wishAdapter.deleteSelectedItems()
         toggleEditMode()
@@ -341,7 +369,7 @@ class WishFragment : Fragment(), SelectionListener, WishView {
             val wishService = WishService()
             wishService.setWishView(this)
             val request = WishListEditRequest(
-                folder_id = 45,
+                folder_id = boardsAdapter.selectedBoards.first().folder_id,
                 new_folder_name = tvPopupText.text.toString()
             )
             val accessToken = tokenManager.getAccessToken()
@@ -386,9 +414,13 @@ class WishFragment : Fragment(), SelectionListener, WishView {
         // 삭제 버튼 클릭 이벤트 리스너 설정
         dialogView.findViewById<Button>(R.id.btn_delete).setOnClickListener {
             val accessToken = tokenManager.getAccessToken()
+
+            val request = WishBoardDelRequest(
+                folder_ids = boardsAdapter.selectedBoards.map { it.folder_id }
+            )
             // 폴더 삭제 로직
             if (accessToken != null) {
-                wishService.delWishBoardList(accessToken, listOf(45))
+                wishService.delWishBoardList(accessToken, request)
             }
             deleteSelectedBoards()
             dialog.dismiss()
@@ -419,11 +451,18 @@ class WishFragment : Fragment(), SelectionListener, WishView {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(dialogView)
 
+        isPopUp = true
+
         //다이얼로그 어댑터 연결
-        folderPopUpAdapter = FolderPopUpAdapter(getWishboards(), this)
+        folderPopUpAdapter = FolderPopUpAdapter(mutableListOf(), this) { currentCursor, limit ->
+            loadMoreItems(currentCursor, limit)
+        }
         val recyclerView = dialogView.findViewById<RecyclerView>(R.id.folder_recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext()) // LayoutManager 설정
         recyclerView.adapter = folderPopUpAdapter
+        // 처음 데이터 로드
+        folderPopUpAdapter.resetBoards()
+        loadMoreBoards(1, 20)
 
         // 팝업 창을 중앙에 배치하고 가로 넓이를 300dp로 설정
         val metrics = resources.displayMetrics
@@ -439,11 +478,32 @@ class WishFragment : Fragment(), SelectionListener, WishView {
         // 새 폴더 버튼 클릭 이벤트 리스너 설정
         dialogView.findViewById<Button>(R.id.btn_new_folder).setOnClickListener {
             val intent = Intent(activity, FolderActivity::class.java)
+
+            // getSelectedItems()의 리턴값을 ArrayList로 변환하여 추가
+            val selectedItemsList = ArrayList(wishAdapter.selectedItems)
+            intent.putExtra("selected_items", selectedItemsList as Serializable)
+
             startActivityForResult(intent, ADD_FOLDER_REQUEST_CODE)
+            isPopUp = false
+            if (isEditMode) {
+                toggleEditMode()
+            }
             dialog.dismiss()
         }
         // 담기 완료 버튼 클릭 이벤트 리스너 설정
         dialogView.findViewById<Button>(R.id.btn_add_folder).setOnClickListener {
+            val request = WishListAddRequest(
+                product_ids = wishAdapter.selectedItems.map { it.product_id },
+                folder_id = folderPopUpAdapter.selectedFolders.map { it.folder_id }
+            )
+            val accessToken = tokenManager.getAccessToken()
+            if (accessToken != null) {
+                wishService.postWishtoBoard(accessToken, request)
+            }
+            isPopUp = false
+            if (isEditMode) {
+                toggleEditMode()
+            }
             dialog.dismiss()
         }
         dialog.show()
@@ -473,12 +533,12 @@ class WishFragment : Fragment(), SelectionListener, WishView {
     // 위시 보드 리스트를 생성하는 함수 (예제 데이터 사용)
     private fun getWishboards(): List<Wishboard> {
         val boardList = listOf(
-            Wishboard(0, "보드1", listOf()),
-            Wishboard(1, "보드2", listOf()),
-            Wishboard(2, "보드3", listOf()),
-            Wishboard(3, "보드4", listOf()),
-            Wishboard(4, "보드5", listOf()),
-            Wishboard(5, "보드6", listOf()),
+            Wishboard(0, "보드1", listOf(), 1),
+            Wishboard(1, "보드2", listOf(), 1),
+            Wishboard(2, "보드3", listOf(), 1),
+            Wishboard(3, "보드4", listOf(), 1),
+            Wishboard(4, "보드5", listOf(), 1),
+            Wishboard(5, "보드6", listOf(), 1),
         )
         // 보드 개수를 설정
         binding.boardQuantity.text = boardList.size.toString()
@@ -506,10 +566,16 @@ class WishFragment : Fragment(), SelectionListener, WishView {
 
     //위시리스트 폴더 조회 성공
     override fun onGetWishBoardListSuccess(code: String, result: WishBoardItemResult) {
-        Log.d("board", "Success")
-        boardsAdapter.addBoards(result.folders)
-        boardsAdapter.currentCursor = result.nextCursor
-        binding.boardQuantity.text = result.count.toString()
+        if(isPopUp){
+            Log.d("board_popup", "Success")
+            folderPopUpAdapter.addBoards(result.folders)
+            folderPopUpAdapter.currentCursor = result.nextCursor
+        } else {
+            Log.d("board", "Success")
+            boardsAdapter.addBoards(result.folders)
+            boardsAdapter.currentCursor = result.nextCursor
+            binding.boardQuantity.text = result.count.toString()
+        }
     }
 
     //위시리스트 폴더 조회 실패
@@ -544,6 +610,26 @@ class WishFragment : Fragment(), SelectionListener, WishView {
 
     //위시리스트 폴더 삭제 실패
     override fun onDeleteWishBoardListFailure(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 장바구니 추가 성공
+    override fun onPostAddCardSuccess(code: String, response: WishItem) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 장바구니 추가 실패
+    override fun onPostAddCardFailure(code: String, error: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 장바구니 삭제 성공
+    override fun onPostDelCardSuccess(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    //위시리스트 장바구니 삭제 실패
+    override fun onPostDelCardFailure(message: String) {
         TODO("Not yet implemented")
     }
 }

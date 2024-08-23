@@ -16,13 +16,15 @@ interface WishRetrofitInterfaces {
     //제품 장바구니에 담기
     @POST("product/add-cart/{product_id}")
     fun addCart(
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Path("product_id") productId: Int,
     ): Call<CartResponse>
 
     //제품 장바구니에 빼기
-    @POST("product/delete-cart/{product_id}")
+    @POST("product/delete-cart")
     fun delCart(
-        @Path("product_id") productId: Int,
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
+        @Body request: WishBoardListDelRequest
     ): Call<WishBoardDeleteResponse>
 
     //위시리스트 폴더 목록 조회
@@ -67,7 +69,7 @@ interface WishRetrofitInterfaces {
     @POST("wishlist/delete-folders")
     fun delWishBoardList(
         @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
-        @Body folderIds: List<Int>
+        @Body request: WishBoardDelRequest
     ): Call<WishBoardDeleteResponse>
 
     //위시리스트 폴더 목록 삭제 *request 부분 추가 예정
@@ -75,6 +77,6 @@ interface WishRetrofitInterfaces {
     fun deltoWishBoard(
         @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Path("folderId") folderId: Int,
-        @Body productIds: List<Int>
+        @Body request: WishBoardListDelRequest
     ): Call<WishBoardDeleteResponse>
 }
