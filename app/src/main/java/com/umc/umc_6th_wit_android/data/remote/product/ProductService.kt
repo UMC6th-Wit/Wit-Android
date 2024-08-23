@@ -2,9 +2,9 @@ package com.umc.umc_6th_wit_android.data.remote.product
 
 import android.content.Context
 import android.util.Log
-import com.umc.umc_6th_wit_android.data.remote.home.HomeRetrofitInterface
 import com.umc.umc_6th_wit_android.login.TokenManager
 import com.umc.umc_6th_wit_android.network.TokenRetrofitManager
+import com.umc.umc_6th_wit_android.product.ProductDetailActivity
 import com.umc.umc_6th_wit_android.product.ProductView
 import com.umc.umc_6th_wit_android.product.ReviewCreationView
 import com.umc.umc_6th_wit_android.product.ReviewOverviewView
@@ -16,7 +16,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ProductService(private val context: Context) { //매개변수에 , private val productServiceApi: ProductRetrofitInterface 필요하면 사용
+class ProductService(private val context: ProductDetailActivity) { //매개변수에 , private val productServiceApi: ProductRetrofitInterface 필요하면 사용
 
     private lateinit var productView: ProductView
     private lateinit var reviewView: ReviewView

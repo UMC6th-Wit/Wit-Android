@@ -1,6 +1,5 @@
 package com.umc.umc_6th_wit_android.product
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,15 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.PriceActivity
 import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.data.remote.home.HomeService
 import com.umc.umc_6th_wit_android.data.remote.product.ProductResult
 import com.umc.umc_6th_wit_android.data.remote.product.ProductService
 import com.umc.umc_6th_wit_android.databinding.ActivityProductDetailBinding
 import com.umc.umc_6th_wit_android.home.ProductDetailFragment
-import com.umc.umc_6th_wit_android.login.TokenManager
-import com.umc.umc_6th_wit_android.wish.WishService
+import java.text.NumberFormat
+import java.util.Locale
 
-class ProductDetailActivity : AppCompatActivity(), ProductView {
+ class ProductDetailActivity : AppCompatActivity(), ProductView {
 
     lateinit var binding: ActivityProductDetailBinding
     private var isHelpIv = false
@@ -40,6 +38,10 @@ class ProductDetailActivity : AppCompatActivity(), ProductView {
             startActivity(intent)
         }
 
+        binding.backBtnIv.setOnClickListener {
+            finish() //액티비티라 종료로 가능
+        }
+
         binding.heartBtnIv.setOnClickListener {
             // 하트 버튼 이미지 변경 로직
             if (isHelpIv) {
@@ -52,18 +54,7 @@ class ProductDetailActivity : AppCompatActivity(), ProductView {
             // DB 하트 숫자 변경 (여기에 DB 처리 로직 추가)
         }
 
-    }
 
-    override fun onResume() {
-        super.onResume()
-        getRecommendProducts()
-    }
-
-    private fun getRecommendProducts() {
-        val productService = ProductService(this@ProductDetailActivity)
-        productService.setProductDetailView(this)
-
-        productService.getProductDetail(1)
     }
 
     override fun onGetProductSuccess(code: String, result: ProductResult) {
@@ -81,14 +72,49 @@ class ProductDetailActivity : AppCompatActivity(), ProductView {
 
         binding.productNameTv.text = "${result.name}"
         //binding.heartBtnTv.text = "${result.}" 제품 장바구니에 담기, 빼기 하트 숫자에 적용해야함
-        binding.currencyYenTv.text = "${result.en_price}"
-        binding.currencyWonTv.text = "${result.won_price}"
+        calculatePrice(result.en_price.toDouble(), result.won_price.toDouble())
         binding.whereWidget1Tv.text = "${result.sales_area}"
         binding.whereWidget2Tv.text = "${result.sales_area}"
+
+        //ProductDetailFragment에 정보 전달
+        val fragment = ProductDetailFragment.newInstance("${result.name}", "${result.product_type}", "${result.manufacturing_country}", "${result.review_count}")
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_product_detail, fragment)
+            .commit()
     }
 
     override fun onGetProductFailure(code: String, message: String) {
         Log.d("Product-FAILURE", code)
     }
+
+    override fun onResume() {
+        super.onResume()
+        getProductDetail()
+    }
+
+    private fun getProductDetail() {
+        val id = intent.getIntExtra("id", -1)  // 기본값을 -1로 설정
+        if (id != -1) {
+            Log.d("ProductDetailActivity", "Ok id received")
+            val productService = ProductService(this@ProductDetailActivity)
+            productService.setProductDetailView(this)
+            productService.getProductDetail(id)
+
+        }else{
+            Log.d("ProductDetailActivity", "No id received") }
+    }
+
+    private fun calculatePrice (enPrice: Double, wonPrice: Double) {
+        // 일본 엔화 포맷
+        val yenFormat = NumberFormat.getCurrencyInstance(Locale.JAPAN)
+        val formattedYenPrice = yenFormat.format(enPrice)
+        binding.currencyYenTv.text = "${formattedYenPrice}"
+
+        // 한국 원화 포맷
+        val wonFormat = NumberFormat.getCurrencyInstance(Locale.KOREA)
+        val formattedWonPrice = wonFormat.format(wonPrice)
+        binding.currencyWonTv.text = "${formattedWonPrice}"
+    }
+
 
 }
