@@ -50,11 +50,13 @@ class ReviewMinFragment : Fragment(), ProductView, ReviewOverviewView {
 
         binding.goToReviewBtnIv.setOnClickListener {
             val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
+            intent.putExtra("id", id)
             startActivity(intent)
         }
 
         binding.moreReviewBtnIv.setOnClickListener {
             val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
+            intent.putExtra("id", id)
             startActivity(intent)
         }
 
@@ -73,6 +75,8 @@ class ReviewMinFragment : Fragment(), ProductView, ReviewOverviewView {
 
     override fun onGetProductSuccess(code: String, result: ProductResult) {
         Log.d("Product-SUCCESS", code + result.name)
+        id = result.id
+        Log.d("ReviewMinFragProduct_Id", result.id.toString())
 
         //정보 가져 오는데 성공 -> 뷰에 반영
         binding.reviewRateTv.text = "${result.average_rating}"
