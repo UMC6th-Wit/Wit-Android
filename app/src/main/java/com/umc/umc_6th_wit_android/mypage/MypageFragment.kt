@@ -3,6 +3,7 @@ package com.umc.umc_6th_wit_android.mypage
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 
@@ -10,10 +11,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentMypageBinding
 import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.login.LoginActivity
 
@@ -34,19 +40,50 @@ class MypageFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val contextThemeWrapper = ContextThemeWrapper(getActivity(), R.style.LoginTheme);
+        val localInflater = inflater.cloneInContext(contextThemeWrapper);
+
+        binding = FragmentMypageBinding.inflate(localInflater, container, false)
+        binding.loadingImage.visibility = View.VISIBLE
         (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
-//        val contextThemeWrapper = ContextThemeWrapper(getActivity(), R.style.LoginTheme);
-//        val localInflater = inflater.cloneInContext(contextThemeWrapper);
-        binding = FragmentMypageBinding.inflate(inflater, container, false)
-        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true)
 
         // TokenManager 초기화
-        tokenManager = TokenManager(requireContext().getSharedPreferences("auth_prefs", Context.MODE_PRIVATE))
+        tokenManager =
+            TokenManager(requireContext().getSharedPreferences("auth_prefs", Context.MODE_PRIVATE))
 
         // 유저 정보 조회
         fetchUserInfo()
 
-        parentFragmentManager.setFragmentResultListener("updateNickname", viewLifecycleOwner) { requestKey, bundle ->
+        // 프로필 이미지 불러오기
+        fetchUserProfileImage()
+
+        // 프로필 이미지 변경 시 이를 반영
+        parentFragmentManager.setFragmentResultListener(
+            "profileImageUpdated",
+            viewLifecycleOwner
+        ) { requestKey, bundle ->
+            val updatedProfileImageUrl = bundle.getString("updatedProfileImageUrl")
+            if (updatedProfileImageUrl != null) {
+                loadUserProfileImage(updatedProfileImageUrl)
+            }
+        }
+
+        // 프로필 이미지 변경 시 이를 반영
+        parentFragmentManager.setFragmentResultListener(
+            "profileImageUpdated",
+            viewLifecycleOwner
+        ) { requestKey, bundle ->
+            val updatedProfileImageUrl = bundle.getString("updatedProfileImageUrl")
+            if (updatedProfileImageUrl != null) {
+                loadUserProfileImage(updatedProfileImageUrl)
+            }
+        }
+
+
+        parentFragmentManager.setFragmentResultListener(
+            "updateNickname",
+            viewLifecycleOwner
+        ) { requestKey, bundle ->
             val nickname = bundle.getString("nickname")
             if (nickname != null) {
                 binding.mypageNickname.text = nickname
@@ -93,12 +130,14 @@ class MypageFragment : Fragment() {
 
 
         // 뒤로가기 버튼 처리 search->home
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // MainActivity의 selectHomeFragment() 호출
-                (activity as? MainActivity)?.selectHomeFragment()
-            }
-        })
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    // MainActivity의 selectHomeFragment() 호출
+                    (activity as? MainActivity)?.selectHomeFragment()
+                }
+            })
     }
 
 //    override fun onStart() {
@@ -115,7 +154,10 @@ class MypageFragment : Fragment() {
 
             val call = userService.logout("Bearer $accessToken")
             call.enqueue(object : Callback<LogoutResponse> {
-                override fun onResponse(call: Call<LogoutResponse>, response: Response<LogoutResponse>) {
+                override fun onResponse(
+                    call: Call<LogoutResponse>,
+                    response: Response<LogoutResponse>
+                ) {
                     if (response.isSuccessful && response.body()?.isSuccess == true) {
                         Log.d("MypageFragment", "로그아웃 성공")
                         handleLogoutSuccess()
@@ -160,14 +202,20 @@ class MypageFragment : Fragment() {
 
             val call = userService.getUserInfo("Bearer $accessToken")
             call.enqueue(object : Callback<UserInfoResponse> {
-                override fun onResponse(call: Call<UserInfoResponse>, response: Response<UserInfoResponse>) {
+                override fun onResponse(
+                    call: Call<UserInfoResponse>,
+                    response: Response<UserInfoResponse>
+                ) {
                     if (response.isSuccessful && response.body()?.isSuccess == true) {
                         val userInfo = response.body()?.result
                         userInfo?.let {
                             binding.mypageNickname.text = it.usernickname
 
                             Log.d("MypageFragment", "유저 정보 조회 성공")
-                            Log.d("MypageFragment", "mypageFragment fetchInfo()에서 nickname: ${userInfo.usernickname}")
+                            Log.d(
+                                "MypageFragment",
+                                "mypageFragment fetchInfo()에서 nickname: ${userInfo.usernickname}"
+                            )
 
 
                         }
@@ -184,5 +232,76 @@ class MypageFragment : Fragment() {
             Log.d("MypageFragment", "액세스 토큰이 없습니다.")
         }
     }
+
+    private fun fetchUserProfileImage() {
+        val accessToken = tokenManager.getAccessToken()
+
+        if (accessToken != null) {
+            val retrofit = TokenRetrofitManager(requireContext())
+            val userService = retrofit.create(UserService::class.java)
+
+            val call = userService.getUserProfileImage("Bearer $accessToken")
+            call.enqueue(object : Callback<UserProfileResponse> {
+                override fun onResponse(
+                    call: Call<UserProfileResponse>,
+                    response: Response<UserProfileResponse>
+                ) {
+                    if (response.isSuccessful && response.body()?.isSuccess == true) {
+                        val imageUrl = response.body()?.result
+                        imageUrl?.let {
+                            // 프로필 이미지를 로드
+                            Log.d("MypageFragment", "프로필 이미지 로드 loadUserProfileImage(it)")
+                            loadUserProfileImage(it)
+                        }
+                    } else {
+                        Log.d("MypageFragment", "프로필 이미지 로드 실패: ${response.body()?.message}")
+                    }
+                }
+
+                override fun onFailure(call: Call<UserProfileResponse>, t: Throwable) {
+                    Log.d("MypageFragment", "프로필 이미지 로드 API 호출 실패: ${t.message}")
+                }
+            })
+        } else {
+            Log.d("MypageFragment", "액세스 토큰이 없습니다.")
+        }
+    }
+
+    private fun loadUserProfileImage(imageUrl: String) {
+        Log.d("MypageFragment", "Loading image from URL: $imageUrl")
+        Glide.with(this)
+            .load(imageUrl)
+            .skipMemoryCache(true)  // 메모리 캐시 건너뛰기
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .placeholder(R.drawable.mypage_profil) // 로딩 중에 보여줄 플레이스홀더 이미지
+            .error(R.drawable.mypage_profil) // 에러 발생 시 보여줄 이미지
+            .listener(object : com.bumptech.glide.request.RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: com.bumptech.glide.request.target.Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    // 이미지 로드 실패 시에도 로딩 이미지 숨김
+                    binding.loadingImage.visibility = View.GONE
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: com.bumptech.glide.request.target.Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    // 이미지가 성공적으로 로드되었을 때 로딩 이미지 숨김
+                    binding.loadingImage.visibility = View.GONE
+                    return false
+                }
+            })
+            .into(binding.mypageProfilIv)
+
+    }
+
 
 }

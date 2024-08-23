@@ -3,6 +3,7 @@ package com.umc.umc_6th_wit_android.mypage
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -18,6 +19,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
 import com.umc.umc_6th_wit_android.MainActivity
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentAccountinfoBinding
@@ -44,7 +48,7 @@ class AccountinfoFragment : Fragment() {
     ): View? {
         binding = FragmentAccountinfoBinding.inflate(inflater, container, false)
         (activity as? MainActivity)?.setBottomNavigationViewVisibility(false)
-
+        binding.loadingImage.visibility = View.VISIBLE
         // 생년월일 수정 결과 수신
         parentFragmentManager.setFragmentResultListener("birthdateUpdate", viewLifecycleOwner) { _, bundle ->
             val updatedBirthdate = bundle.getString("updatedBirthdate")
@@ -264,7 +268,6 @@ class AccountinfoFragment : Fragment() {
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 
-
     private fun navigateToMypage() {
         parentFragmentManager.popBackStack()
         // AccountinfoFragment에서 popBackStack 전에 데이터 전달
@@ -313,7 +316,7 @@ class AccountinfoFragment : Fragment() {
         }
     }
 
-    // 유저 프로필 이미지 업로드 API 호출
+    // 유저 프로필 이미지 수정 API 호출
     private fun uploadUserProfileImage(imageUri: Uri) {
         val accessToken = tokenManager.getAccessToken()
 
@@ -335,7 +338,13 @@ class AccountinfoFragment : Fragment() {
                         imageUrl?.let {
                             // 프로필 이미지 로드
                             loadUserProfileImage(it)
-                            Log.d("AccountinfoFragment", "프로필 이미지 업로드 성공: $it")
+                            Log.d("AccountinfoFragment", "프로필 이미지 수정 성공: $it")
+
+                            // 수정된 프로필 이미지 정보를 MypageFragment에 전달
+                            val result = Bundle().apply {
+                                putString("updatedProfileImageUrl", it)
+                            }
+                            parentFragmentManager.setFragmentResult("profileImageUpdated", result)
                         }
                     } else {
                         Log.d("AccountinfoFragment", "프로필 이미지 업로드 실패: ${response.body()?.message}")
@@ -357,11 +366,38 @@ class AccountinfoFragment : Fragment() {
         Log.d("AccountinfoFragment", "Loading image from URL: $imageUrl")
         Glide.with(this)
             .load(imageUrl)  // 서버에서 받아온 이미지 URL
+            .skipMemoryCache(true)  // 메모리 캐시 건너뛰기
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .placeholder(R.drawable.mypage_profil) // 로딩 중에 보여줄 플레이스홀더 이미지
             .error(R.drawable.mypage_profil) // 에러 발생 시 보여줄 이미지
+            .listener(object : com.bumptech.glide.request.RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: com.bumptech.glide.request.target.Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    // 이미지 로드 실패 시에도 로딩 이미지 숨김
+                    binding.loadingImage.visibility = View.GONE
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: com.bumptech.glide.request.target.Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    // 이미지가 성공적으로 로드되었을 때 로딩 이미지 숨김
+                    binding.loadingImage.visibility = View.GONE
+                    return false
+                }
+            })
             .into(binding.accountinfoProfilIv) // 이미지를 로드할 ImageView
     }
 
+    //프로필 이미지 조회
     private fun fetchUserProfileImage() {
         val accessToken = tokenManager.getAccessToken()
 
@@ -376,9 +412,14 @@ class AccountinfoFragment : Fragment() {
                         val imageUrl = response.body()?.result
                         imageUrl?.let {
                             // 프로필 이미지를 로드
-                            Log.d("AccountinfoFragment", "프로필 이미지 로드 loadUserProfileImage(it)")
-
+                            Log.d("AccountinfoFragment", "프로필 이미지 조회 :  $it")
                             loadUserProfileImage(it)
+
+                            // 수정된 프로필 이미지 정보를 마이페이지에 전달
+                            val result = Bundle().apply {
+                                putString("updatedProfileImageUrl", it)
+                            }
+                            parentFragmentManager.setFragmentResult("profileImageUpdated", result)
                         }
                     } else {
                         Log.d("AccountinfoFragment", "profil Error: ${response.body()?.message}")
@@ -400,8 +441,5 @@ class AccountinfoFragment : Fragment() {
         fetchUserInfo()
         Log.d("AccountinfoFragment","onResume()에서 fetchUserInfo 실행")
     }
-
-
-
 
 }
