@@ -73,24 +73,4 @@ class ProductDetailFragment : Fragment() {
             return fragment
         }
     }
-
-    override fun onGetProductFailure(code: String, message: String) {
-        Log.d("ProductFragment-FAILURE", code)
-    }
-
-    override fun onPostAddCartSuccess(code: String, response: CartItem) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onPostAddCartFailure(code: String, error: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onPostDelCartSuccess(code: String, message: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onPostDelCartFailure(code: String, message: String) {
-        TODO("Not yet implemented")
-    }
 }

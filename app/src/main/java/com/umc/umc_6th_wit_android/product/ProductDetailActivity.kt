@@ -67,8 +67,6 @@ import java.util.Locale
 
             // DB 하트 숫자 변경 (여기에 DB 처리 로직 추가)
         }
-
-        productService.getProductDetail(1)   //product_id 넣기
     }
 
     override fun onGetProductSuccess(code: String, result: ProductResult) {
