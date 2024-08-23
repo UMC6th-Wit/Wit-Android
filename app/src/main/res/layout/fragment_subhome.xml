@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF">
+        android:background="#FCFCFC">
 
         <LinearLayout
             android:id="@+id/list"
@@ -171,13 +171,15 @@
             app:layout_constraintTop_toBottomOf="@id/list" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="5dp"
             android:src="@drawable/ic_heart"
             app:layout_constraintBottom_toBottomOf="@id/recommend_title"
             app:layout_constraintStart_toEndOf="@id/recommend_title"
-            app:layout_constraintTop_toTopOf="@id/recommend_title" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/recommend_title"
+            android:scaleType="fitStart"/>
 
         <TextView
             android:id="@+id/recommend_detail"
@@ -268,13 +270,15 @@
             app:layout_constraintTop_toBottomOf="@id/custom_btn" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="5dp"
             android:src="@drawable/ic_ranking"
             app:layout_constraintBottom_toBottomOf="@id/ranking_title"
             app:layout_constraintStart_toEndOf="@id/ranking_title"
-            app:layout_constraintTop_toTopOf="@id/ranking_title" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ranking_title"
+            android:scaleType="fitStart"/>
 
         <com.umc.umc_6th_wit_android.home.NestedScrollableHost
             android:id="@+id/template_select_category_ns"
@@ -359,13 +363,15 @@
             app:layout_constraintTop_toBottomOf="@id/ranking_btn" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="5dp"
             android:src="@drawable/candy"
             app:layout_constraintBottom_toBottomOf="@id/food_title"
             app:layout_constraintStart_toEndOf="@id/food_title"
-            app:layout_constraintTop_toTopOf="@id/food_title" />
+            app:layout_constraintTop_toTopOf="@id/food_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitStart"/>
 
         <com.umc.umc_6th_wit_android.home.NestedScrollableHost
             android:id="@+id/food_ns"
@@ -430,13 +436,15 @@
             app:layout_constraintTop_toBottomOf="@id/food_btn" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="5dp"
             android:src="@drawable/notice"
             app:layout_constraintBottom_toBottomOf="@id/notice_title"
             app:layout_constraintStart_toEndOf="@id/notice_title"
-            app:layout_constraintTop_toTopOf="@id/notice_title" />
+            app:layout_constraintTop_toTopOf="@id/notice_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitStart"/>
 
         <TextView
             android:id="@+id/notice_tag"
@@ -445,6 +453,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:text="[시스템점검공지]"
+            android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/notice_title" />
 
@@ -452,8 +461,9 @@
             android:id="@+id/notice_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="7dp"
             android:text="7/23(화)12:00~13:00"
+            android:textSize="13sp"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/notice_tag"
             app:layout_constraintStart_toEndOf="@id/notice_tag"
@@ -474,6 +484,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="35dp"
+            android:textSize="13sp"
             android:text="[리뉴얼 공지]"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/notice_tag" />
@@ -482,12 +493,14 @@
             android:id="@+id/notice_content2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="7dp"
             android:text="8월 19일 위트가 새로워집니다."
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/notice_tag"
             app:layout_constraintStart_toEndOf="@id/notice_tag2"
-            app:layout_constraintTop_toTopOf="@id/notice_tag2" />
+            app:layout_constraintTop_toTopOf="@id/notice_tag2"
+            android:textSize="13sp"
+            />
 
         <View
             android:layout_width="match_parent"
@@ -504,6 +517,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="35dp"
             android:text="[이용 가이드]"
+            android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/notice_tag2" />
 
@@ -512,7 +526,8 @@
             android:id="@+id/notice_content3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="7dp"
+            android:textSize="13sp"
             android:text="위트(wit)서비스 및 이용가이드 안내"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/notice_tag3"
