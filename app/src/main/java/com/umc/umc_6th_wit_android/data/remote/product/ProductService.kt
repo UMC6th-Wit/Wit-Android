@@ -10,6 +10,9 @@ import com.umc.umc_6th_wit_android.product.ReviewCreationView
 import com.umc.umc_6th_wit_android.product.ReviewOverviewView
 import com.umc.umc_6th_wit_android.product.ReviewPageView
 import com.umc.umc_6th_wit_android.product.ReviewView
+import com.umc.umc_6th_wit_android.wish.CartResponse
+import com.umc.umc_6th_wit_android.wish.WishBoardDeleteResponse
+import com.umc.umc_6th_wit_android.wish.WishBoardListDelRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -191,6 +194,81 @@ class ProductService(private val context: ProductDetailActivity) { //매개변�
                 reviewView.onPostHelpfulFailure("500", t.message ?: "Unknown error")
             }
         })
+    }
+
+    //장바구니에 추가
+    fun addCart(productId: Int){
+
+        // TokenManager에서 저장된 액세스 토큰을 가져옴
+        val accessToken = tokenManager.getAccessToken()
+        if (accessToken != null) {
+
+            val retrofit = TokenRetrofitManager(context)
+            val productServiceApi = retrofit.create(ProductRetrofitInterface::class.java)
+
+            productServiceApi.addCart("Bearer $accessToken", productId).enqueue(object : Callback<CartResponse> {
+                override fun onResponse(call: Call<CartResponse>, response: Response<CartResponse>) {
+
+                    Log.d("cart_add", response.toString())
+                    if (response.message().equals("제품이 장바구니에 성공적으로 추가되었습니다.")) {
+                        val cartResponse: CartResponse = response.body()!!
+
+                        Log.d("CART201-RESPONSE", cartResponse.toString())
+
+                        when (val message = cartResponse.message) {
+                            "제품이 장바구니에 성공적으로 추가되었습니다." -> {
+                                productView.onPostAddCartSuccess(message, cartResponse.data)
+                            }
+                            else -> {
+                                productView.onPostAddCartFailure(message, cartResponse.message)
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<CartResponse>, t: Throwable) {
+                    // 실패 처리
+                    Log.d("CART201-ERROR", t.message.toString())
+                }
+            })
+        }
+    }
+
+    //장바구니에서 제거
+    fun delCart(request: WishBoardListDelRequest){
+
+        // TokenManager에서 저장된 액세스 토큰을 가져옴
+        val accessToken = tokenManager.getAccessToken()
+        if (accessToken != null) {
+
+            val retrofit = TokenRetrofitManager(context)
+            val productServiceApi = retrofit.create(ProductRetrofitInterface::class.java)
+
+            productServiceApi.delCart("Bearer $accessToken", request).enqueue(object : Callback<WishBoardDeleteResponse> {
+                override fun onResponse(call: Call<WishBoardDeleteResponse>, response: Response<WishBoardDeleteResponse>) {
+                    Log.d("cart_del", response.toString())
+                    if (response.message().equals("제품이 장바구니에서 성공적으로 제거되었습니다.")) {
+                        val wishBoardListResponse: WishBoardDeleteResponse = response.body()!!
+
+                        Log.d("CART301-RESPONSE", wishBoardListResponse.toString())
+
+                        when (val message = wishBoardListResponse.message) {
+                            "제품이 장바구니에서 성공적으로 제거되었습니다." -> {
+                                productView.onPostDelCartSuccess(message, wishBoardListResponse.message)
+                            }
+                            else -> {
+                                productView.onPostDelCartFailure(message, wishBoardListResponse.message)
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<WishBoardDeleteResponse>, t: Throwable) {
+                    // 실패 처리
+                    Log.d("CART301-ERROR", t.message.toString())
+                }
+            })
+        }
     }
 
     // Retrofit 인스턴스 생성

@@ -15,6 +15,7 @@ import com.umc.umc_6th_wit_android.data.remote.product.Review
 import com.umc.umc_6th_wit_android.data.remote.product.ReviewOverviewResult
 import com.umc.umc_6th_wit_android.databinding.FragmentReviewMinBinding
 import com.umc.umc_6th_wit_android.home.ProductDetailFragment
+import com.umc.umc_6th_wit_android.wish.CartItem
 
 class ReviewMinFragment : Fragment(), ProductView, ReviewOverviewView {
 
@@ -129,6 +130,22 @@ class ReviewMinFragment : Fragment(), ProductView, ReviewOverviewView {
 
     override fun onGetReviewOverviewFailure(code: String, message: String) {
         Log.d("ReviewOverview-Failure", code)
+    }
+
+    override fun onPostAddCartSuccess(code: String, response: CartItem) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostAddCartFailure(code: String, error: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostDelCartSuccess(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostDelCartFailure(code: String, message: String) {
+        TODO("Not yet implemented")
     }
 }
 

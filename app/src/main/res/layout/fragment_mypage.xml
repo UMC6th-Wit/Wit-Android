@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     android:background="#FEF9E8">
 
-    <TextView
-        android:id="@+id/mypage_tv1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:fontFamily="@font/suitbold"
-        android:text="MY"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
@@ -29,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mypage_tv1">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,13 +23,23 @@
             android:orientation="vertical"
             android:paddingHorizontal="18dp">
 
-            <ImageView
-                android:id="@+id/mypage_profil_iv"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="70dp">
+
+            <ImageView
+                android:id="@+id/mypage_profil_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:src="@drawable/mypage_profil" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/mypage_mask"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
                 android:id="@+id/mypage_nickname"
@@ -53,7 +49,8 @@
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/suitbold"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:text="닉네임"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -336,5 +333,13 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <ImageView
+        android:id="@+id/loadingImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/mypage_loading"
+        android:visibility="gone"
+        android:scaleType="fitXY"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

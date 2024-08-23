@@ -12,6 +12,11 @@ import com.umc.umc_6th_wit_android.data.remote.product.ProductResult
 import com.umc.umc_6th_wit_android.data.remote.product.ProductService
 import com.umc.umc_6th_wit_android.databinding.ActivityProductDetailBinding
 import com.umc.umc_6th_wit_android.home.ProductDetailFragment
+import com.umc.umc_6th_wit_android.login.TokenManager
+import com.umc.umc_6th_wit_android.wish.CartItem
+import com.umc.umc_6th_wit_android.wish.WishBoardListDelRequest
+import com.umc.umc_6th_wit_android.wish.WishItem
+import com.umc.umc_6th_wit_android.wish.WishService
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -44,17 +49,24 @@ import java.util.Locale
 
         binding.heartBtnIv.setOnClickListener {
             // 하트 버튼 이미지 변경 로직
-            if (isHelpIv) {
+            if (!isHelpIv) {
+                val request = WishBoardListDelRequest(
+                    product_ids = listOf(1)   //product_id 넣기
+                )
+                val productService = ProductService(this@ProductDetailActivity)
+                productService.setProductDetailView(this)
+                productService.delCart(request)
                 binding.heartBtnIv.setImageResource(R.drawable.heart_btn_empty_image)
             } else {
+                val productService = ProductService(this@ProductDetailActivity)
+                productService.setProductDetailView(this)
+                productService.addCart(1)   //product_id 넣기
                 binding.heartBtnIv.setImageResource(R.drawable.heart_btn_full_image)
             }
             isHelpIv = !isHelpIv // 하트 버튼 상태 변경
 
             // DB 하트 숫자 변경 (여기에 DB 처리 로직 추가)
         }
-
-
     }
 
     override fun onGetProductSuccess(code: String, result: ProductResult) {
@@ -75,6 +87,12 @@ import java.util.Locale
         calculatePrice(result.en_price.toDouble(), result.won_price.toDouble())
         binding.whereWidget1Tv.text = "${result.sales_area}"
         binding.whereWidget2Tv.text = "${result.sales_area}"
+        isHelpIv = result.is_heart == 1
+        if (!isHelpIv) {
+            binding.heartBtnIv.setImageResource(R.drawable.heart_btn_empty_image)
+        } else {
+            binding.heartBtnIv.setImageResource(R.drawable.heart_btn_full_image)
+        }
 
         //ProductDetailFragment에 정보 전달
         val id = intent.getIntExtra("id", -1)
@@ -86,6 +104,22 @@ import java.util.Locale
 
     override fun onGetProductFailure(code: String, message: String) {
         Log.d("Product-FAILURE", code)
+    }
+
+    override fun onPostAddCartSuccess(code: String, response: CartItem) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostAddCartFailure(code: String, error: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostDelCartSuccess(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostDelCartFailure(code: String, message: String) {
+        TODO("Not yet implemented")
     }
 
     override fun onResume() {
@@ -116,6 +150,5 @@ import java.util.Locale
         val formattedWonPrice = wonFormat.format(wonPrice)
         binding.currencyWonTv.text = "${formattedWonPrice}"
     }
-
 
 }

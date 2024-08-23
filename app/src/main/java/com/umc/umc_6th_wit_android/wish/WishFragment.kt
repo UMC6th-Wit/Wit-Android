@@ -614,22 +614,20 @@ class WishFragment : Fragment(), SelectionListener, WishView {
     }
 
     //위시리스트 장바구니 추가 성공
-    override fun onPostAddCardSuccess(code: String, response: WishItem) {
+    override fun onPostAddCartSuccess(code: String, response: CartItem) {
         TODO("Not yet implemented")
     }
 
     //위시리스트 장바구니 추가 실패
-    override fun onPostAddCardFailure(code: String, error: String) {
+    override fun onPostAddCartFailure(code: String, error: String) {
         TODO("Not yet implemented")
     }
 
-    //위시리스트 장바구니 삭제 성공
-    override fun onPostDelCardSuccess(message: String) {
+    override fun onPostDelCartSuccess(code: String, message: String) {
         TODO("Not yet implemented")
     }
 
-    //위시리스트 장바구니 삭제 실패
-    override fun onPostDelCardFailure(message: String) {
+    override fun onPostDelCartFailure(code: String, message: String) {
         TODO("Not yet implemented")
     }
 }

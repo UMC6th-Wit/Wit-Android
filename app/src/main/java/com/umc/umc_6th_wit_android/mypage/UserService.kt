@@ -71,11 +71,11 @@ data class WithdrawResponse(
 
 data class UserResult(
     val user_id: String,
-    val username: String,
-    val usernickname: String,
-    val gender: String,
+    var username: String,
+    var usernickname: String,
+    var gender: String,
     val social_login: String,
-    val age: Int,
+    var age: Int,
     var birth: String,
     val created_at: String
 )

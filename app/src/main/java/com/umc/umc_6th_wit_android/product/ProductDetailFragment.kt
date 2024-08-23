@@ -13,6 +13,7 @@ import com.umc.umc_6th_wit_android.databinding.FragmentProductDetailBinding
 import com.umc.umc_6th_wit_android.product.ProductView
 import com.umc.umc_6th_wit_android.product.ReviewMinFragment
 import com.umc.umc_6th_wit_android.product.ReviewZeroFragment
+import com.umc.umc_6th_wit_android.wish.CartItem
 
 class ProductDetailFragment : Fragment() {
 
@@ -75,5 +76,4 @@ class ProductDetailFragment : Fragment() {
             return fragment
         }
     }
-
 }
