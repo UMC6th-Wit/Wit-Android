@@ -1,5 +1,7 @@
 package com.umc.umc_6th_wit_android.wish
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.ItemWishBinding
+import com.umc.umc_6th_wit_android.product.ProductDetailActivity
 import java.text.NumberFormat
 
 // WishListAdapter 클래스 정의: RecyclerView.Adapter를 상속받아 WishItem 리스트를 관리합니다.
 class WishListAdapter(
+    private val context: Context, // Context를 추가합니다.
     private var items: MutableList<WishItem>,
     private val selectionListener: SelectionListener,
     private val loadMoreItems: (cursor: Int?, limit: Int?) -> Unit
@@ -140,6 +144,10 @@ class WishListAdapter(
                         binding.icSelect.setImageResource(R.drawable.ic_selected)
                         binding.itemImage.setColorFilter(Color.parseColor("#80000000")) // 투명도 50%의 검은 색상
                     }
+                } else {
+                    val intent = Intent(context, ProductDetailActivity::class.java)
+                    intent.putExtra("id", item.product_id)
+                    context.startActivity(intent)
                 }
             }
         }
