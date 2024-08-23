@@ -45,12 +45,6 @@ class AccountinfoFragment : Fragment() {
         binding = FragmentAccountinfoBinding.inflate(inflater, container, false)
         (activity as? MainActivity)?.setBottomNavigationViewVisibility(false)
 
-        // 초기에는 TextView들을 보이지 않게 설정
-        binding.accountinfoNameEt.visibility = View.INVISIBLE
-        binding.accountinfoNicknameEt.visibility = View.INVISIBLE
-        binding.accountinfoBirthTv.visibility = View.INVISIBLE
-        binding.accountinfoRg.clearCheck()
-
         // 생년월일 수정 결과 수신
         parentFragmentManager.setFragmentResultListener("birthdateUpdate", viewLifecycleOwner) { _, bundle ->
             val updatedBirthdate = bundle.getString("updatedBirthdate")
@@ -67,9 +61,6 @@ class AccountinfoFragment : Fragment() {
         // TokenManager 초기화
         tokenManager = TokenManager(requireContext().getSharedPreferences("auth_prefs", Context.MODE_PRIVATE))
 
-        // 유저 정보 조회
-        fetchUserInfo()
-
         // 유저 프로필 이미지 조회
         fetchUserProfileImage()
 
@@ -81,7 +72,7 @@ class AccountinfoFragment : Fragment() {
 
     // 유저 정보 조회 API 호출
     private fun fetchUserInfo() {
-        Log.d("AccountinfoFragment", "fetchUserInfo 실행")
+        Log.d("AccountinfoFragment", "fetchUserInfo() 실행")
 
         // TokenManager에서 저장된 액세스 토큰을 가져옴
         val accessToken = tokenManager.getAccessToken()
@@ -103,6 +94,8 @@ class AccountinfoFragment : Fragment() {
                             cachedUserInfo = it  // 유저 정보 캐싱
                             bindUserInfoToUI(it)
                         }
+                        Log.d("AccountinfoFragment", "accountinfo의 fetchInfo()에서 usernickname: ${userInfo?.usernickname}")
+
 
                     } else {
                         Log.d("AccountinfoFragment", "Error: ${response.body()?.message}")
@@ -135,10 +128,6 @@ class AccountinfoFragment : Fragment() {
             val birthdate = formatBirthdate(it.birth)
             binding.accountinfoBirthTv.text = birthdate
 
-            // 데이터 로드가 완료되면 View를 보이게 설정
-            binding.accountinfoNameEt.visibility = View.VISIBLE
-            binding.accountinfoNicknameEt.visibility = View.VISIBLE
-            binding.accountinfoBirthTv.visibility = View.VISIBLE
         }
     }
 
@@ -206,7 +195,16 @@ class AccountinfoFragment : Fragment() {
     private fun updateUserInfo() {
         val accessToken = tokenManager.getAccessToken()
 
+        if (cachedUserInfo == null) {
+            Log.d("AccountinfoFragment", "cachedUserInfo가 null입니다. 업데이트를 중단합니다.")
+            return
+        }
+
+        // UI에서 입력된 값을 직접 캐시된 유저 정보에 반영
         cachedUserInfo?.let { userInfo ->
+            userInfo.username = binding.accountinfoNameEt.text.toString()
+            userInfo.usernickname = binding.accountinfoNicknameEt.text.toString()
+
             if (accessToken != null) {
                 val userInfoUpdateRequest = UserInfoUpdateRequest(
                     userInfo.username,
@@ -224,6 +222,8 @@ class AccountinfoFragment : Fragment() {
                     override fun onResponse(call: Call<UserInfoResponse>, response: Response<UserInfoResponse>) {
                         if (response.isSuccessful && response.body()?.isSuccess == true) {
                             Log.d("AccountinfoFragment", "유저 정보 수정 성공")
+                            // 서버에 반영된 값을 로그로 확인
+                            Log.d("AccountinfoFragment", "캐시된 데이터 업데이트 - nickname: ${cachedUserInfo?.usernickname}")
                         } else {
                             Log.d("AccountinfoFragment", "유저 정보 수정 실패: ${response.body()?.message}")
                         }
@@ -238,6 +238,7 @@ class AccountinfoFragment : Fragment() {
             }
         }
     }
+
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -266,6 +267,13 @@ class AccountinfoFragment : Fragment() {
 
     private fun navigateToMypage() {
         parentFragmentManager.popBackStack()
+        // AccountinfoFragment에서 popBackStack 전에 데이터 전달
+        val result = Bundle().apply {
+            putString("nickname", binding.accountinfoNicknameEt.text.toString())  // 현재 입력된 닉네임 전달
+        }
+        parentFragmentManager.setFragmentResult("updateNickname", result)
+        parentFragmentManager.popBackStack()
+
         (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
 
     }
@@ -385,6 +393,15 @@ class AccountinfoFragment : Fragment() {
             Log.d("AccountinfoFragment", "액세스 토큰이 없습니다.")
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        // 다시 화면에 보여질 때 유저 정보 갱신
+        fetchUserInfo()
+        Log.d("AccountinfoFragment","onResume()에서 fetchUserInfo 실행")
+    }
+
+
 
 
 }

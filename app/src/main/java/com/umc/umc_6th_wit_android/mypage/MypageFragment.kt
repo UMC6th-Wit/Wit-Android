@@ -46,6 +46,13 @@ class MypageFragment : Fragment() {
         // 유저 정보 조회
         fetchUserInfo()
 
+        parentFragmentManager.setFragmentResultListener("updateNickname", viewLifecycleOwner) { requestKey, bundle ->
+            val nickname = bundle.getString("nickname")
+            if (nickname != null) {
+                binding.mypageNickname.text = nickname
+            }
+        }
+
         //오버스크롤 제한
         binding.nestedScrollView.overScrollMode = View.OVER_SCROLL_NEVER
 
@@ -67,6 +74,7 @@ class MypageFragment : Fragment() {
 
         return binding.root
     }
+
 
     private fun replaceFragment(fragment: Fragment) {
         // 네비게이션 바 숨김
@@ -93,12 +101,10 @@ class MypageFragment : Fragment() {
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        // 유저 정보 조회
-        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
-
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        (activity as? MainActivity)?.setBottomNavigationViewVisibility(true) // main_bnv 보이기
+//    }
 
     private fun logoutUser() {
         val accessToken = tokenManager.getAccessToken()
@@ -161,6 +167,8 @@ class MypageFragment : Fragment() {
                             binding.mypageNickname.text = it.usernickname
 
                             Log.d("MypageFragment", "유저 정보 조회 성공")
+                            Log.d("MypageFragment", "mypageFragment fetchInfo()에서 nickname: ${userInfo.usernickname}")
+
 
                         }
                     } else {
@@ -176,4 +184,5 @@ class MypageFragment : Fragment() {
             Log.d("MypageFragment", "액세스 토큰이 없습니다.")
         }
     }
+
 }
