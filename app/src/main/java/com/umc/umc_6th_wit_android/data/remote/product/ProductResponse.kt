@@ -75,6 +75,7 @@ data class TopHelpfulReview(
 
 //제품 리뷰 목록 불러오기 (베스트순, 최신순)
 data class ProductReviewsResponse(
+    // @SerializedName("message") val message: String,
     @SerializedName("result") val result: ReviewsResult
 )
 
