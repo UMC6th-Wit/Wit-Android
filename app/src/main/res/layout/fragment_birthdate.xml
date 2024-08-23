@@ -11,7 +11,7 @@
         android:id="@+id/birthdate_tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="25dp"
         android:fontFamily="@font/suitbold"
         android:text="계정 정보"
         android:textColor="@color/black"
@@ -22,20 +22,28 @@
 
     <ImageView
         android:id="@+id/birthdate_back_iv"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
         android:layout_marginStart="18dp"
         android:src="@drawable/accountinfo_back"
         app:layout_constraintBottom_toBottomOf="@id/birthdate_tv1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/birthdate_tv1" />
 
+    <View
+        android:id="@+id/accountinfo_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EAEAEA"
+        app:layout_constraintTop_toBottomOf="@id/birthdate_tv1"
+        android:layout_marginTop="18dp"/>
+
     <TextView
         android:id="@+id/birthdate_tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="18dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="45dp"
         android:fontFamily="@font/suitmeduim"
         android:text="생년월일을 선택해주세요"
         android:textColor="#A9A9A9"
@@ -83,7 +91,7 @@
         android:background="@drawable/birthdate_button"
         android:fontFamily="@font/suitbold"
         android:text="저장하기"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:stateListAnimator="@null"/>

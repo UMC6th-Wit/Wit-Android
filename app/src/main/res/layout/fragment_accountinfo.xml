@@ -11,7 +11,7 @@
         android:id="@+id/accountinfo_tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="25dp"
         android:fontFamily="@font/suitbold"
         android:text="계정 정보"
         android:textColor="@color/black"
@@ -22,24 +22,32 @@
 
     <ImageView
         android:id="@+id/accountinfo_back_iv"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="27dp"
+        android:layout_height="27dp"
         android:layout_marginStart="18dp"
         android:src="@drawable/accountinfo_back"
         app:layout_constraintBottom_toBottomOf="@id/accountinfo_tv1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/accountinfo_tv1" />
 
+    <View
+        android:id="@+id/accountinfo_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EAEAEA"
+        app:layout_constraintTop_toBottomOf="@id/accountinfo_tv1"
+        android:layout_marginTop="18dp"/>
+
     <ImageView
         android:id="@+id/accountinfo_profil_iv"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="35dp"
         android:scaleType="centerCrop"
         android:src="@drawable/mypage_profil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/accountinfo_tv1" />
+        app:layout_constraintTop_toBottomOf="@id/accountinfo_line" />
 
     <ImageView
     android:layout_width="100dp"
@@ -297,5 +305,14 @@
                 android:background="#EEEEEE" />
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:id="@+id/loadingImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_marginTop="90dp"
+        android:visibility="visible"
+        android:scaleType="fitXY"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
