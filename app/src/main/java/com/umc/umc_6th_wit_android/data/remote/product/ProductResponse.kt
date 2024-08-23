@@ -28,6 +28,7 @@ data class ProductResult(
     @SerializedName("sub_category_id") val sub_category_id: Int,
 
     @SerializedName("user_id") val user_id: Int?,
+    @SerializedName("is_heart") val is_heart: Int?,
     @SerializedName("average_rating") val average_rating: Int,
     @SerializedName("review_count") val review_count: Int,
     @SerializedName("latest_review_images") val latest_review_images: List<String>,

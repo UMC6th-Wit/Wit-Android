@@ -1,5 +1,8 @@
 package com.umc.umc_6th_wit_android.data.remote.product
 
+import com.umc.umc_6th_wit_android.wish.CartResponse
+import com.umc.umc_6th_wit_android.wish.WishBoardDeleteResponse
+import com.umc.umc_6th_wit_android.wish.WishBoardListDelRequest
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -52,4 +55,18 @@ interface ProductRetrofitInterface {
         @Path("productId") productId: Int,
         @Path("reviewId") reviewId: Int
     ): Call<HelpfulResponse>
+
+    //제품 장바구니에 담기
+    @POST("product/add-cart/{product_id}")
+    fun addCart(
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
+        @Path("product_id") productId: Int,
+    ): Call<CartResponse>
+
+    //제품 장바구니에 빼기
+    @POST("product/delete-cart")
+    fun delCart(
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
+        @Body request: WishBoardListDelRequest
+    ): Call<WishBoardDeleteResponse>
 }

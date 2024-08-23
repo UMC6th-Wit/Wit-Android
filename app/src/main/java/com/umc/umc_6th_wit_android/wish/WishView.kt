@@ -23,10 +23,10 @@ interface WishView {
     fun onDeleteWishBoardListFailure(code: String, message: String)
 
     //위시리스트 장바구니 담기
-    fun onPostAddCardSuccess(code: String, response: WishItem)
-    fun onPostAddCardFailure(code: String, error: String)
+    fun onPostAddCartSuccess(code: String, response: CartItem)
+    fun onPostAddCartFailure(code: String, error: String)
 
     //위시리스트 장바구니 빼기
-    fun onPostDelCardSuccess(message: String)
-    fun onPostDelCardFailure(message: String)
+    fun onPostDelCartSuccess(code: String, message: String)
+    fun onPostDelCartFailure(code: String, message: String)
 }
