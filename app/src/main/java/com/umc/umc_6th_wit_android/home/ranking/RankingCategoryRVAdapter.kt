@@ -7,11 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.data.local.CategoryDto
 import com.umc.umc_6th_wit_android.data.remote.home.ProductVer2
 import com.umc.umc_6th_wit_android.databinding.ItemRankingBinding
 
-class RankingCategoryRVAdapter (val items : ArrayList<ProductVer2>, val part : String)
+class RankingCategoryRVAdapter (
+    val items : ArrayList<ProductVer2>,
+    val part : String,
+    private val addCart : (id: Int) -> Unit,
+    private val delCart : (id : Int) -> Unit)
     : RecyclerView.Adapter<RankingCategoryRVAdapter.RankingCateogoryViewHolder>() {
     val TAG = "RankingCategoryRVAdapter"
 
@@ -44,9 +47,11 @@ class RankingCategoryRVAdapter (val items : ArrayList<ProductVer2>, val part : S
         //test
         holder.itemBinding.likeIv.setOnClickListener {
             if(!items[position].isHeart){
+                addCart(items[position].id)
                 items[position].isHeart = true
                 holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
             }else{
+                delCart(items[position].id)
                 items[position].isHeart = false
                 holder.itemBinding.likeIv.setImageResource(R.drawable.home_off_heart)
             }

@@ -1,5 +1,6 @@
 package com.umc.umc_6th_wit_android.home
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +11,17 @@ import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.local.CategoryDto
 import com.umc.umc_6th_wit_android.data.remote.home.ProductVer2
 import com.umc.umc_6th_wit_android.databinding.ItemHomeCategoryBinding
+import com.umc.umc_6th_wit_android.login.TokenManager
+import com.umc.umc_6th_wit_android.wish.WishBoardItemResult
+import com.umc.umc_6th_wit_android.wish.WishItemResult
+import com.umc.umc_6th_wit_android.wish.WishListView
 
-class CategoryRVAdapter (val items : ArrayList<ProductVer2>)
-    : RecyclerView.Adapter<CategoryRVAdapter.CateogoryViewHolder>() {
+class CategoryRVAdapter (
+    val items : ArrayList<ProductVer2>,
+    private val addCart : (id: Int) -> Unit,
+    private val delCart : (id : Int) -> Unit
+)
+    : RecyclerView.Adapter<CategoryRVAdapter.CateogoryViewHolder>(){
     val TAG = "CategoryRVAdapter"
 
     override fun getItemCount(): Int = items.size
@@ -20,6 +29,10 @@ class CategoryRVAdapter (val items : ArrayList<ProductVer2>)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CateogoryViewHolder {
         val itemBinding = ItemHomeCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CateogoryViewHolder(itemBinding)
+    }
+
+    override fun getItemId(position: Int): Long {
+        return super.getItemId(position)
     }
 
     override fun onBindViewHolder(holder: CateogoryViewHolder, position: Int) {
@@ -30,6 +43,7 @@ class CategoryRVAdapter (val items : ArrayList<ProductVer2>)
         holder.itemBinding.itemYenTv2.text = items[position].enPrice.toString() + "¥"
         holder.itemBinding.itemWonTv2.text = items[position].wonPrice.toString() +"₩"
 
+        //받아온 데이터 세팅
         if(!items[position].isHeart){
             holder.itemBinding.likeIv.setImageResource(R.drawable.home_off_heart)
         }else{
@@ -39,9 +53,12 @@ class CategoryRVAdapter (val items : ArrayList<ProductVer2>)
         //test
         holder.itemBinding.likeIv.setOnClickListener {
             if(!items[position].isHeart){
+                addCart(items[position].id)
+                Log.d("product_id", items[position].id.toString())
                 items[position].isHeart = true
                 holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
             }else{
+                delCart(items[position].id)
                 items[position].isHeart = false
                 holder.itemBinding.likeIv.setImageResource(R.drawable.home_off_heart)
             }
@@ -81,13 +98,5 @@ class CategoryRVAdapter (val items : ArrayList<ProductVer2>)
     fun setOnItemClickListener(listener: OnItemClickListener?) {
         this.listener = listener
     }
-/*    fun setLike(isLike: Boolean){
-        if(!isLike){
-            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_on)
-            CustomToast(applicationContext, "좋아요 한 곡에 담겼습니다.").show()
-        }else{
-            binding.songLikeIv.setImageResource(R.drawable.ic_my_like_off)
-            CustomToast(applicationContext, "좋아요 한 곡이 취소되었습니다.").show()
-        }
-    }*/
+
 }

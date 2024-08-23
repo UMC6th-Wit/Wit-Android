@@ -30,7 +30,7 @@ interface HomeRetrofitInterface {
     ) : Call<HomeBestFoodResponse>
 
     //랭킹 카테고리 불러오기
-    /*categoryID : 1 식품, 2 뷰티코스메틱, 3 의약품, 4 생활용품
+    /*categoryID : 0 전체 , 1 식품, 2 뷰티코스메틱, 3 의약품, 4 생활용품
       count : 갯수*/
     @GET("home/category")
     fun getCategory(
