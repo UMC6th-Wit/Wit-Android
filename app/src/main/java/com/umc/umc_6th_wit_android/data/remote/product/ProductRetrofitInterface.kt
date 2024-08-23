@@ -4,6 +4,7 @@ import com.umc.umc_6th_wit_android.wish.CartResponse
 import com.umc.umc_6th_wit_android.wish.WishBoardDeleteResponse
 import com.umc.umc_6th_wit_android.wish.WishBoardListDelRequest
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -34,9 +35,9 @@ interface ProductRetrofitInterface {
     fun createReview(
         @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Path("productId") productId: Int,
-        @Part("rating") rating: RatingResponse,  // rating 값을 담는 RequestBody
-        @Part("content") content: ContentResponse,  // content 값을 담는 RequestBody
-        @Part("image") image: MultipartBody.Part
+        @Part("rating") rating: Double,  // rating 값을 담는 RequestBody
+        @Part("content") content: RequestBody,  // content 값을 담는 RequestBody
+        @Part image: List<MultipartBody.Part>
     ): Call<ReviewCreationResponse>
 
     // 리뷰 작성 페이지 불러오기
