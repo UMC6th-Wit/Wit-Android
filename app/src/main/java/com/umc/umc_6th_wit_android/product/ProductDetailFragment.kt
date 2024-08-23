@@ -8,17 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.remote.product.ProductResult
+import com.umc.umc_6th_wit_android.data.remote.product.ProductService
 import com.umc.umc_6th_wit_android.databinding.FragmentProductDetailBinding
 import com.umc.umc_6th_wit_android.product.ProductView
 import com.umc.umc_6th_wit_android.product.ReviewMinFragment
 import com.umc.umc_6th_wit_android.product.ReviewZeroFragment
 
-class ProductDetailFragment : Fragment(), ProductView {
+class ProductDetailFragment : Fragment() {
 
     private var _binding: FragmentProductDetailBinding? = null
     private val binding get() = _binding!!
 
-    private var reviewCount: Int = 2 // 현재 리뷰 개수, 페이지 로딩 시 마다
+    private var reviewCount: Int = 0 // 현재 리뷰 개수, 페이지 로딩 시 마다
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +31,13 @@ class ProductDetailFragment : Fragment(), ProductView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 전달받은 데이터로 UI 업데이트
+        binding.productDetailNameTv.text = arguments?.getString("name")
+        binding.productTypeTv.text = arguments?.getString("product_type")
+        binding.productCountryTv.text = arguments?.getString("manufacturing_country")
+        reviewCount = arguments?.getString("review_count")?.toIntOrNull() ?: 0
+        binding.productReviewSelectTv.text = "리뷰(${reviewCount})"
 
         binding.productReviewSelectTv.setOnClickListener {
             val fragment = if (reviewCount == 0) {
@@ -51,16 +59,18 @@ class ProductDetailFragment : Fragment(), ProductView {
         _binding = null
     }
 
-    override fun onGetProductSuccess(code: String, result: ProductResult) {
-        Log.d("ProductFragment-SUCCESS", code + result.name)
-
-        //정보 가져 오는데 성공 -> 뷰에 반영
-        binding.productDetailNameTv.text = "${result.name}"
-        binding.productTypeTv.text = "${result.product_type}"
-        binding.productCountryTv.text = "${result.manufacturing_country}"
+    companion object {
+        fun newInstance(name: String, product_type: String, manufacturing_country: String, review_count: String): ProductDetailFragment {
+            val fragment = ProductDetailFragment()
+            val args = Bundle().apply {
+                putString("name", name)
+                putString("product_type", product_type)
+                putString("manufacturing_country", manufacturing_country)
+                putString("review_count", review_count)
+            }
+            fragment.arguments = args
+            return fragment
+        }
     }
 
-    override fun onGetProductFailure(code: String, message: String) {
-        Log.d("ProductFragment-FAILURE", code)
-    }
 }
