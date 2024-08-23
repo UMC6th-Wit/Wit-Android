@@ -1,15 +1,21 @@
 package com.umc.umc_6th_wit_android.product
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.PriceActivity
 import com.umc.umc_6th_wit_android.R
+import com.umc.umc_6th_wit_android.data.remote.home.HomeService
 import com.umc.umc_6th_wit_android.data.remote.product.ProductResult
+import com.umc.umc_6th_wit_android.data.remote.product.ProductService
 import com.umc.umc_6th_wit_android.databinding.ActivityProductDetailBinding
 import com.umc.umc_6th_wit_android.home.ProductDetailFragment
+import com.umc.umc_6th_wit_android.login.TokenManager
+import com.umc.umc_6th_wit_android.wish.WishService
 
 class ProductDetailActivity : AppCompatActivity(), ProductView {
 
@@ -48,12 +54,31 @@ class ProductDetailActivity : AppCompatActivity(), ProductView {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        getRecommendProducts()
+    }
+
+    private fun getRecommendProducts() {
+        val productService = ProductService(this@ProductDetailActivity)
+        productService.setProductDetailView(this)
+
+        productService.getProductDetail(1)
+    }
+
     override fun onGetProductSuccess(code: String, result: ProductResult) {
         Log.d("Product-SUCCESS", code + result.name)
 
         //정보 가져 오는데 성공 -> 뷰에 반영
         val imageUri = Uri.parse(result.image)
-        binding.productDetailImg.setImageURI(imageUri)
+        binding.productDetailImg.let { imageView ->
+            result.image?.let { imageUrl ->
+                Glide.with(imageView.context)
+                    .load(imageUrl)
+                    .into(imageView)
+            }
+        }
+
         binding.productNameTv.text = "${result.name}"
         //binding.heartBtnTv.text = "${result.}" 제품 장바구니에 담기, 빼기 하트 숫자에 적용해야함
         binding.currencyYenTv.text = "${result.en_price}"

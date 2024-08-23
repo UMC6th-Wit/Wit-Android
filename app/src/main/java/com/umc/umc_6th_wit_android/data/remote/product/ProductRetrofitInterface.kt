@@ -6,8 +6,9 @@ import retrofit2.http.*
 interface ProductRetrofitInterface {
 
     // 제품 상세 정보 불러오기
-    @GET("/products/{productId}")
+    @GET("products/{productId}")
     fun getProductDetail(
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Path("productId") productId: Int
     ): Call<ProductResponse>
 

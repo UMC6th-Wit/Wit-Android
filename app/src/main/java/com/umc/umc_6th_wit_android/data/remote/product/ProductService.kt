@@ -2,7 +2,9 @@ package com.umc.umc_6th_wit_android.data.remote.product
 
 import android.content.Context
 import android.util.Log
+import com.umc.umc_6th_wit_android.data.remote.home.HomeRetrofitInterface
 import com.umc.umc_6th_wit_android.login.TokenManager
+import com.umc.umc_6th_wit_android.network.TokenRetrofitManager
 import com.umc.umc_6th_wit_android.product.ProductView
 import com.umc.umc_6th_wit_android.product.ReviewCreationView
 import com.umc.umc_6th_wit_android.product.ReviewOverviewView
@@ -14,7 +16,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ProductService(context: Context) { //매개변수에 , private val productServiceApi: ProductRetrofitInterface 필요하면 사용
+class ProductService(private val context: Context) { //매개변수에 , private val productServiceApi: ProductRetrofitInterface 필요하면 사용
 
     private lateinit var productView: ProductView
     private lateinit var reviewView: ReviewView
@@ -48,25 +50,32 @@ class ProductService(context: Context) { //매개변수에 , private val product
 
     // 제품 상세 정보 불러오기
     fun getProductDetail(productId: Int) {
-        val productServiceApi = getInstance().create(ProductRetrofitInterface::class.java)
-        productServiceApi.getProductDetail(productId).enqueue(object : Callback<ProductResponse> {
-            override fun onResponse(call: Call<ProductResponse>, response: Response<ProductResponse>) {
-                if (response.isSuccessful && response.body()?.message == "Product retrieved successfully") {
-                    val productResponse: ProductResponse = response.body()!!
+        // TokenManager에서 저장된 액세스 토큰을 가져옴
+        val accessToken = tokenManager.getAccessToken()
+        if (accessToken != null) {
 
-                    Log.d("PRODUCT_DETAIL", productResponse.toString())
+            val retrofit = TokenRetrofitManager(context)
+            val productServiceApi = retrofit.create(ProductRetrofitInterface::class.java)
+            productServiceApi.getProductDetail("Bearer $accessToken", productId).enqueue(object : Callback<ProductResponse> {
+                override fun onResponse(call: Call<ProductResponse>, response: Response<ProductResponse>) {
+                    Log.d("product_response", response.body().toString())
+                    if (response.isSuccessful && response.body()?.message == "Product retrieved successfully") {
+                        val productResponse: ProductResponse = response.body()!!
 
-                    productView.onGetProductSuccess(response.body()?.code.toString(), productResponse.result)
-                } else {
-                    productView.onGetProductFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
+                        Log.d("PRODUCT_DETAIL", productResponse.toString())
+
+                        productView.onGetProductSuccess(response.body()?.code.toString(), productResponse.result)
+                    } else {
+                        productView.onGetProductFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<ProductResponse>, t: Throwable) {
-                Log.d("PRODUCT_DETAIL_ERROR", t.message.toString())
-                productView.onGetProductFailure("500", t.message ?: "Unknown error")
-            }
-        })
+                override fun onFailure(call: Call<ProductResponse>, t: Throwable) {
+                    Log.d("PRODUCT_DETAIL_ERROR", t.message.toString())
+                    productView.onGetProductFailure("500", t.message ?: "Unknown error")
+                }
+            })
+        }
     }
 
     // 새로운 리뷰 목록 불러오기

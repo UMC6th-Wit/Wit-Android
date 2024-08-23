@@ -31,7 +31,7 @@ data class ProductResult(
     @SerializedName("average_rating") val average_rating: Int,
     @SerializedName("review_count") val review_count: Int,
     @SerializedName("latest_review_images") val latest_review_images: List<String>,
-    @SerializedName("top_reviews") val top_reviews: List<String>
+    @SerializedName("top_reviews") val top_reviews: List<Review>
 )
 
 //review
