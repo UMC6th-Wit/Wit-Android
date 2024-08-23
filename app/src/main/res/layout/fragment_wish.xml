@@ -132,23 +132,23 @@
             android:textColor="#FFFFFF"
             android:textSize="15sp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/btn_unselected_nation_background"
-            android:text="태국"
-            android:textColor="#66111111"
-            android:textSize="15sp" />
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:background="@drawable/btn_unselected_nation_background"-->
+<!--            android:text="태국"-->
+<!--            android:textColor="#66111111"-->
+<!--            android:textSize="15sp" />-->
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/btn_unselected_nation_background"
-            android:text="미국"
-            android:textColor="#66111111"
-            android:textSize="15sp" />
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:background="@drawable/btn_unselected_nation_background"-->
+<!--            android:text="미국"-->
+<!--            android:textColor="#66111111"-->
+<!--            android:textSize="15sp" />-->
 
     </LinearLayout>
 
