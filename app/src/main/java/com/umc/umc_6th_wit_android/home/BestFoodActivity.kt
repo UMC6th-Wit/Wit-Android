@@ -11,9 +11,10 @@ import com.umc.umc_6th_wit_android.data.remote.home.HomeService
 import com.umc.umc_6th_wit_android.data.remote.home.Product
 import com.umc.umc_6th_wit_android.databinding.ActivityBestFoodBinding
 import com.umc.umc_6th_wit_android.product.ProductDetailActivity
+import com.umc.umc_6th_wit_android.wish.HeartView
 import java.util.ArrayList
 
-class BestFoodActivity  : AppCompatActivity(), BestFoodView {
+class BestFoodActivity  : AppCompatActivity(), BestFoodView, HeartView {
     lateinit var binding: ActivityBestFoodBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,7 @@ class BestFoodActivity  : AppCompatActivity(), BestFoodView {
         homeService.getBestFood()
     }
     override fun onGetBestFoodSuccess(code: String, result: HomeBestFoodResult) {
-        Log.d("FOOD-SUCCESS", code)
+        Log.d("FOOD-SUCCESS1", code + result.nyamRecommendations)
         initCustomRV(result.nyamRecommendations)
     }
 
@@ -67,15 +68,44 @@ class BestFoodActivity  : AppCompatActivity(), BestFoodView {
          )
  */
 
-        val adapter = ProductRVAdapter(items)
+        val adapter = ProductRVAdapter(
+            items,
+            { id -> addCart(id) },
+            { id -> delCart(id) } )
         adapter.setOnItemClickListener(object : ProductRVAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(this@BestFoodActivity, ProductDetailActivity::class.java)
+                intent.putExtra("id", items[position].id)
                 startActivity(intent)
 //                changeActivity(items[position])
             }
         })
         binding.customRv.layoutManager = GridLayoutManager(this@BestFoodActivity, 2)
         binding.customRv.adapter = adapter
+    }
+    private fun addCart(id:Int) {
+        val homeService = HomeService(this)
+        homeService.setHeartView(this)
+        homeService.addCart(id)
+    }
+    private fun delCart(id:Int) {
+        val homeService = HomeService(this)
+        homeService.setHeartView(this)
+        homeService.delCart(id)
+    }
+    override fun onAddWishSuccess(code: String, result: String) {
+        Log.d("ADDCART_SUCCESS", code)
+    }
+
+    override fun onAddWishFailure(code: String, message: String) {
+        Log.d("ADDCART_FAILURE", code)
+    }
+
+    override fun onDeleteWishSuccess(code: String, result: String) {
+        Log.d("DELCART_SUCCESS", code)
+    }
+
+    override fun onDeleteWishFailure(code: String, message: String) {
+        Log.d("DELCART_FAILURE", code)
     }
 }

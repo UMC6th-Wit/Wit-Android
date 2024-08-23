@@ -48,6 +48,11 @@ class BoardsAdapter(
         notifyItemRangeInserted(startPos, newBoards.size)
     }
 
+    fun resetBoards(){
+        wishboards.clear()
+        notifyDataSetChanged()
+    }
+
 
     // 아이템 개수를 반환합니다.
     override fun getItemCount() = wishboards.size
@@ -126,10 +131,10 @@ class BoardsAdapter(
             // 보드 제목을 설정
             binding.boardTitle.text = board.folder_name
             // 보드 수량을 설정
-            binding.boardQuantity.text = board.images.size.toString()
+            binding.boardQuantity.text = board.product_count.toString()
 
             // 이미지를 설정합니다.
-            if (board.images.isNotEmpty()) {
+            if (board.images.size == 1) {
                 board.images.last().let { imageUrl ->
                     Glide.with(binding.boardImage1.context)
                         .load(imageUrl)
@@ -140,8 +145,13 @@ class BoardsAdapter(
                 binding.boardImage1.setImageResource(R.drawable.empty)
             }
 
-            if (board.images.size > 1) {
+            if (board.images.size == 2) {
                 board.images.getOrNull(board.images.lastIndex - 1)?.let { imageUrl ->
+                    Glide.with(binding.boardImage1.context)
+                        .load(imageUrl)
+                        .into(binding.boardImage1)
+                }
+                board.images.last().let { imageUrl ->
                     Glide.with(binding.boardImage2.context)
                         .load(imageUrl)
                         .into(binding.boardImage2)
@@ -150,8 +160,18 @@ class BoardsAdapter(
                 binding.boardImage2.setImageResource(R.drawable.empty)
             }
 
-            if (board.images.size > 2) {
+            if (board.images.size ==  3) {
                 board.images.getOrNull(board.images.lastIndex - 2)?.let { imageUrl ->
+                    Glide.with(binding.boardImage1.context)
+                        .load(imageUrl)
+                        .into(binding.boardImage1)
+                }
+                board.images.getOrNull(board.images.lastIndex - 1)?.let { imageUrl ->
+                    Glide.with(binding.boardImage2.context)
+                        .load(imageUrl)
+                        .into(binding.boardImage2)
+                }
+                board.images.last().let { imageUrl ->
                     Glide.with(binding.boardImage3.context)
                         .load(imageUrl)
                         .into(binding.boardImage3)

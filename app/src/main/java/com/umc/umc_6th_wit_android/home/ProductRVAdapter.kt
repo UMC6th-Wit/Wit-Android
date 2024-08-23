@@ -10,7 +10,10 @@ import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.remote.home.Product
 import com.umc.umc_6th_wit_android.databinding.ItemCustomBinding
 
-class ProductRVAdapter(val items: ArrayList<Product>)
+class ProductRVAdapter(
+    val items: ArrayList<Product>,
+    private val addCart : (id: Int) -> Unit,
+    private val delCart : (id : Int) -> Unit)
     : RecyclerView.Adapter<ProductRVAdapter.CustomViewHolder>() {
 
     val TAG = "ProductRVAdapter"
@@ -42,9 +45,11 @@ class ProductRVAdapter(val items: ArrayList<Product>)
         //test
         holder.itemBinding.likeIv.setOnClickListener {
             if(items[position].isHeart != 1){
+                addCart(items[position].id)
                 items[position].isHeart = 1 //SearchResponse에서 isHeart 임시로 var로 해놓음 val로 변경해야함.
                 holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
             }else{
+                delCart(items[position].id)
                 items[position].isHeart = 0
                 holder.itemBinding.likeIv.setImageResource(R.drawable.off_heart)
             }

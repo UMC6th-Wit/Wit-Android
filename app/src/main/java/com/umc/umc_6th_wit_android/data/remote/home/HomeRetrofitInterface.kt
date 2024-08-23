@@ -14,7 +14,7 @@ interface HomeRetrofitInterface {
     @GET("home")
     fun getHomeProducts(
         @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
-        @Query("count") count: Int
+//        @Query("count") count: Int
     ): Call<HomeResponse>
     
     //맞춤 추천템
@@ -30,13 +30,13 @@ interface HomeRetrofitInterface {
     ) : Call<HomeBestFoodResponse>
 
     //랭킹 카테고리 불러오기
-    /*categoryID : 1 식품, 2 뷰티코스메틱, 3 의약품, 4 생활용품
+    /*categoryID : 0 전체 , 1 식품, 2 뷰티코스메틱, 3 의약품, 4 생활용품
       count : 갯수*/
     @GET("home/category")
     fun getCategory(
         @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
-        @Query("category") category: Int,
-        @Query("count") count: Int
+        @Query("category") category: Int?,
+        @Query("cursor") cursor: Int?
     ) : Call<CategoryResponse>
 
 

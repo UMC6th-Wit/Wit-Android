@@ -75,7 +75,7 @@
             android:id="@+id/wish_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10"
+            android:text="0"
             android:background="#00ff0000"
             android:textColor="@android:color/black"
             android:textStyle="bold"
@@ -132,23 +132,23 @@
             android:textColor="#FFFFFF"
             android:textSize="15sp" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/btn_unselected_nation_background"
-            android:text="태국"
-            android:textColor="#66111111"
-            android:textSize="15sp" />
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:background="@drawable/btn_unselected_nation_background"-->
+<!--            android:text="태국"-->
+<!--            android:textColor="#66111111"-->
+<!--            android:textSize="15sp" />-->
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/btn_unselected_nation_background"
-            android:text="미국"
-            android:textColor="#66111111"
-            android:textSize="15sp" />
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:background="@drawable/btn_unselected_nation_background"-->
+<!--            android:text="미국"-->
+<!--            android:textColor="#66111111"-->
+<!--            android:textSize="15sp" />-->
 
     </LinearLayout>
 
@@ -181,7 +181,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
             android:background="#00ff0000"
-            android:text="10"
+            android:text="0"
             android:textColor="@android:color/black"
             android:textSize="13sp"
             android:textStyle="bold" />

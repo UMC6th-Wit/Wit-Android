@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 커스텀 뷰 MinRatingBar에 대한 스타일 속성 정의 -->
+    <declare-styleable name="MinRatingBar">
+        <!-- minRating 속성 정의 -->
+        <attr name="minRating" format="float" />
+    </declare-styleable>
+</resources>

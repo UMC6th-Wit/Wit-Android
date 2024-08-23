@@ -21,4 +21,12 @@ interface WishView {
     //위시리스트 폴더 삭제
     fun onDeleteWishBoardListSuccess(code: String, message: String)
     fun onDeleteWishBoardListFailure(code: String, message: String)
+
+    //위시리스트 장바구니 담기
+    fun onPostAddCardSuccess(code: String, response: WishItem)
+    fun onPostAddCardFailure(code: String, error: String)
+
+    //위시리스트 장바구니 빼기
+    fun onPostDelCardSuccess(message: String)
+    fun onPostDelCardFailure(message: String)
 }

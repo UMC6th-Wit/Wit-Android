@@ -7,14 +7,31 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.umc.umc_6th_wit_android.databinding.ItemRadioFolderBinding
 
-class FolderPopUpAdapter(private var folders: List<Wishboard>, private val selectionListener: SelectionListener) : RecyclerView.Adapter<FolderPopUpAdapter.FolderPopUpViewHolder>() {
+class FolderPopUpAdapter(
+    private var folders: MutableList<Wishboard>,
+    private val selectionListener: SelectionListener,
+    private val loadMoreBoards: (cursor: Int?, limit: Int?) -> Unit
+) : RecyclerView.Adapter<FolderPopUpAdapter.FolderPopUpViewHolder>() {
 
     // 선택된 보드들을 저장하는 MutableSet
     val selectedFolders = mutableSetOf<Wishboard>()
+    var currentCursor: Int? = null
+    private val limit = 20 // 한 번에 가져올 아이템 수
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderPopUpViewHolder {
         val binding = ItemRadioFolderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FolderPopUpViewHolder(binding)
+    }
+
+    // 데이터 추가를 위한 메서드
+    fun addBoards(newBoards: List<Wishboard>) {
+        val startPos = folders.size
+        folders.addAll(newBoards)
+        notifyItemRangeInserted(startPos, newBoards.size)
+    }
+
+    fun resetBoards(){
+        folders.clear()
     }
 
     override fun getItemCount(): Int = folders.size

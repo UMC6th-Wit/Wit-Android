@@ -23,8 +23,15 @@ data class CartResponse(
 //    @SerializedName("isSuccess") val isSuccess: Boolean,
 //    @SerializedName("code") val code: String,
     @SerializedName("message") val message: String,
-    @SerializedName("data") val data: WishItem
+    @SerializedName("data") val data: CartItem
 )
+data class CartItem(
+    @SerializedName("name") val name: String,
+    @SerializedName("en_price") val enPrice: Int,
+    @SerializedName("won_price") val wonPrice: Int,
+    @SerializedName("imgae") val imageUrl: String,
+    @SerializedName("count") val count: Int,
+    )
 
 data class WishBoardResponse(
 //    @SerializedName("isSuccess") val isSuccess: Boolean,
@@ -68,4 +75,12 @@ data class WishListAddRequest(
 data class WishListEditRequest(
     val folder_id: Int,
     val new_folder_name: String
+)
+
+data class WishBoardDelRequest(
+    val folder_ids: List<Int>
+)
+
+data class WishBoardListDelRequest(
+    val product_ids: List<Int>
 )
