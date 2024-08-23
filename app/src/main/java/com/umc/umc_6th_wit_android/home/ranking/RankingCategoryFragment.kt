@@ -8,18 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.data.local.CategoryDao
-import com.umc.umc_6th_wit_android.data.local.CategoryDto
 import com.umc.umc_6th_wit_android.data.remote.home.CategoryResult
 import com.umc.umc_6th_wit_android.data.remote.home.HomeService
-import com.umc.umc_6th_wit_android.data.remote.home.Product
 import com.umc.umc_6th_wit_android.data.remote.home.ProductVer2
 import com.umc.umc_6th_wit_android.databinding.FragmentRankingCategoryBinding
 import com.umc.umc_6th_wit_android.home.CategoryView
-import com.umc.umc_6th_wit_android.home.HomeCustomRVAdapter
-import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 import com.umc.umc_6th_wit_android.product.ProductDetailActivity
 
 
@@ -98,9 +91,9 @@ class RankingCategoryFragment(private val category : Int) : Fragment() , Categor
 
 // 더 많은 제품들을 추가할 수 있습니다.
 
-//        val items = ArrayList(result[categoryKey])
+        val items = ArrayList(result[categoryKey])
 
-        val items = ArrayList(products)
+//        val items = ArrayList(products)
         val adapter = RankingCategoryRVAdapter(items, "ranking")
         adapter.setOnItemClickListener(object : RankingCategoryRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
