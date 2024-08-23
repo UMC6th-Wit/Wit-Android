@@ -67,6 +67,12 @@ class ReviewWriteActivity : AppCompatActivity() {
                 }
             })
 
+            createReviewBtn.setOnClickListener {
+                val intent = Intent(this@ReviewWriteActivity, ReviewOnlyActivity::class.java)
+                intent.putExtra("id", 1)
+                startActivity(intent)
+            }
+
             photo.setOnClickListener{
                 if(rating.rating > 0.0 && charCount.text.toString().toInt() > 0){
                     val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
