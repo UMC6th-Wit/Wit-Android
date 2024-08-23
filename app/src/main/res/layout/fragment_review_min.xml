@@ -94,29 +94,32 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#111111"
-        app:layout_constraintEnd_toStartOf="@+id/review_rate_btn"
         app:layout_constraintStart_toStartOf="@+id/review_page_tv"
         app:layout_constraintTop_toBottomOf="@+id/review_page_tv" />
 
-    <androidx.appcompat.widget.AppCompatRatingBar
-        android:id="@+id/review_rate_btn"
-        style="@style/Widget.AppCompat.RatingBar.Indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/review_rate_tv"
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/ImageRatingBar_yellow"
+        android:layout_width="115dp"
+        android:layout_height="24dp"
         android:layout_marginStart="4dp"
+        android:numStars="5"
+        android:rating="4"
+        android:stepSize="0.5"
+        app:layout_constraintBottom_toBottomOf="@+id/review_rate_tv"
         app:layout_constraintStart_toEndOf="@id/review_rate_tv" />
 
     <TextView
         android:id="@+id/reciew_num_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="3dp"
         android:text="(18)"
-        android:textColor="#DDDDDD"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/review_rate_tv"
-        app:layout_constraintStart_toEndOf="@+id/review_rate_btn" />
+        android:textColor="#BEBEBE"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
+        app:layout_constraintStart_toEndOf="@+id/ratingBar" />
 
     <ImageView
         android:id="@+id/go_to_review_btn_iv"
@@ -129,7 +132,7 @@
         app:srcCompat="@drawable/go_to_review_btn_image" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/image_rv"
+        android:id="@+id/review_min_images_rv"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:orientation="horizontal"
@@ -139,7 +142,7 @@
         tools:listitem="@layout/item_product_img_min" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/review_min_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
@@ -149,7 +152,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_rv" />
+        app:layout_constraintTop_toBottomOf="@+id/review_min_images_rv" />
 
     <ImageView
         android:id="@+id/more_review_btn_iv"
@@ -160,7 +163,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/review_min_rv"
         app:layout_constraintWidth_default="spread"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:srcCompat="@drawable/look_more_image" />

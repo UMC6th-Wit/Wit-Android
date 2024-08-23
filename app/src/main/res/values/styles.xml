@@ -55,6 +55,18 @@
         <item name="android:minWidth">23dp</item>
     </style>
 
+    <style name="ImageRatingBar_blue" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/item_rating_bar_blue</item>
+        <item name="android:minHeight">15dp</item>
+        <item name="android:minWidth">15dp</item>
+    </style>
+
+    <style name="ImageRatingBar_yellow" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/item_rating_bar_yellow</item>
+        <item name="android:minHeight">23dp</item>
+        <item name="android:minWidth">23dp</item>
+    </style>
+
     <style name="CommonTextViewStyle">
         <item name="android:paddingVertical">7dp</item>
         <item name="android:textColor">@color/black</item>
