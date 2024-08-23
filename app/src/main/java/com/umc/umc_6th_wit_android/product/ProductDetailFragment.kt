@@ -64,13 +64,14 @@ class ProductDetailFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(id: String, name: String, product_type: String, manufacturing_country: String): ProductDetailFragment {
+        fun newInstance(id: String, name: String, product_type: String, result: ProductResult): ProductDetailFragment {
             val fragment = ProductDetailFragment()
             val args = Bundle().apply {
                 putString("id", id)
                 putString("name", name)
                 putString("product_type", product_type)
                 putString("manufacturing_country", manufacturing_country)
+                putString("result", result)
             }
             fragment.arguments = args
             return fragment
