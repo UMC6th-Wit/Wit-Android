@@ -12,6 +12,7 @@ import com.umc.umc_6th_wit_android.databinding.FragmentProductDetailBinding
 import com.umc.umc_6th_wit_android.product.ProductView
 import com.umc.umc_6th_wit_android.product.ReviewMinFragment
 import com.umc.umc_6th_wit_android.product.ReviewZeroFragment
+import com.umc.umc_6th_wit_android.wish.CartItem
 
 class ProductDetailFragment : Fragment(), ProductView {
 
@@ -62,5 +63,21 @@ class ProductDetailFragment : Fragment(), ProductView {
 
     override fun onGetProductFailure(code: String, message: String) {
         Log.d("ProductFragment-FAILURE", code)
+    }
+
+    override fun onPostAddCartSuccess(code: String, response: CartItem) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostAddCartFailure(code: String, error: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostDelCartSuccess(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostDelCartFailure(code: String, message: String) {
+        TODO("Not yet implemented")
     }
 }

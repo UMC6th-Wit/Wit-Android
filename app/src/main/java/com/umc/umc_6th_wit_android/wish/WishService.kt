@@ -285,10 +285,10 @@ class WishService {
 
                     when (val message = cartResponse.message) {
                         "제품이 장바구니에 성공적으로 추가되었습니다." -> {
-                            wishListView.onDeleteToWishBoardSuccess(message, cartResponse.message)
+                            wishView.onPostAddCartSuccess(message, cartResponse.data)
                         }
                         else -> {
-                            wishListView.onDeleteToWishBoardFailure(message, cartResponse.message)
+                            wishView.onPostAddCartFailure(message, cartResponse.message)
                         }
                     }
                 }
@@ -314,10 +314,10 @@ class WishService {
 
                     when (val message = wishBoardListResponse.message) {
                         "제품이 장바구니에서 성공적으로 제거되었습니다." -> {
-                            wishListView.onDeleteToWishBoardSuccess(message, wishBoardListResponse.message)
+                            wishView.onPostDelCartSuccess(message, wishBoardListResponse.message)
                         }
                         else -> {
-                            wishListView.onDeleteToWishBoardFailure(message, wishBoardListResponse.message)
+                            wishView.onPostDelCartFailure(message, wishBoardListResponse.message)
                         }
                     }
                 }

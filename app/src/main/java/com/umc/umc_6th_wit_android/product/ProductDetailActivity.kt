@@ -15,6 +15,9 @@ import com.umc.umc_6th_wit_android.data.remote.product.ProductService
 import com.umc.umc_6th_wit_android.databinding.ActivityProductDetailBinding
 import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 import com.umc.umc_6th_wit_android.login.TokenManager
+import com.umc.umc_6th_wit_android.wish.CartItem
+import com.umc.umc_6th_wit_android.wish.WishBoardListDelRequest
+import com.umc.umc_6th_wit_android.wish.WishItem
 import com.umc.umc_6th_wit_android.wish.WishService
 
 class ProductDetailActivity : AppCompatActivity(), ProductView {
@@ -42,9 +45,18 @@ class ProductDetailActivity : AppCompatActivity(), ProductView {
 
         binding.heartBtnIv.setOnClickListener {
             // 하트 버튼 이미지 변경 로직
-            if (isHelpIv) {
+            if (!isHelpIv) {
+                val request = WishBoardListDelRequest(
+                    product_ids = listOf(1)   //product_id 넣기
+                )
+                val productService = ProductService(this@ProductDetailActivity)
+                productService.setProductDetailView(this)
+                productService.delCart(request)
                 binding.heartBtnIv.setImageResource(R.drawable.heart_btn_empty_image)
             } else {
+                val productService = ProductService(this@ProductDetailActivity)
+                productService.setProductDetailView(this)
+                productService.addCart(1)   //product_id 넣기
                 binding.heartBtnIv.setImageResource(R.drawable.heart_btn_full_image)
             }
             isHelpIv = !isHelpIv // 하트 버튼 상태 변경
@@ -63,7 +75,7 @@ class ProductDetailActivity : AppCompatActivity(), ProductView {
         val productService = ProductService(this@ProductDetailActivity)
         productService.setProductDetailView(this)
 
-        productService.getProductDetail(1)
+        productService.getProductDetail(1)   //product_id 넣기
     }
 
     override fun onGetProductSuccess(code: String, result: ProductResult) {
@@ -85,10 +97,32 @@ class ProductDetailActivity : AppCompatActivity(), ProductView {
         binding.currencyWonTv.text = "${result.won_price}"
         binding.whereWidget1Tv.text = "${result.sales_area}"
         binding.whereWidget2Tv.text = "${result.sales_area}"
+        isHelpIv = result.is_heart == 1
+        if (!isHelpIv) {
+            binding.heartBtnIv.setImageResource(R.drawable.heart_btn_empty_image)
+        } else {
+            binding.heartBtnIv.setImageResource(R.drawable.heart_btn_full_image)
+        }
     }
 
     override fun onGetProductFailure(code: String, message: String) {
         Log.d("Product-FAILURE", code)
+    }
+
+    override fun onPostAddCartSuccess(code: String, response: CartItem) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostAddCartFailure(code: String, error: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostDelCartSuccess(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostDelCartFailure(code: String, message: String) {
+        TODO("Not yet implemented")
     }
 
 }
