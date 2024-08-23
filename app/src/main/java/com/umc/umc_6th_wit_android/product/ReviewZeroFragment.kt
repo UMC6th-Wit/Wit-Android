@@ -15,11 +15,10 @@ import com.umc.umc_6th_wit_android.data.remote.product.ProductService
 import com.umc.umc_6th_wit_android.databinding.FragmentReviewZeroBinding
 import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 
-class ReviewZeroFragment : Fragment(){
+class ReviewZeroFragment(private val productId: Int) : Fragment() {
 
     private var _binding: FragmentReviewZeroBinding? = null
     private val binding get() = _binding!!
-    private var id: Int? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,28 +33,22 @@ class ReviewZeroFragment : Fragment(){
 
         binding.productDetailSelectTv.setOnClickListener {
             val fragment = ProductDetailFragment()
-
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_product_detail, fragment)  // fragment_container = 현재 프래그먼트를 표시하는 뷰의 ID
-                .addToBackStack(null)  // 뒤로 가기 버튼을 사용하여 이전 프래그먼트로 돌아가기
+                .replace(R.id.fragment_product_detail, fragment)
+                .addToBackStack(null)
                 .commit()
         }
 
         binding.goToReviewWriteIv.setOnClickListener {
             val intent = Intent(requireContext(), ReviewWriteActivity::class.java)
+            intent.putExtra("id", productId)
             startActivity(intent)
         }
-
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-    fun setId(id: Int) {
-        this.id = id
-    }
-
 }
+

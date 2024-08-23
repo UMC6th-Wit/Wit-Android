@@ -17,7 +17,7 @@ import com.umc.umc_6th_wit_android.databinding.FragmentReviewMinBinding
 import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 import com.umc.umc_6th_wit_android.wish.CartItem
 
-class ReviewMinFragment : Fragment(), ProductView, ReviewOverviewView {
+class ReviewMinFragment(id: Int) : Fragment(), ProductView, ReviewOverviewView {
 
     private var _binding: FragmentReviewMinBinding? = null
     private val binding get() = _binding!!
@@ -50,11 +50,13 @@ class ReviewMinFragment : Fragment(), ProductView, ReviewOverviewView {
 
         binding.goToReviewBtnIv.setOnClickListener {
             val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
+            intent.putExtra("id", id)
             startActivity(intent)
         }
 
         binding.moreReviewBtnIv.setOnClickListener {
             val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
+            intent.putExtra("id", id)
             startActivity(intent)
         }
 
@@ -73,6 +75,8 @@ class ReviewMinFragment : Fragment(), ProductView, ReviewOverviewView {
 
     override fun onGetProductSuccess(code: String, result: ProductResult) {
         Log.d("Product-SUCCESS", code + result.name)
+        id = result.id
+        Log.d("ReviewMinFragProduct_Id", result.id.toString())
 
         //정보 가져 오는데 성공 -> 뷰에 반영
         binding.reviewRateTv.text = "${result.average_rating}"
@@ -99,7 +103,7 @@ class ReviewMinFragment : Fragment(), ProductView, ReviewOverviewView {
 
     companion object {
         fun newInstance(id: Int): ReviewMinFragment {
-            val fragment = ReviewMinFragment()
+            val fragment = ReviewMinFragment(id)
             val args = Bundle().apply {
                 putInt("id", id)
             }

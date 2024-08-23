@@ -38,10 +38,15 @@ class ProductDetailFragment : Fragment() {
 
         binding.productReviewSelectTv.setOnClickListener {
             val fragment = if (reviewCount == 0) {
-                ReviewZeroFragment()
+
+                ReviewZeroFragment(id)  // ReviewZeroFragment로 이동
             } else {
-                ReviewMinFragment.newInstance(id)
+                ReviewMinFragment(id)  // ReviewMinFragment로 이동
             }
+
+            if(fragment == ReviewMinFragment(id))
+                ReviewMinFragment.newInstance(id) //리뷰 오버뷰 프레그먼트에 상품 id 전달e
+
 
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_product_detail, fragment)

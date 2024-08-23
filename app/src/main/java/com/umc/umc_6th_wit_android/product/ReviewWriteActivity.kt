@@ -2,7 +2,6 @@ package com.umc.umc_6th_wit_android.product
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
@@ -17,25 +16,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatRatingBar
 import com.umc.umc_6th_wit_android.R
-import com.umc.umc_6th_wit_android.data.remote.product.ContentResponse
-import com.umc.umc_6th_wit_android.data.remote.product.ProductService
-import com.umc.umc_6th_wit_android.data.remote.product.RatingResponse
-import com.umc.umc_6th_wit_android.data.remote.product.ReviewCreationResult
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import com.umc.umc_6th_wit_android.databinding.ActivityReviewWriteBinding
+
 
 class ReviewWriteActivity : AppCompatActivity(), ReviewCreationView {
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            setContentView(R.layout.activity_review_write)
+    lateinit var binding: ActivityReviewWriteBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityReviewWriteBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
             val editText: EditText = findViewById(R.id.editTextText)
             val rating: AppCompatRatingBar = findViewById(R.id.review_rate_btn)
             val charCount: TextView = findViewById(R.id.charCount)
             val photo: ImageView = findViewById(R.id.review_input_photo_iv)
             val createReviewBtn: AppCompatButton = findViewById(R.id.review_create_btn)
+            val id: Int = intent.getIntExtra("id", 1)
 
             rating.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
                 if (fromUser) {
@@ -72,6 +70,13 @@ class ReviewWriteActivity : AppCompatActivity(), ReviewCreationView {
                     }
                 }
             })
+
+            binding.reviewCreateBtn.setOnClickListener {
+                Log.d("CREATEBTN", id.toString())
+                val intent = Intent(this@ReviewWriteActivity, ReviewOnlyActivity::class.java)
+                intent.putExtra("id", id)
+                startActivity(intent)
+            }
 
             photo.setOnClickListener{
                 if(rating.rating > 0.0 && charCount.text.toString().toInt() > 0){

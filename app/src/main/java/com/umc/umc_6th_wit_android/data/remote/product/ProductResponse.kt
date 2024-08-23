@@ -139,11 +139,11 @@ data class RatingStatsResponse(
 )
 
 data class RatingStatsResult(
-    @SerializedName("rating_5_count") val rating5Count: Int?,
-    @SerializedName("rating_4_count") val rating4Count: Int?,
-    @SerializedName("rating_3_count") val rating3Count: Int?,
-    @SerializedName("rating_2_count") val rating2Count: Int?,
-    @SerializedName("rating_1_count") val rating1Count: Int?
+    @SerializedName("5") val rating5Count: Int? = 0,
+    @SerializedName("4") val rating4Count: Int? = 0,
+    @SerializedName("3") val rating3Count: Int? = 0,
+    @SerializedName("2") val rating2Count: Int? = 0,
+    @SerializedName("1") val rating1Count: Int? = 0
 )
 
 //리뷰에 도움이 돼요 누르기

@@ -30,12 +30,12 @@ import java.util.Locale
         binding = ActivityProductDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Activity 내에 Fragment 적용
+ /*       //Activity 내에 Fragment 적용
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_product_detail, ProductDetailFragment())
                 .commit()
-        }
+        }*/
 
         // UI 초기화 부분
         binding.comparisonBtnIv.setOnClickListener {
