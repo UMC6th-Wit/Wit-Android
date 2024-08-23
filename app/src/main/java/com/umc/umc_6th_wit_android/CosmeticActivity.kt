@@ -9,13 +9,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.umc.umc_6th_wit_android.data.remote.home.CategoryResult
 import com.umc.umc_6th_wit_android.data.remote.home.HomeService
 import com.umc.umc_6th_wit_android.data.remote.home.ProductVer2
-import com.umc.umc_6th_wit_android.data.remote.search.Souvenir
 import com.umc.umc_6th_wit_android.databinding.ActivityCosmeticBinding
 import com.umc.umc_6th_wit_android.home.CategoryView
-import com.umc.umc_6th_wit_android.home.CustomRVAdapter
-import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 import com.umc.umc_6th_wit_android.home.ranking.CategoryRVAdapter
-import com.umc.umc_6th_wit_android.home.ranking.RankingCategoryRVAdapter
 import com.umc.umc_6th_wit_android.product.ProductDetailActivity
 import com.umc.umc_6th_wit_android.wish.HeartView
 
@@ -82,6 +78,7 @@ class CosmeticActivity : AppCompatActivity() , CategoryView , HeartView {
         adapter.setOnItemClickListener(object : CategoryRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(this@CosmeticActivity, ProductDetailActivity::class.java)
+                intent.putExtra("id", items[position].id)
                 startActivity(intent)
             }
         })

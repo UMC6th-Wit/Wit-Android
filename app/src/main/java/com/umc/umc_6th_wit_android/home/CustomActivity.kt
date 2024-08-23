@@ -78,6 +78,7 @@ class CustomActivity : AppCompatActivity() , PersonalView, HeartView {
         adapter.setOnItemClickListener(object : ProductRVAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(this@CustomActivity, ProductDetailActivity::class.java)
+                intent.putExtra("id", items[position].id)
                 startActivity(intent)
 //                changeActivity(items[position])
             }

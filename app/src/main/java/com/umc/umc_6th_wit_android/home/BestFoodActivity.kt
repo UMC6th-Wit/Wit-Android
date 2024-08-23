@@ -75,6 +75,7 @@ class BestFoodActivity  : AppCompatActivity(), BestFoodView, HeartView {
         adapter.setOnItemClickListener(object : ProductRVAdapter.OnItemClickListener {
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(this@BestFoodActivity, ProductDetailActivity::class.java)
+                intent.putExtra("id", items[position].id)
                 startActivity(intent)
 //                changeActivity(items[position])
             }

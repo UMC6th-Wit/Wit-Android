@@ -144,6 +144,7 @@ class SubHomeFragment : Fragment(), SubHomeView{
         adapter.setOnItemClickListener(object : HomeCustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
+                intent.putExtra("id", items[position].id)
                 startActivity(intent)
 //                changeActivity(items[position])
             }
@@ -161,6 +162,7 @@ class SubHomeFragment : Fragment(), SubHomeView{
         foodAdapter.setOnItemClickListener(object : HomeCustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
+                intent.putExtra("id", items[position].id)
                 startActivity(intent)
 //                changeActivity(items[position])
             }

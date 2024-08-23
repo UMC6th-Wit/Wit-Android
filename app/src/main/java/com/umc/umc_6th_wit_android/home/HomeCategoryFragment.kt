@@ -14,6 +14,7 @@ import com.umc.umc_6th_wit_android.data.remote.home.HomeService
 import com.umc.umc_6th_wit_android.data.remote.home.ProductVer2
 import com.umc.umc_6th_wit_android.databinding.FragmentHomeCategoryBinding
 import com.umc.umc_6th_wit_android.login.TokenManager
+import com.umc.umc_6th_wit_android.product.ProductDetailActivity
 import com.umc.umc_6th_wit_android.wish.HeartView
 import com.umc.umc_6th_wit_android.wish.WishItemResult
 import com.umc.umc_6th_wit_android.wish.WishService
@@ -49,7 +50,8 @@ class HomeCategoryFragment : Fragment(), HeartView {
         )
         adapter.setOnItemClickListener(object : CategoryRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
-                val intent = Intent(activity, ProductDetailFragment::class.java)
+                val intent = Intent(activity, ProductDetailActivity::class.java)
+                intent.putExtra("id", items[position].id)
                 startActivity(intent)
 //                changeActivity(items[position])
             }
