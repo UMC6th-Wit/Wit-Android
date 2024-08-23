@@ -37,7 +37,7 @@ class ReviewMinFragment : Fragment(), ProductView, ReviewOverviewView {
         super.onViewCreated(view, savedInstanceState)
 
         binding.productDetailSelectTv.setOnClickListener {
-            val fragment = ProductDetailFragment.newInstance(id.toString(), "", "", "") // id를 넘기기
+            val fragment = ProductDetailFragment.newInstance(id.toString(), "", "", "", "") // id를 넘기기
 
             parentFragmentManager.beginTransaction()
                 .replace(
