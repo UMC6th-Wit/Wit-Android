@@ -17,8 +17,9 @@ import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 import com.umc.umc_6th_wit_android.home.ranking.CategoryRVAdapter
 import com.umc.umc_6th_wit_android.home.ranking.RankingCategoryRVAdapter
 import com.umc.umc_6th_wit_android.product.ProductDetailActivity
+import com.umc.umc_6th_wit_android.wish.HeartView
 
-class DailyActivity : AppCompatActivity(), CategoryView {
+class DailyActivity : AppCompatActivity(), CategoryView , HeartView {
     lateinit var binding: ActivityDailyBinding
     private lateinit var adapter: CategoryRVAdapter
 
@@ -71,9 +72,12 @@ class DailyActivity : AppCompatActivity(), CategoryView {
     private fun initCategoryRV(){
         var items: ArrayList<ProductVer2> = ArrayList()
 
-        adapter = CategoryRVAdapter(items , "생활용품", 4){ category, cursor ->
-            getCategory(category, cursor)
-        }
+        adapter = CategoryRVAdapter(items ,
+            "생활용품",
+            4,
+            { category, cursor -> getCategory(category, cursor)},
+            { id -> addCart(id) },  // addCart 함수 람다식으로 전달
+            { id -> delCart(id) } )
         adapter.setOnItemClickListener(object : CategoryRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(this@DailyActivity, ProductDetailActivity::class.java)
@@ -82,5 +86,31 @@ class DailyActivity : AppCompatActivity(), CategoryView {
         })
         binding.customRv.adapter = adapter
         binding.customRv.layoutManager  = GridLayoutManager(this@DailyActivity, 2)
+    }
+    private fun addCart(id:Int) {
+        val homeService = HomeService(this)
+        homeService.setHeartView(this)
+        homeService.addCart(id)
+    }
+    private fun delCart(id:Int) {
+        val homeService = HomeService(this)
+        homeService.setHeartView(this)
+        homeService.delCart(id)
+    }
+
+    override fun onAddWishSuccess(code: String, result: String) {
+        Log.d("ADDCART_SUCCESS", code)
+    }
+
+    override fun onAddWishFailure(code: String, message: String) {
+        Log.d("ADDCART_FAILURE", code)
+    }
+
+    override fun onDeleteWishSuccess(code: String, result: String) {
+        Log.d("DELCART_SUCCESS", code)
+    }
+
+    override fun onDeleteWishFailure(code: String, message: String) {
+        Log.d("DELCART_FAILURE", code)
     }
 }

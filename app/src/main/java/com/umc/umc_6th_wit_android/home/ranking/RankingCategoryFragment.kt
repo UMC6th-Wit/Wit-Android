@@ -14,9 +14,10 @@ import com.umc.umc_6th_wit_android.data.remote.home.ProductVer2
 import com.umc.umc_6th_wit_android.databinding.FragmentRankingCategoryBinding
 import com.umc.umc_6th_wit_android.home.CategoryView
 import com.umc.umc_6th_wit_android.product.ProductDetailActivity
+import com.umc.umc_6th_wit_android.wish.HeartView
 
 
-class RankingCategoryFragment(private val category : Int) : Fragment() , CategoryView {
+class RankingCategoryFragment(private val category : Int) : Fragment() , CategoryView , HeartView{
     lateinit var binding: FragmentRankingCategoryBinding
 
     override fun onCreateView(
@@ -28,6 +29,7 @@ class RankingCategoryFragment(private val category : Int) : Fragment() , Categor
 
         return binding.root
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -56,7 +58,7 @@ class RankingCategoryFragment(private val category : Int) : Fragment() , Categor
         // 각 카테고리에 해당하는 키
         val categoryKey = categories[category]
 
-        val products = ArrayList<ProductVer2>()
+/*        val products = ArrayList<ProductVer2>()
 
         products.add(ProductVer2(
             146,
@@ -87,14 +89,17 @@ class RankingCategoryFragment(private val category : Int) : Fragment() , Categor
         for (i in 0 until 10) {
             products.add(products[1])
             products.add(products[2])
-        }
+        }*/
 
-// 더 많은 제품들을 추가할 수 있습니다.
 
         val items = ArrayList(result[categoryKey])
 
 //        val items = ArrayList(products)
-        val adapter = RankingCategoryRVAdapter(items, "ranking")
+        val adapter = RankingCategoryRVAdapter(
+            items,
+            "ranking",
+            { id -> addCart(id) },
+            { id -> delCart(id) } )
         adapter.setOnItemClickListener(object : RankingCategoryRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
@@ -104,5 +109,30 @@ class RankingCategoryFragment(private val category : Int) : Fragment() , Categor
         })
         binding.rankingCategoryRv.adapter = adapter
         binding.rankingCategoryRv.layoutManager  = GridLayoutManager(context, 2)
+    }
+    private fun addCart(id:Int) {
+        val homeService = HomeService(requireContext())
+        homeService.setHeartView(this)
+        homeService.addCart(id)
+    }
+    private fun delCart(id:Int) {
+        val homeService = HomeService(requireContext())
+        homeService.setHeartView(this)
+        homeService.delCart(id)
+    }
+    override fun onAddWishSuccess(code: String, result: String) {
+        Log.d("ADDCART_SUCCESS", code)
+    }
+
+    override fun onAddWishFailure(code: String, message: String) {
+        Log.d("ADDCART_FAILURE", code)
+    }
+
+    override fun onDeleteWishSuccess(code: String, result: String) {
+        Log.d("DELCART_SUCCESS", code)
+    }
+
+    override fun onDeleteWishFailure(code: String, message: String) {
+        Log.d("DELCART_FAILURE", code)
     }
 }

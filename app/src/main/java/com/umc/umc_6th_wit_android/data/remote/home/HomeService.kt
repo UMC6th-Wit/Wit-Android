@@ -1,12 +1,19 @@
 package com.umc.umc_6th_wit_android.data.remote.home
 import android.content.Context
 import android.util.Log
+import com.navercorp.nid.oauth.NidOAuthPreferencesManager.accessToken
+import com.umc.umc_6th_wit_android.NetworkModule
 import com.umc.umc_6th_wit_android.home.BestFoodView
 import com.umc.umc_6th_wit_android.home.CategoryView
 import com.umc.umc_6th_wit_android.home.SubHomeView
 import com.umc.umc_6th_wit_android.home.PersonalView
 import com.umc.umc_6th_wit_android.login.TokenManager
 import com.umc.umc_6th_wit_android.network.TokenRetrofitManager
+import com.umc.umc_6th_wit_android.wish.CartResponse
+import com.umc.umc_6th_wit_android.wish.HeartView
+import com.umc.umc_6th_wit_android.wish.WishBoardDeleteResponse
+import com.umc.umc_6th_wit_android.wish.WishBoardListDelRequest
+import com.umc.umc_6th_wit_android.wish.WishRetrofitInterfaces
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,6 +23,7 @@ class HomeService(private val context: Context) {
     private lateinit var personalView: PersonalView
     private lateinit var bestFoodView: BestFoodView
     private lateinit var categoryView: CategoryView
+    private lateinit var heartView: HeartView
 
     //    private lateinit var searchMainView: SearchMainView
     //tokenManager 미리 설정
@@ -33,7 +41,9 @@ class HomeService(private val context: Context) {
     fun setCategoryView(categoryView: CategoryView) {
         this.categoryView = categoryView
     }
-
+    fun setHeartView(heartView: HeartView){
+        this.heartView = heartView
+    }
     //홈 불러오기
     fun getHomeProducts() {
         // TokenManager에서 저장된 액세스 토큰을 가져옴
@@ -173,4 +183,78 @@ class HomeService(private val context: Context) {
         }
     }
 
+
+    //장바구니에 추가
+    fun addCart(productId: Int){
+        Log.d("ADDCART3",productId.toString())
+
+        val accessToken = tokenManager.getAccessToken()
+        Log.d("ADDCART3",productId.toString() + accessToken)
+
+        if (accessToken != null) {
+            val retrofit = TokenRetrofitManager(context)
+            val homeService = retrofit.create(WishRetrofitInterfaces::class.java)
+
+            homeService.addCart("Bearer $accessToken", productId).enqueue(object : Callback<CartResponse> {
+                override fun onResponse(call: Call<CartResponse>, response: Response<CartResponse>) {
+                    if (response.isSuccessful && response.code() == 200) {
+                        val cartResponse: CartResponse = response.body()!!
+
+                        Log.d("CART201-RESPONSE", cartResponse.toString())
+
+                        when (val message = cartResponse.message) {
+                            "제품이 장바구니에 성공적으로 추가되었습니다." -> {
+                                heartView.onAddWishSuccess(message, cartResponse.message)
+                            }
+                            else -> {
+                                heartView.onAddWishFailure(message, cartResponse.message)
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<CartResponse>, t: Throwable) {
+                    // 실패 처리
+                    Log.d("CART201-ERROR", t.message.toString())
+                }
+            })
+        }
+
+    }
+
+    //장바구니에서 제거
+    fun delCart(productId: Int) {
+        val product_id: List<Int> = listOf(productId)
+        val accessToken = tokenManager.getAccessToken()
+
+        if (accessToken != null) {
+            val retrofit = TokenRetrofitManager(context)
+            val homeService = retrofit.create(WishRetrofitInterfaces::class.java)
+
+            homeService.delCart("Bearer $accessToken", WishBoardListDelRequest(product_id))
+                .enqueue(object : Callback<WishBoardDeleteResponse> {
+                    override fun onResponse(call: Call<WishBoardDeleteResponse>, response: Response<WishBoardDeleteResponse>) {
+                        if (response.isSuccessful && response.code() == 200) {
+                            val wishBoardListResponse: WishBoardDeleteResponse = response.body()!!
+
+                            Log.d("CART301-RESPONSE", wishBoardListResponse.toString())
+
+                            when (val message = wishBoardListResponse.message) {
+                                "제품이 장바구니에서 성공적으로 제거되었습니다." -> {
+                                    heartView.onDeleteWishSuccess(message, wishBoardListResponse.message)
+                                }
+                                else -> {
+                                    heartView.onDeleteWishFailure(message, wishBoardListResponse.message)
+                                }
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<WishBoardDeleteResponse>, t: Throwable) {
+                        // 실패 처리
+                        Log.d("CART301-ERROR", t.message.toString())
+                    }
+                })
+        }
+    }
 }

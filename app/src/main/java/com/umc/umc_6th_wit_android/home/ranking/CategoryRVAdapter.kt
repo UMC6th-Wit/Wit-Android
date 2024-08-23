@@ -16,7 +16,9 @@ class CategoryRVAdapter (
     val items : ArrayList<ProductVer2>,
     val part : String,
     val category: Int?,
-    private val getCategory : (category: Int?, cursor: Int?) -> Unit
+    private val getCategory : (category: Int?, cursor: Int?) -> Unit,
+    private val addCart : (id: Int) -> Unit,
+    private val delCart : (id : Int) -> Unit
 )
     : RecyclerView.Adapter<CategoryRVAdapter.RankingCateogoryViewHolder>() {
     val TAG = "RankingCategoryRVAdapter"
@@ -58,9 +60,11 @@ class CategoryRVAdapter (
         //test
         holder.itemBinding.likeIv.setOnClickListener {
             if(!items[position].isHeart){
+                addCart(items[position].id)
                 items[position].isHeart = true
                 holder.itemBinding.likeIv.setImageResource(R.drawable.on_heart)
             }else{
+                delCart(items[position].id)
                 items[position].isHeart = false
                 holder.itemBinding.likeIv.setImageResource(R.drawable.home_off_heart)
             }

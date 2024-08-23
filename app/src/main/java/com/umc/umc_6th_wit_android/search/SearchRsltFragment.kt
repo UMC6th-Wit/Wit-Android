@@ -10,16 +10,18 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.GridLayoutManager
 import com.umc.umc_6th_wit_android.R
+import com.umc.umc_6th_wit_android.data.remote.home.HomeService
 import com.umc.umc_6th_wit_android.data.remote.search.SearchResult
 import com.umc.umc_6th_wit_android.data.remote.search.SearchService
 import com.umc.umc_6th_wit_android.data.remote.search.Souvenir
 import com.umc.umc_6th_wit_android.databinding.FragmentSearchRsltBinding
 import com.umc.umc_6th_wit_android.home.CustomRVAdapter
 import com.umc.umc_6th_wit_android.product.ProductDetailActivity
+import com.umc.umc_6th_wit_android.wish.HeartView
 import com.umc.umc_6th_wit_android.wish.WishAdapter
 
 
-class SearchRsltFragment : Fragment(), SearchRsltView {
+class SearchRsltFragment : Fragment(), SearchRsltView, HeartView {
     lateinit var binding: FragmentSearchRsltBinding
     private var searchQuery: String? = null
     private lateinit var adapter: CustomRVAdapter
@@ -97,26 +99,14 @@ class SearchRsltFragment : Fragment(), SearchRsltView {
         // ArrayList 초기화
         var items: ArrayList<Souvenir> = ArrayList()
 
-        /*// 임의 test data 추가
-        items.add(Souvenir(1,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
-        items.add(Souvenir(2,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
-        items.add(Souvenir(3,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
-        items.add(Souvenir(4,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
-        items.add(Souvenir(5,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
-        items.add(Souvenir(6,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
-        items.add(Souvenir(7,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
-        items.add(Souvenir(8,  "포테이토 칩스 우스시오 아지", 367, 3151, "https://donki-ec-static-1306051524.file.myqcloud.com/images/4901085122365.jpg", 10, 4.40f))
-*/
-        // result.souvenirs 데이터를 사용하려면 아래 주석을 해제합니다.
-//         items = ArrayList(result.souvenirs)
-        adapter = CustomRVAdapter(items){ currentCursor, limit ->
-            getSearches(currentCursor, limit)
-        }
+        adapter = CustomRVAdapter(items,
+            { currentCursor, limit -> getSearches(currentCursor, limit) },
+            { id -> addCart(id) },  // addCart 함수 람다식으로 전달
+            { id -> delCart(id) } )
         adapter.setOnItemClickListener(object : CustomRVAdapter.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
                 val intent = Intent(activity, ProductDetailActivity::class.java)
                 startActivity(intent)
-//                changeActivity(items[position])
             }
         })
         binding.rsltRv.adapter = adapter
@@ -132,4 +122,31 @@ class SearchRsltFragment : Fragment(), SearchRsltView {
     override fun onGetSearchFailure(code: String, message: String) {
         Log.d("SEARCH-FAILURE", code)
     }
+    private fun addCart(id:Int) {
+        val homeService = HomeService(requireContext())
+        homeService.setHeartView(this)
+        homeService.addCart(id)
+    }
+    private fun delCart(id:Int) {
+        val homeService = HomeService(requireContext())
+        homeService.setHeartView(this)
+        homeService.delCart(id)
+    }
+
+    override fun onAddWishSuccess(code: String, result: String) {
+        Log.d("ADDCART_SUCCESS", code)
+    }
+
+    override fun onAddWishFailure(code: String, message: String) {
+        Log.d("ADDCART_FAILURE", code)
+    }
+
+    override fun onDeleteWishSuccess(code: String, result: String) {
+        Log.d("DELCART_SUCCESS", code)
+    }
+
+    override fun onDeleteWishFailure(code: String, message: String) {
+        Log.d("DELCART_FAILURE", code)
+    }
+
 }
