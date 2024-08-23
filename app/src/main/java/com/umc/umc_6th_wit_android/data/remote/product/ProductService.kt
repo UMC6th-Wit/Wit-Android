@@ -4,6 +4,9 @@ import android.content.Context
 import android.util.Log
 import com.umc.umc_6th_wit_android.login.TokenManager
 import com.umc.umc_6th_wit_android.product.ProductView
+import com.umc.umc_6th_wit_android.product.ReviewCreationView
+import com.umc.umc_6th_wit_android.product.ReviewOverviewView
+import com.umc.umc_6th_wit_android.product.ReviewPageView
 import com.umc.umc_6th_wit_android.product.ReviewView
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,6 +18,9 @@ class ProductService(context: Context) { //매개변수에 , private val product
 
     private lateinit var productView: ProductView
     private lateinit var reviewView: ReviewView
+    private lateinit var reviewoverviewView: ReviewOverviewView
+    private lateinit var reviewcreationView: ReviewCreationView
+    private lateinit var reviewpageView: ReviewPageView
 
     // SharedPreferences 및 TokenManager 설정
     val sharedPreferences = context.getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
@@ -25,8 +31,19 @@ class ProductService(context: Context) { //매개변수에 , private val product
         this.productView = view
     }
 
-    fun setReviewOverviewView(view: ReviewView) {
+    fun setReviewView(view: ReviewView) {
         this.reviewView = view
+    }
+
+    fun setReviewOverviewView(view: ReviewOverviewView) {
+        this.reviewoverviewView = view
+    }
+
+    fun setReviewCreationView(view: ReviewCreationView) {
+        this.reviewcreationView = view
+    }
+    fun setReviewPageView(view: ReviewPageView) {
+        this.reviewpageView = view
     }
 
     // 제품 상세 정보 불러오기
@@ -62,15 +79,15 @@ class ProductService(context: Context) { //매개변수에 , private val product
 
                     Log.d("REVIEW_OVERVIEW", reviewOverviewResponse.toString())
 
-                    reviewView.onGetReviewOverviewSuccess(response.body()?.code.toString(), reviewOverviewResponse.result)
+                    reviewoverviewView.onGetReviewOverviewSuccess(response.body()?.code.toString(), reviewOverviewResponse.result)
                 } else {
-                    reviewView.onGetReviewOverviewFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
+                    reviewoverviewView.onGetReviewOverviewFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
                 }
             }
 
             override fun onFailure(call: Call<NewReviewOverviewResponse>, t: Throwable) {
                 Log.d("REVIEW_OVERVIEW_ERROR", t.message.toString())
-                reviewView.onGetReviewOverviewFailure("500", t.message ?: "Unknown error")
+                reviewoverviewView.onGetReviewOverviewFailure("500", t.message ?: "Unknown error")
             }
         })
     }
@@ -108,15 +125,15 @@ class ProductService(context: Context) { //매개변수에 , private val product
 
                     Log.d("REVIEW_CREATION", reviewCreationResponse.toString())
 
-                    reviewView.onPostReviewCreationSuccess(response.body()?.code.toString(), reviewCreationResponse.result)
+                    reviewcreationView.onPostReviewCreationSuccess(response.body()?.code.toString(), reviewCreationResponse.result)
                 } else {
-                    reviewView.onPostReviewCreationFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
+                    reviewcreationView.onPostReviewCreationFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
                 }
             }
 
             override fun onFailure(call: Call<ReviewCreationResponse>, t: Throwable) {
                 Log.d("REVIEW_CREATION_ERROR", t.message.toString())
-                reviewView.onPostReviewCreationFailure("500", t.message ?: "Unknown error")
+                reviewcreationView.onPostReviewCreationFailure("500", t.message ?: "Unknown error")
             }
         })
     }
@@ -131,15 +148,15 @@ class ProductService(context: Context) { //매개변수에 , private val product
 
                     Log.d("REVIEW_PAGE_DATA", reviewPageDataResponse.toString())
 
-                    reviewView.onGetReviewPageDataSuccess(response.body()?.code.toString(), reviewPageDataResponse.result)
+                    reviewpageView.onGetReviewPageDataSuccess(response.body()?.code.toString(), reviewPageDataResponse.result)
                 } else {
-                    reviewView.onGetReviewPageDataFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
+                    reviewpageView.onGetReviewPageDataFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
                 }
             }
 
             override fun onFailure(call: Call<ReviewPageDataResponse>, t: Throwable) {
                 Log.d("REVIEW_PAGE_DATA_ERROR", t.message.toString())
-                reviewView.onGetReviewPageDataFailure("500", t.message ?: "Unknown error")
+                reviewpageView.onGetReviewPageDataFailure("500", t.message ?: "Unknown error")
             }
         })
     }
