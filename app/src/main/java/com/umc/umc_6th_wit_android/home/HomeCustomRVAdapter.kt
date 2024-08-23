@@ -33,7 +33,7 @@ class HomeCustomRVAdapter(val items : ArrayList<Product>, val rvType : String)
         }
         holder.itemBinding.itemTitleTv.text = items[position].name
         holder.itemBinding.itemYenTv.text = items[position].enPrice.toString() + "¥"
-        holder.itemBinding.itemStarTv.text = items[position].rating.toString()
+        holder.itemBinding.itemStarTv.text = String.format("%.1f", items[position].rating)
         holder.itemBinding.itemReviewNumTv.text = "(" + items[position].reviewCount.toString() + ")"
         Glide.with( holder.itemView.context).load(items[position].imageUrl).into(holder.itemBinding.itemCoverImgIv)
     }

@@ -52,7 +52,8 @@
             android:exported="false" />
         <activity
             android:name=".home.notice.NoticeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.UMC6thWit"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

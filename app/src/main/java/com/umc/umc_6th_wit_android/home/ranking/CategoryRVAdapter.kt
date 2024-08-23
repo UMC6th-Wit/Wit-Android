@@ -48,7 +48,7 @@ class CategoryRVAdapter (
         holder.itemBinding.itemTitleTv.text = items[position].name
         holder.itemBinding.itemYenTv2.text = items[position].enPrice.toString() + "¥"
         holder.itemBinding.itemWonTv2.text = items[position].wonPrice.toString() +"₩"
-        holder.itemBinding.itemStarTv.text = String.format("%.2f", items[position].rating)
+        holder.itemBinding.itemStarTv.text = String.format("%.1f", items[position].rating)
         holder.itemBinding.itemReviewNumTv.text = "(${items[position].reviewCount})"
 
         if(!items[position].isHeart){

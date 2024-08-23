@@ -70,7 +70,7 @@
         app:layout_constraintStart_toStartOf="parent" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rslt_rv"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         tools:listitem="@layout/item_custom"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -81,6 +81,7 @@
         android:layout_marginTop="10dp"
         android:paddingBottom="100dp"
         android:clipToPadding="false"
+        android:layout_marginStart="15dp"
         />
 <!--clipToPadding을 false로 설정하면 스크롤할 때 패딩 영역이 함께 스크롤됩니다.-->
 </androidx.constraintlayout.widget.ConstraintLayout>

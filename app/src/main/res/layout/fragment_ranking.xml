@@ -44,6 +44,7 @@
             app:layout_constraintStart_toStartOf="@id/ranking_category_ns"
             app:layout_constraintTop_toBottomOf="@id/ranking_category_ns"
             android:text="1시간 전 업데이트"
+            android:textSize="13sp"
             android:textColor="#80111111"/>
         <LinearLayout
             android:id="@+id/gender"
@@ -58,6 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="성별"
+                android:textSize="13sp"
                 android:textColor="@color/black"
                 android:layout_marginEnd="3dp"/>
             <ImageView
@@ -78,6 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="연령대"
+                android:textSize="13sp"
                 android:textColor="@color/black"
                 android:layout_marginEnd="3dp"/>
             <ImageView
@@ -98,6 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="기간"
+                android:textSize="13sp"
                 android:textColor="@color/black"
                 android:layout_marginEnd="3dp"/>
             <ImageView

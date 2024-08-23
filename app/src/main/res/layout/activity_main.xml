@@ -32,7 +32,7 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/main_bnv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="70dp"
             android:background="@color/bottom_nav"
             app:itemIconSize="35dp"
             app:itemIconTint="@drawable/btm_color_selector"
@@ -42,6 +42,7 @@
             app:itemRippleColor="@color/color_translate"
             android:paddingVertical="5dp"
             android:paddingHorizontal="10dp"
+            app:itemActiveIndicatorStyle="@color/color_translate"
             />
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

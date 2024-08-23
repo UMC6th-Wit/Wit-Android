@@ -14,9 +14,9 @@ data class HomeResponse(
 
 data class HomeResult(
     @SerializedName(value = "user") val user: User,
-    @SerializedName(value = "recommendations") val recommendations: List<Product>,
-    @SerializedName(value = "popularProducts") val popularProducts: Map<String, List<ProductVer2>>,
-    @SerializedName(value = "nyamRecommendations") val nyamRecommendations: List<Product>,
+    @SerializedName(value = "recommendations") val recommendations: List<Product>,//하트 : Int
+    @SerializedName(value = "popularProducts") val popularProducts: Map<String, List<ProductVer2>>,//하트 : Boolean
+    @SerializedName(value = "nyamRecommendations") val nyamRecommendations: List<Product>,//하트 : Int
     @SerializedName(value = "notices") val notices: List<Notice>
 )
 

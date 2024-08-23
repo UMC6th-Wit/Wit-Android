@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:background="#FCFCFC">
 
         <ImageView
             android:id="@+id/logo"
@@ -23,10 +23,11 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/location_btn_cv"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             app:cardBackgroundColor="#f9f9f9"
             app:cardCornerRadius="30dp"
             app:cardElevation="4dp"
+            android:gravity="center_vertical"
             android:layout_margin="10dp"
             app:layout_constraintEnd_toStartOf="@id/cv_alarm"
             app:layout_constraintTop_toTopOf="@id/logo"
@@ -36,18 +37,16 @@
             <LinearLayout
                 android:id="@+id/location_btn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="6dp"
-                android:paddingStart="11dp"
-                android:paddingEnd="11dp"
+                android:paddingHorizontal="11dp"
                 >
 
                 <ImageView
                     android:id="@+id/address_iv"
                     android:layout_width="11dp"
-                    android:layout_height="13dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/ic_address"
                     android:layout_marginEnd="3dp"
                     android:layout_gravity="center_vertical"/>
@@ -55,11 +54,12 @@
                 <TextView
                     android:id="@+id/address_tv"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="도쿄"
                     android:textStyle="bold"
-                    android:textSize="12sp"
-                    android:layout_gravity="center_vertical"/>
+                    android:textColor="@color/black"
+                    android:textSize="11sp"
+                    android:gravity="center_vertical"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -85,24 +85,26 @@
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             android:id="@+id/alarm_num_cv"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:cardBackgroundColor="#FF6D6D"
             app:cardCornerRadius="15dp"
             app:cardElevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/cv_alarm"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="16dp">
+            android:layout_marginEnd="16dp"
+            android:layout_gravity="center_vertical"
+            >
 
             <TextView
                 android:id="@+id/alarm_num"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="3"
-                android:textSize="8sp"
+                android:textSize="7sp"
                 android:textColor="@color/white"/>
         </androidx.cardview.widget.CardView>
         <TextView
@@ -120,7 +122,7 @@
             android:visibility="gone"/>
         <ImageView
             android:id="@+id/popup_bg"
-            android:layout_width="250dp"
+            android:layout_width="300dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
@@ -149,7 +151,7 @@
             android:id="@+id/home_tb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="#FCFCFC"
             app:tabIndicatorFullWidth="true"
             app:tabSelectedTextColor="#000000"
             app:tabTextColor="#868686"
