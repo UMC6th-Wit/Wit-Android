@@ -1,6 +1,7 @@
 package com.umc.umc_6th_wit_android.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ class ProductDetailFragment : Fragment() {
 
     private var _binding: FragmentProductDetailBinding? = null
     private val binding get() = _binding!!
+    private var product_id = 0
 
     private var reviewCount = 0
 
@@ -34,7 +36,7 @@ class ProductDetailFragment : Fragment() {
         binding.productCountryTv.text = arguments?.getString("manufacturing_country") ?: "Unknown"
 
         reviewCount = arguments?.getString("review_count")?.toIntOrNull() ?: 0
-        val id = arguments?.getString("id")?.toIntOrNull() ?: -1
+        product_id = arguments?.getString("id")?.toIntOrNull() ?: -1
 
         binding.productReviewSelectTv.setOnClickListener {
 
@@ -43,13 +45,14 @@ class ProductDetailFragment : Fragment() {
                 ReviewZeroFragment(id)  // ReviewZeroFragment로 이동
             } else {
 //                ReviewMinFragment.newInstance(id) // ReviewMinFragment로 이동
+                val fragment = ReviewMinFragment.newInstance(product_id)
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_product_detail, ReviewMinFragment())
+                    .replace(R.id.fragment_product_detail, fragment)
                     .commit()
             }
 
             if(fragment == ReviewMinFragment())
-                ReviewMinFragment.newInstance(id) //리뷰 오버뷰 프레그먼트에 상품 id 전달e
+                ReviewMinFragment.newInstance(product_id) //리뷰 오버뷰 프레그먼트에 상품 id 전달e
         }
     }
 

@@ -49,19 +49,26 @@ class ReviewMinFragment() : Fragment(), ProductView, ReviewOverviewView {
         _binding = FragmentReviewMinBinding.inflate(inflater, container, false)
 
         binding.goToReviewBtnIv.setOnClickListener {
-            activity?.let {
-                val intent = Intent(it, ReviewOnlyActivity::class.java)
-                intent.putExtra("id", 1)
-                it.startActivity(intent)
-            }
+//            activity?.let {
+//                val intent = Intent(it, ReviewOnlyActivity::class.java)
+//                intent.putExtra("id", id)
+//                it.startActivity(intent)
+//            }
+            val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
+            intent.putExtra("id", id)
+            startActivity(intent)
         }
 
         binding.moreReviewBtnIv.setOnClickListener {
-            activity?.let {
-                val intent = Intent(it, ReviewOnlyActivity::class.java)
-                intent.putExtra("id", 1)
-                it.startActivity(intent)
-            }
+//            activity?.let {
+//                val intent = Intent(it, ReviewOnlyActivity::class.java)
+//                intent.putExtra("id", id)
+//                it.startActivity(intent)
+//            }
+
+            val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
+            intent.putExtra("id", id)
+            startActivity(intent)
         }
         // Reviewitems가 초기화되지 않았을 경우 빈 리스트로 초기화
         if (!::Reviewitems.isInitialized) {
@@ -83,21 +90,21 @@ class ReviewMinFragment() : Fragment(), ProductView, ReviewOverviewView {
                 .commit()
         }
 
-        binding.goToReviewBtnIv.setOnClickListener {
-            activity?.let {
-                val intent = Intent(it, ReviewOnlyActivity::class.java)
-                intent.putExtra("id", 1)
-                it.startActivity(intent)
-            }
-        }
-
-        binding.moreReviewBtnIv.setOnClickListener {
-            activity?.let {
-                val intent = Intent(it, ReviewOnlyActivity::class.java)
-                intent.putExtra("id", 1)
-                it.startActivity(intent)
-            }
-        }
+//        binding.goToReviewBtnIv.setOnClickListener {
+//            activity?.let {
+//                val intent = Intent(it, ReviewOnlyActivity::class.java)
+//                intent.putExtra("id", 1)
+//                it.startActivity(intent)
+//            }
+//        }
+//
+//        binding.moreReviewBtnIv.setOnClickListener {
+//            activity?.let {
+//                val intent = Intent(it, ReviewOnlyActivity::class.java)
+//                intent.putExtra("id", 1)
+//                it.startActivity(intent)
+//            }
+//        }
 
 
 

@@ -26,7 +26,7 @@ class ReviewOnlyActivity : AppCompatActivity(), ReviewView {
         setContentView(binding.root)
 
         // Intent에서 id 값을 추출하여 저장
-        productId = intent.getIntExtra("id", 1) // "id"가 없는 경우 기본값 -1로 설정
+        productId = intent.getIntExtra("id", -1) // "id"가 없는 경우 기본값 -1로 설정
 
         //우측 상단 리뷰 쓰기 버튼 -> activty_review_write 로 이동
         binding.goToReviewWriteBtnTv.setOnClickListener {
