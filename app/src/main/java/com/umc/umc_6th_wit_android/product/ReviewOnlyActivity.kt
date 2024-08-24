@@ -6,14 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.umc.umc_6th_wit_android.PriceActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.remote.product.HelpfulResponse
 import com.umc.umc_6th_wit_android.data.remote.product.ProductService
 import com.umc.umc_6th_wit_android.data.remote.product.RatingStatsResult
+import com.umc.umc_6th_wit_android.data.remote.product.Review
 import com.umc.umc_6th_wit_android.data.remote.product.ReviewsResult
 import com.umc.umc_6th_wit_android.databinding.ActivityReviewOnlyBinding
-import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 
 class ReviewOnlyActivity : AppCompatActivity(), ReviewView {
 
@@ -34,13 +34,13 @@ class ReviewOnlyActivity : AppCompatActivity(), ReviewView {
             startActivity(intent)
         }
 
-
+/*
         //Activity 내에 Fragment 적용
         // 처음에는 FirstFragment(베스트순)
         if (savedInstanceState == null) {
             replaceFragment(ReviewBestFragment())
-        }
-
+        }*/
+/*
         binding.reviewSequenceBestBtnTv.setOnClickListener {
             // 베스트순 클릭 시 Fragment로 교체
             replaceFragment(ReviewBestFragment())
@@ -53,7 +53,7 @@ class ReviewOnlyActivity : AppCompatActivity(), ReviewView {
             replaceFragment(ReviewNewFragment())
             binding.reviewSequenceRecentBtnTv.setTextColor(Color.parseColor("#2572F6"))
             binding.reviewSequenceBestBtnTv.setTextColor(Color.parseColor("#9A9A9A"))
-        }
+        }*/
 
     }
 
@@ -68,6 +68,13 @@ class ReviewOnlyActivity : AppCompatActivity(), ReviewView {
     override fun onResume() {
         super.onResume()
         getRatingStars()
+        getProductReviews()
+    }
+    private fun getProductReviews(){
+        Log.d("ReviewMinFragment", "Ok id received")
+        val productService = ProductService(this)
+        productService.setReviewView(this)
+        productService.getProductReviews(productId!!)
     }
     private fun getRatingStars() {
         Log.d("ReviewMinFragment", "Ok id received")
@@ -90,11 +97,27 @@ class ReviewOnlyActivity : AppCompatActivity(), ReviewView {
     }
 
     override fun onGetReviewsSuccess(code: String, result: ReviewsResult) {
-        TODO("Not yet implemented")
+        Log.d("getReview-SUCCESS", result.toString())
+        initRv(result.reviews)
     }
 
     override fun onGetReviewsFailure(code: String, message: String) {
         TODO("Not yet implemented")
+    }
+    private fun initRv(result: List<Review>){
+        val items = ArrayList(result)
+
+        val adapter = ReviewOnlyAdapter(items)
+/*        adapter.setOnItemClickListener(object : RankingCategoryRVAdapter.OnItemClickListener{
+            override fun onItemClick(view: View, position: Int) {
+                val intent = Intent(activity, ProductDetailActivity::class.java)
+                intent.putExtra("id", items[position].id)
+                startActivity(intent)
+//                changeActivity(items[position])
+            }
+        })*/
+        binding.reviewSequenceRv.adapter = adapter
+        binding.reviewSequenceRv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
 

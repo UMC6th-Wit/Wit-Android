@@ -44,7 +44,7 @@ data class Review(
     @SerializedName("created_at") val created_at: String,
 
     @SerializedName("user_name") val user_name: String,
-    @SerializedName("user_profile_image") val user_profile_image: String,
+    @SerializedName("user_profile_image") val user_profile_image: String?,
     @SerializedName("images") val images: String,
     @SerializedName("helpful_count") val helpful_count: Int
 )

@@ -29,10 +29,10 @@ class ReviewBestFragment : Fragment(), ReviewView {
         super.onViewCreated(view, savedInstanceState)
 
 
-        binding.reviewBestRv.layoutManager = LinearLayoutManager(requireContext())
+/*        binding.reviewBestRv.layoutManager = LinearLayoutManager(requireContext())
         // 어댑터 설정
         val adapter = ReviewOnlyAdapter(Reviewitems)
-        binding.reviewBestRv.adapter = adapter
+        binding.reviewBestRv.adapter = adapter*/
     }
 
     override fun onGetReviewsSuccess(code: String, result: ReviewsResult) {

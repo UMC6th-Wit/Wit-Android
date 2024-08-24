@@ -28,6 +28,7 @@ interface ProductRetrofitInterface {
     // 제품 리뷰 목록 불러오기 (베스트순, 최신순)
     @GET("products/{productId}/reviews")
     fun getProductReviews(
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Path("productId") productId: Int
     ): Call<ProductReviewsResponse>
 
@@ -66,6 +67,7 @@ interface ProductRetrofitInterface {
     // 상품 별점 불러오기 (별점별 리뷰 개수)
     @GET("products/{productId}/rating-stats")
     fun getRatingStats(
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
         @Path("productId") productId: Int
     ): Call<RatingStatsResponse>
 
