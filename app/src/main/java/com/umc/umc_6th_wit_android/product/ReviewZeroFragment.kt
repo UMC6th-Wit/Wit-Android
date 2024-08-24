@@ -35,7 +35,6 @@ class ReviewZeroFragment(private val productId: Int) : Fragment() {
             val fragment = ProductDetailFragment()
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_product_detail, fragment)
-                .addToBackStack(null)
                 .commit()
         }
 
