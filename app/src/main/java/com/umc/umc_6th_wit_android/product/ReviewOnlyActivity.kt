@@ -34,6 +34,10 @@ class ReviewOnlyActivity : AppCompatActivity(), ReviewView {
             startActivity(intent)
         }
 
+        binding.backBtnIv.setOnClickListener{
+            finish()
+        }
+
 /*
         //Activity 내에 Fragment 적용
         // 처음에는 FirstFragment(베스트순)
