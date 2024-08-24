@@ -52,7 +52,7 @@ class ProductDetailFragment : Fragment() {
                     .commit()
             }
 
-            if(fragment == ReviewMinFragment())
+            if(fragment == ReviewMinFragment(product_id))
                 ReviewMinFragment.newInstance(product_id) //리뷰 오버뷰 프레그먼트에 상품 id 전달e
         }
     }

@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.remote.product.ProductResult
 import com.umc.umc_6th_wit_android.data.remote.product.ProductService
 import com.umc.umc_6th_wit_android.data.remote.product.Review
@@ -50,61 +52,44 @@ class ReviewMinFragment(private val productId: Int) : Fragment(), ProductView, R
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentReviewMinBinding.inflate(inflater, container, false)
-        return binding.root
 
         binding.goToReviewBtnIv.setOnClickListener {
-//            activity?.let {
-//                val intent = Intent(it, ReviewOnlyActivity::class.java)
-//                intent.putExtra("id", id)
-//                it.startActivity(intent)
-//            }
             val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
             intent.putExtra("id", id)
             startActivity(intent)
         }
 
         binding.moreReviewBtnIv.setOnClickListener {
-//            activity?.let {
-//                val intent = Intent(it, ReviewOnlyActivity::class.java)
-//                intent.putExtra("id", id)
-//                it.startActivity(intent)
-//            }
-
             val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
             intent.putExtra("id", id)
             startActivity(intent)
         }
-        // Reviewitems가 초기화되지 않았을 경우 빈 리스트로 초기화
-        if (!::Reviewitems.isInitialized) {
-            Reviewitems = emptyList()
-        }
 
-        if (!::Imageitems.isInitialized) {
-            Imageitems = emptyList()
+        // Reviewitems와 imageitems 초기화 확인
+        if (!::reviewitems.isInitialized) {
+            reviewitems = emptyList()
+        }
+        if (!::imageitems.isInitialized) {
+            imageitems = emptyList()
         }
 
         binding.productDetailSelectTv.setOnClickListener {
-            val fragment = ProductDetailFragment.newInstance(id.toString(), "", "", 0, "") // id를 넘기기
-
+            val fragment = ProductDetailFragment.newInstance(id.toString(), name, product_type, review_count ?: 0, manufacturing_country)
             parentFragmentManager.beginTransaction()
-                .replace(
-                    R.id.fragment_product_detail,
-                    ProductDetailFragment()
-                )
+                .replace(R.id.fragment_product_detail, fragment)
+                .addToBackStack(null)
                 .commit()
         }
 
-        //binding.reviewMinImagesRv.layoutManager = LinearLayoutManager(context)
-
         binding.reviewMinImagesRv.layoutManager = LinearLayoutManager(requireContext())
-        // 어댑터 설정1
         val imageAdapter = ReviewMinImagesRVAdapter(this)
         binding.reviewMinRv.adapter = imageAdapter
 
-        binding.reviewMinRv.layoutManager = LinearLayoutManager(context)
-        // 어댑터 설정2
+        binding.reviewMinRv.layoutManager = LinearLayoutManager(requireContext())
         val reviewAdapter = ReviewMinRVAdapter(this)
         binding.reviewMinRv.adapter = reviewAdapter
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -120,23 +105,16 @@ class ReviewMinFragment(private val productId: Int) : Fragment(), ProductView, R
         }
 
         binding.productDetailSelectTv.setOnClickListener {
+            val fragment = ProductDetailFragment.newInstance(id.toString(), name, product_type, review_count ?: 0, manufacturing_country)
 
-            val fragment = ProductDetailFragment.newInstance(id.toString(), name, product_type, review_count!!, manufacturing_country) // id를 넘기기, 넘길때 0으로 넣어서 0으로 초기화됨
-
-//            parentFragmentManager.beginTransaction()
-//                .replace(
-//                    R.id.fragment_product_detail,
-//                    ProductDetailFragment()
-//                )
-//                .commit()
+            // Fragment transaction은 여기에 추가할 수 있습니다.
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_product_detail, fragment)
+                .addToBackStack(null)
+                .commit()
         }
-
-        return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun onGetProductSuccess(code: String, result: ProductResult) {
         Log.d("Product-SUCCESS", code + result.name)
