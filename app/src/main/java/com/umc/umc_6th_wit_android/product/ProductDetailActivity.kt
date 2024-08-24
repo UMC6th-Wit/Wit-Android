@@ -33,12 +33,13 @@ import com.umc.umc_6th_wit_android.wish.WishService
 import java.io.Serializable
 import java.text.NumberFormat
 import java.util.Locale
+import kotlin.properties.Delegates
 
- class ProductDetailActivity : AppCompatActivity(), SelectionListener, ProductView {
+class ProductDetailActivity : AppCompatActivity(), SelectionListener, ProductView {
 
     lateinit var binding: ActivityProductDetailBinding
-    private var isHelpIv = false
-     private lateinit var folderPopUpAdapter: FolderPopUpAdapter
+    private var isHelpIv by Delegates.notNull<Boolean>()
+    private lateinit var folderPopUpAdapter: FolderPopUpAdapter
      private val ADD_FOLDER_REQUEST_CODE = 1
      private var product_id = 0
 
@@ -67,7 +68,13 @@ import java.util.Locale
 
         binding.heartBtnIv.setOnClickListener {
             // 하트 버튼 이미지 변경 로직
-            if (!isHelpIv) {
+            if (isHelpIv) {
+                val productService = ProductService(this@ProductDetailActivity)
+                productService.setProductDetailView(this)
+                productService.addCart(intent.getIntExtra("id", -1))   //product_id 넣기
+                binding.heartBtnIv.setImageResource(R.drawable.heart_btn_full_image)
+                binding.heartBtnTv.text = "${binding.heartBtnTv.text.toString().toInt().plus(1)}"
+            } else {
                 val request = WishBoardListDelRequest(
                     product_ids = listOf(product_id)   //product_id 넣기
                 )
@@ -75,11 +82,7 @@ import java.util.Locale
                 productService.setProductDetailView(this)
                 productService.delCart(request)
                 binding.heartBtnIv.setImageResource(R.drawable.heart_btn_empty_image)
-            } else {
-                val productService = ProductService(this@ProductDetailActivity)
-                productService.setProductDetailView(this)
-                productService.addCart(intent.getIntExtra("id", -1))   //product_id 넣기
-                binding.heartBtnIv.setImageResource(R.drawable.heart_btn_full_image)
+                binding.heartBtnTv.text = "${binding.heartBtnTv.text.toString().toInt().minus(1)}"
             }
             isHelpIv = !isHelpIv // 하트 버튼 상태 변경
 
@@ -109,13 +112,14 @@ import java.util.Locale
         calculatePrice(result.en_price.toDouble(), result.won_price.toDouble())
         binding.whereWidget1Tv.text = "${result.sales_area}"
         binding.whereWidget2Tv.text = "${result.sales_area}"
-        isHelpIv = result.is_heart == 1
-        binding.heartBtnTv.text = "${result.heart_count}"
-        if (!isHelpIv) {
-            binding.heartBtnIv.setImageResource(R.drawable.heart_btn_empty_image)
-        } else {
+        if(result.is_heart == 1){
+            isHelpIv = false
             binding.heartBtnIv.setImageResource(R.drawable.heart_btn_full_image)
+        } else {
+            isHelpIv = true
+            binding.heartBtnIv.setImageResource(R.drawable.heart_btn_empty_image)
         }
+        binding.heartBtnTv.text = "${result.heart_count}"
 
         //ProductDetailFragment에 정보 전달
         val id = intent.getIntExtra("id", -1)
