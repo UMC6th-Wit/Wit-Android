@@ -1,5 +1,6 @@
 package com.umc.umc_6th_wit_android.product
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,11 +22,7 @@ class ReviewMinRVAdapter (val items: List<Review>)
         return ReviewMinViewHolder(itemBinding)
     }
     override fun onBindViewHolder(holder: ReviewMinViewHolder, position: Int) {
-        val imageUrl = items[position]
-        Glide.with(holder.itemView.context)
-            .load(imageUrl)
-            .into(holder.binding.reviewPhotoIv)
-
+        Glide.with( holder.itemView.context).load(items[position].images).into(holder.binding.reviewPhotoIv)
         holder.binding.reviewTv.text= items[position].content
     }
 
