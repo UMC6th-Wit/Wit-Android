@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.remote.product.ProductResult
 import com.umc.umc_6th_wit_android.data.remote.product.ProductService
 import com.umc.umc_6th_wit_android.data.remote.product.Review
@@ -18,17 +17,22 @@ import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 import com.umc.umc_6th_wit_android.wish.CartItem
 import com.umc.umc_6th_wit_android.wish.WishBoardItemResult
 
-class ReviewMinFragment() : Fragment(), ProductView, ReviewOverviewView {
+class ReviewMinFragment(private val productId: Int) : Fragment(), ProductView, ReviewOverviewView {
 
     private var _binding: FragmentReviewMinBinding? = null
     private val binding get() = _binding!!
-    private var id: Int? = null
-    private lateinit var Reviewitems: List<Review>
-    private lateinit var Imageitems: List<String>
+    private var id = productId
+    private var name: String = ""
+    private var product_type: String = ""
+    private var review_count: Int? = null
+    private var manufacturing_country: String = ""
+
+    private lateinit var reviewitems: List<Review>
+    private lateinit var imageitems: List<String>
 
     companion object {
         fun newInstance(id: Int): ReviewMinFragment {
-            val fragment = ReviewMinFragment()
+            val fragment = ReviewMinFragment(id)
             val args = Bundle().apply {
                 putInt("id", id)
             }
@@ -39,7 +43,6 @@ class ReviewMinFragment() : Fragment(), ProductView, ReviewOverviewView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        id = arguments?.getInt("id")
     }
 
     override fun onCreateView(
@@ -47,6 +50,7 @@ class ReviewMinFragment() : Fragment(), ProductView, ReviewOverviewView {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentReviewMinBinding.inflate(inflater, container, false)
+        return binding.root
 
         binding.goToReviewBtnIv.setOnClickListener {
             activity?.let {
@@ -83,6 +87,7 @@ class ReviewMinFragment() : Fragment(), ProductView, ReviewOverviewView {
                 .commit()
         }
 
+
         binding.goToReviewBtnIv.setOnClickListener {
             activity?.let {
                 val intent = Intent(it, ReviewOnlyActivity::class.java)
@@ -99,17 +104,42 @@ class ReviewMinFragment() : Fragment(), ProductView, ReviewOverviewView {
             }
         }
 
-
+        //binding.reviewMinImagesRv.layoutManager = LinearLayoutManager(context)
 
         binding.reviewMinImagesRv.layoutManager = LinearLayoutManager(requireContext())
         // 어댑터 설정1
-        val imageAdapter = ReviewMinImagesRVAdapter(Imageitems)
+        val imageAdapter = ReviewMinImagesRVAdapter(this)
         binding.reviewMinRv.adapter = imageAdapter
 
-        binding.reviewMinRv.layoutManager = LinearLayoutManager(requireContext())
+        binding.reviewMinRv.layoutManager = LinearLayoutManager(context)
         // 어댑터 설정2
-        val ReviewAdapter = ReviewMinRVAdapter(Reviewitems)
-        binding.reviewMinRv.adapter = ReviewAdapter
+        val reviewAdapter = ReviewMinRVAdapter(this)
+        binding.reviewMinRv.adapter = reviewAdapter
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Reviewitems가 초기화되지 않았을 경우 빈 리스트로 초기화
+        if (!::reviewitems.isInitialized) {
+            reviewitems = emptyList()
+        }
+
+        if (!::imageitems.isInitialized) {
+            imageitems = emptyList()
+        }
+
+        binding.productDetailSelectTv.setOnClickListener {
+
+            val fragment = ProductDetailFragment.newInstance(id.toString(), name, product_type, review_count!!, manufacturing_country) // id를 넘기기, 넘길때 0으로 넣어서 0으로 초기화됨
+
+//            parentFragmentManager.beginTransaction()
+//                .replace(
+//                    R.id.fragment_product_detail,
+//                    ProductDetailFragment()
+//                )
+//                .commit()
+        }
 
         return binding.root
     }
@@ -121,15 +151,20 @@ class ReviewMinFragment() : Fragment(), ProductView, ReviewOverviewView {
     override fun onGetProductSuccess(code: String, result: ProductResult) {
         Log.d("Product-SUCCESS", code + result.name)
         id = result.id
+        name = result.name
+        product_type = result.product_type
+        review_count = result.review_count
+        manufacturing_country = result.manufacturing_country
+
         Log.d("ReviewMinFragProduct_Id", result.id.toString())
 
         //정보 가져 오는데 성공 -> 뷰에 반영
         binding.reviewRateTv.text = "${result.average_rating}"
         binding.reciewNumTv.text = "${result.review_count}"
         binding.productReviewSelectTv.text = "리뷰(${result.review_count})"
-        binding.ratingBar.rating = result.average_rating.toFloat()
-
-        Reviewitems = result.top_reviews
+        binding.reviewRateTv.text = String.format("%.1f", result.average_rating)
+        //(Math.round(result.average_rating * 10) / 10.0)
+        reviewitems = result.top_reviews
     }
 
     override fun onGetProductFailure(code: String, message: String) {
@@ -179,7 +214,7 @@ class ReviewMinFragment() : Fragment(), ProductView, ReviewOverviewView {
 
     override fun onGetReviewOverviewSuccess(code: String, result: ReviewOverviewResult) {
         Log.d("ReviewOverview-SUCCESS", code + result)
-        Imageitems = result.latestImages
+        imageitems = result.latestImages
     }
 
     override fun onGetReviewOverviewFailure(code: String, message: String) {
