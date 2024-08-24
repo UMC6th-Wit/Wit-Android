@@ -15,7 +15,7 @@ import com.umc.umc_6th_wit_android.data.remote.product.ReviewOverviewResult
 import com.umc.umc_6th_wit_android.databinding.FragmentReviewMinBinding
 import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 import com.umc.umc_6th_wit_android.wish.CartItem
-import okhttp3.internal.format
+import com.umc.umc_6th_wit_android.wish.WishBoardItemResult
 
 class ReviewMinFragment(private val productId: Int) : Fragment(), ProductView, ReviewOverviewView {
 
@@ -51,6 +51,28 @@ class ReviewMinFragment(private val productId: Int) : Fragment(), ProductView, R
     ): View? {
         _binding = FragmentReviewMinBinding.inflate(inflater, container, false)
         return binding.root
+
+        binding.goToReviewBtnIv.setOnClickListener {
+            val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
+            intent.putExtra("id", id)
+            startActivity(intent)
+        }
+
+        binding.moreReviewBtnIv.setOnClickListener {
+            val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
+            intent.putExtra("id", id)
+            startActivity(intent)
+        }
+
+        binding.reviewMinImagesRv.layoutManager = LinearLayoutManager(context)
+        // 어댑터 설정1
+        val imageAdapter = ReviewMinImagesRVAdapter(this)
+        binding.reviewMinRv.adapter = imageAdapter
+
+        binding.reviewMinRv.layoutManager = LinearLayoutManager(context)
+        // 어댑터 설정2
+        val reviewAdapter = ReviewMinRVAdapter(this)
+        binding.reviewMinRv.adapter = reviewAdapter
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,29 +99,6 @@ class ReviewMinFragment(private val productId: Int) : Fragment(), ProductView, R
 //                .commit()
         }
 
-        binding.goToReviewBtnIv.setOnClickListener {
-            val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
-            intent.putExtra("id", id)
-            startActivity(intent)
-        }
-
-        binding.moreReviewBtnIv.setOnClickListener {
-            val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
-            intent.putExtra("id", id)
-            startActivity(intent)
-        }
-
-
-        binding.reviewMinImagesRv.layoutManager = LinearLayoutManager(requireContext())
-        // 어댑터 설정1
-        val imageAdapter = ReviewMinImagesRVAdapter(imageitems)
-        binding.reviewMinRv.adapter = imageAdapter
-
-        binding.reviewMinRv.layoutManager = LinearLayoutManager(requireContext())
-        // 어댑터 설정2
-        val reviewAdapter = ReviewMinRVAdapter(reviewitems)
-        binding.reviewMinRv.adapter = reviewAdapter
-
     }
 
     override fun onGetProductSuccess(code: String, result: ProductResult) {
@@ -116,12 +115,29 @@ class ReviewMinFragment(private val productId: Int) : Fragment(), ProductView, R
         binding.reviewRateTv.text = "${result.average_rating}"
         binding.reciewNumTv.text = "${result.review_count}"
         binding.productReviewSelectTv.text = "리뷰(${result.review_count})"
-        binding.ratingBar.rating = (Math.round(result.average_rating * 10) / 10.0).toFloat()
+        binding.reviewRateTv.text = String.format("%.1f", result.average_rating)
+        //(Math.round(result.average_rating * 10) / 10.0)
         reviewitems = result.top_reviews
     }
 
     override fun onGetProductFailure(code: String, message: String) {
         Log.d("ReviewMin-FAILURE", code)
+    }
+
+    override fun onGetWishBoardListSuccess(code: String, result: WishBoardItemResult) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onGetWishBoardListFailure(code: String, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostWishtoBoardSuccess(code: String, result: WishBoardItemResult) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostWishtoBoardFailure(code: String, message: String) {
+        TODO("Not yet implemented")
     }
 
     override fun onResume() {

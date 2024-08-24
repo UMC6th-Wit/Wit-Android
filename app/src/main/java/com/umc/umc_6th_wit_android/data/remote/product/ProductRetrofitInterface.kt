@@ -3,6 +3,8 @@ package com.umc.umc_6th_wit_android.data.remote.product
 import com.umc.umc_6th_wit_android.wish.CartResponse
 import com.umc.umc_6th_wit_android.wish.WishBoardDeleteResponse
 import com.umc.umc_6th_wit_android.wish.WishBoardListDelRequest
+import com.umc.umc_6th_wit_android.wish.WishBoardResponse
+import com.umc.umc_6th_wit_android.wish.WishListAddRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -39,6 +41,21 @@ interface ProductRetrofitInterface {
         @Part("content") content: RequestBody,  // content 값을 담는 RequestBody
         @Part image: List<MultipartBody.Part>
     ): Call<ReviewCreationResponse>
+
+    //위시리스트 폴더 상품 담기
+    @POST("wishlist/add-product")
+    fun postWishtoBoard(
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
+        @Body request: WishListAddRequest
+    ): Call<WishBoardResponse>
+
+    //위시리스트 폴더 목록 조회
+    @GET("wishlist/user-folders")
+    fun getWishBoardList(
+        @Header("Authorization") accessToken: String,  // 헤더로 액세스 토큰 전달
+        @Query("cursor") cursor: Int?,
+        @Query("limit") limit: Int?
+    ): Call<WishBoardResponse>
 
     // 리뷰 작성 페이지 불러오기
     @GET("products/{productId}/reviews/new")
