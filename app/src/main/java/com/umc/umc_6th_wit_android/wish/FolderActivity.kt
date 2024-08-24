@@ -47,6 +47,8 @@ class FolderActivity : AppCompatActivity(), FolderView {
         } ?: run {
             // 리스트가 비어있는 경우 처리할 로직
         }
+        Log.d("selectedItemsList", selectedItemsList.toString())
+        Log.d("selectedItemsIdsList", selectedItemsIdsList.toString())
 
         // EditText에 텍스트 변경 리스너 추가
         binding.folderNameEditText.addTextChangedListener(object : TextWatcher {

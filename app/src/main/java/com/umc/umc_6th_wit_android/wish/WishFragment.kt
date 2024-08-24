@@ -456,7 +456,7 @@ class WishFragment : Fragment(), SelectionListener, WishView {
 
         //다이얼로그 어댑터 연결
         folderPopUpAdapter = FolderPopUpAdapter(mutableListOf(), this) { currentCursor, limit ->
-            loadMoreItems(currentCursor, limit)
+            loadMoreBoards(currentCursor, limit)
         }
         val recyclerView = dialogView.findViewById<RecyclerView>(R.id.folder_recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext()) // LayoutManager 설정

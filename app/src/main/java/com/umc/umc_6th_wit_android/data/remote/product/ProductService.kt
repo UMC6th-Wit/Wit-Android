@@ -2,6 +2,7 @@ package com.umc.umc_6th_wit_android.data.remote.product
 
 import android.content.Context
 import android.util.Log
+import com.umc.umc_6th_wit_android.NetworkModule
 import com.umc.umc_6th_wit_android.login.TokenManager
 import com.umc.umc_6th_wit_android.network.TokenRetrofitManager
 import com.umc.umc_6th_wit_android.product.ProductView
@@ -12,6 +13,9 @@ import com.umc.umc_6th_wit_android.product.ReviewView
 import com.umc.umc_6th_wit_android.wish.CartResponse
 import com.umc.umc_6th_wit_android.wish.WishBoardDeleteResponse
 import com.umc.umc_6th_wit_android.wish.WishBoardListDelRequest
+import com.umc.umc_6th_wit_android.wish.WishBoardResponse
+import com.umc.umc_6th_wit_android.wish.WishListAddRequest
+import com.umc.umc_6th_wit_android.wish.WishRetrofitInterfaces
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -102,6 +106,42 @@ class ProductService(private val context: Context) { //매개변수에 , private
                 reviewView.onGetReviewsFailure("500", t.message ?: "Unknown error")
             }
         })
+    }
+
+    //위시리스트 폴더 상품 담기
+    fun postWishtoBoard(request: WishListAddRequest) {
+
+        // TokenManager에서 저장된 액세스 토큰을 가져옴
+        val accessToken = tokenManager.getAccessToken()
+        if (accessToken != null) {
+
+            val retrofit = TokenRetrofitManager(context)
+            val productServiceApi = retrofit.create(ProductRetrofitInterface::class.java)
+
+            productServiceApi.postWishtoBoard("Bearer $accessToken", request).enqueue(object : Callback<WishBoardResponse> {
+                override fun onResponse(call: Call<WishBoardResponse>, response: Response<WishBoardResponse>) {
+                    if (response.message().equals("폴더에 제품이 성공적으로 추가되었습니다")) {
+                        val wishToBoardResponse: WishBoardResponse = response.body()!!
+
+                        Log.d("FOLDER100-RESPONSE", wishToBoardResponse.toString())
+
+                        when (val message = wishToBoardResponse.message) {
+                            "폴더에 제품이 성공적으로 추가되었습니다" -> {
+                                productView.onPostWishtoBoardSuccess(message, wishToBoardResponse.data)
+                            }
+                            else -> {
+                                productView.onPostWishtoBoardFailure(message, wishToBoardResponse.message)
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<WishBoardResponse>, t: Throwable) {
+                    // 실패 처리
+                    Log.d("FOLDER100-ERROR", t.message.toString())
+                }
+            })
+        }
     }
 
     // 리뷰 작성하기 (이미지 포함)
@@ -276,6 +316,51 @@ class ProductService(private val context: Context) { //매개변수에 , private
                 }
             })
         }
+    }
+
+    //위시리스트 폴더 목록 조회
+    fun getWishBoardList(cursor: Int?, limit: Int?){
+
+        // TokenManager에서 저장된 액세스 토큰을 가져옴
+        val accessToken = tokenManager.getAccessToken()
+        if (accessToken != null) {
+
+            val retrofit = TokenRetrofitManager(context)
+            val productServiceApi = retrofit.create(ProductRetrofitInterface::class.java)
+            productServiceApi.getWishBoardList("Bearer $accessToken", cursor, limit).enqueue(object : Callback<WishBoardResponse>{
+                override fun onResponse(call: Call<WishBoardResponse>, response: Response<WishBoardResponse>) {
+                    if (response.body()?.message.equals("Folders retrieved successfully")) {
+                        val wishBoardResponse: WishBoardResponse = response.body()!!
+
+                        Log.d("WISHLIST200-RESPONSE", wishBoardResponse.toString())
+
+                        when (val message = wishBoardResponse.message) {
+                            "Folders retrieved successfully" -> {
+                                if (::productView.isInitialized) {
+                                    productView.onGetWishBoardListSuccess(
+                                        message,
+                                        wishBoardResponse.data
+                                    )
+                                }
+                            }
+                            else -> {
+                                if (::productView.isInitialized) {
+                                    productView.onGetWishBoardListFailure(
+                                        message,
+                                        wishBoardResponse.message
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<WishBoardResponse>, t: Throwable) {
+                    Log.d("WISHLIST200-ERROR", t.message.toString())
+                }
+            })
+        }
+
     }
 
     // Retrofit 인스턴스 생성
