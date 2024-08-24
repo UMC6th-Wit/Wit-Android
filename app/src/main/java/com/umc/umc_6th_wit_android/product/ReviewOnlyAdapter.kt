@@ -9,7 +9,7 @@ import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.data.remote.product.Review
 import com.umc.umc_6th_wit_android.databinding.ItemReviewDetailBinding
 
-class ReviewOnlyAdapter(private val items: List<Review>) : RecyclerView.Adapter<ReviewOnlyAdapter.MyViewHolder>() {
+class ReviewOnlyAdapter(val items: ArrayList<Review>) : RecyclerView.Adapter<ReviewOnlyAdapter.MyViewHolder>() {
 
     // ViewHolder 클래스
     inner class MyViewHolder(val binding: ItemReviewDetailBinding) : RecyclerView.ViewHolder(binding.root)
@@ -29,18 +29,21 @@ class ReviewOnlyAdapter(private val items: List<Review>) : RecyclerView.Adapter<
         holder.binding.reviewDetailTv.text = review.content
         holder.binding.reviewHelpPeopleNumTv.text = review.helpful_count.toString()
 
-        // 이미지 로드 - Glide를 사용하여 이미지를 로드합니다.
+/*
         Glide.with(holder.itemView.context)
-            .load(review.user_profile_image)
+            .load(review.user_profile_image ?: R.drawable.review_profile_image) // null이면 기본 이미지를 로드
             .into(holder.binding.reviewProfileImageIv)
+*/
 
-        holder.binding.ratingBar.rating = review.rating.toFloat()
+//        holder.binding.ratingBar.rating = review.rating.toFloat()
 
+/*
         // RecyclerView 설정 및 어댑터 설정
         val reviewImages = review.images.split(",")
         val imageAdapter = ReviewOnlyImagesRVAdapter(reviewImages)
         holder.binding.imageRvOnly.layoutManager = LinearLayoutManager(holder.itemView.context, LinearLayoutManager.HORIZONTAL, false)
         holder.binding.imageRvOnly.adapter = imageAdapter
+*/
 
         // 초기 태그 설정
         holder.binding.reviewHelpBtnIv.tag = R.drawable.review_help_btn_image

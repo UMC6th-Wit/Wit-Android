@@ -121,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="베스트순"
+        android:text=""
         android:textSize="13sp"
         android:textColor="#2572F6"
         android:textStyle="bold"
@@ -133,7 +133,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
-        android:text="최신순"
+        android:text=""
         android:textSize="13sp"
         android:textStyle="bold"
         android:textColor="#9A9A9A"
@@ -292,14 +292,17 @@
         app:srcCompat="@drawable/review_percentage_full" />
 
 
-
-    <FrameLayout
-        android:id="@+id/review_sequence_rv"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vector_bar3_iv"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/review_sequence_rv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vector_bar3_iv"
+            tools:listitem="@layout/item_review_detail"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:paddingBottom="100dp"
+            android:nestedScrollingEnabled="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -46,12 +46,22 @@ class ReviewMinFragment() : Fragment(), ProductView, ReviewOverviewView {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentReviewMinBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        binding.goToReviewBtnIv.setOnClickListener {
+            activity?.let {
+                val intent = Intent(it, ReviewOnlyActivity::class.java)
+                intent.putExtra("id", 1)
+                it.startActivity(intent)
+            }
+        }
 
+        binding.moreReviewBtnIv.setOnClickListener {
+            activity?.let {
+                val intent = Intent(it, ReviewOnlyActivity::class.java)
+                intent.putExtra("id", 1)
+                it.startActivity(intent)
+            }
+        }
         // Reviewitems가 초기화되지 않았을 경우 빈 리스트로 초기화
         if (!::Reviewitems.isInitialized) {
             Reviewitems = emptyList()
@@ -73,16 +83,21 @@ class ReviewMinFragment() : Fragment(), ProductView, ReviewOverviewView {
         }
 
         binding.goToReviewBtnIv.setOnClickListener {
-            val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
-            intent.putExtra("id", id)
-            startActivity(intent)
+            activity?.let {
+                val intent = Intent(it, ReviewOnlyActivity::class.java)
+                intent.putExtra("id", 1)
+                it.startActivity(intent)
+            }
         }
 
         binding.moreReviewBtnIv.setOnClickListener {
-            val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
-            intent.putExtra("id", id)
-            startActivity(intent)
+            activity?.let {
+                val intent = Intent(it, ReviewOnlyActivity::class.java)
+                intent.putExtra("id", 1)
+                it.startActivity(intent)
+            }
         }
+
 
 
         binding.reviewMinImagesRv.layoutManager = LinearLayoutManager(requireContext())
@@ -95,6 +110,11 @@ class ReviewMinFragment() : Fragment(), ProductView, ReviewOverviewView {
         val ReviewAdapter = ReviewMinRVAdapter(Reviewitems)
         binding.reviewMinRv.adapter = ReviewAdapter
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onGetProductSuccess(code: String, result: ProductResult) {
