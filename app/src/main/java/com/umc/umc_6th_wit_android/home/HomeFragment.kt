@@ -1,5 +1,6 @@
 package com.umc.umc_6th_wit_android.home
 
+import PanelFragment
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -64,9 +65,30 @@ class HomeFragment : Fragment(), HomePopupRVAdapter.OnItemRemovedListener {
 
 
         val panelAdapter = PanelVPAdapter(this)
-        panelAdapter.addFragment(PanelFragment(R.drawable.panel1, "일본여행 기념품으로\n꼭 사야한다는 화제의 디저트", "먼작귀 X 도쿄바나나"))
-        panelAdapter.addFragment(PanelFragment(R.drawable.panel2, "도쿄에서만 맛 볼 수 있는\n치즈의 풍미가 느껴지는 소금 쿠키", "밀크 치즈팩토리 쿠키"))
-        panelAdapter.addFragment(PanelFragment(R.drawable.panel3, "여름에만 한정판으로\n출시된다는 새로운 맛은?", "일본 로이스 초콜릿"))
+        panelAdapter.addFragment(
+            PanelFragment.newInstance(
+                R.drawable.panel1,
+                "일본여행 기념품으로\n꼭 사야한다는 화제의 디저트",
+                "먼작귀 X 도쿄바나나"
+            )
+        )
+
+        panelAdapter.addFragment(
+            PanelFragment.newInstance(
+                R.drawable.panel2,
+                "도쿄에서만 맛 볼 수 있는\n치즈의 풍미가 느껴지는 소금 쿠키",
+                "밀크 치즈팩토리 쿠키"
+            )
+        )
+
+        panelAdapter.addFragment(
+            PanelFragment.newInstance(
+                R.drawable.panel3,
+                "여름에만 한정판으로\n출시된다는 새로운 맛은?",
+                "일본 로이스 초콜릿"
+            )
+        )
+
         binding.homePanelVp.adapter = panelAdapter
         binding.homePanelVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         // Indicator에 viewPager 설정
