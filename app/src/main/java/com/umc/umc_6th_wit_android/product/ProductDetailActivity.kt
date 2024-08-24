@@ -1,10 +1,18 @@
 package com.umc.umc_6th_wit_android.product
 
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.umc.umc_6th_wit_android.PriceActivity
 import com.umc.umc_6th_wit_android.R
@@ -14,16 +22,25 @@ import com.umc.umc_6th_wit_android.databinding.ActivityProductDetailBinding
 import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 import com.umc.umc_6th_wit_android.login.TokenManager
 import com.umc.umc_6th_wit_android.wish.CartItem
+import com.umc.umc_6th_wit_android.wish.FolderActivity
+import com.umc.umc_6th_wit_android.wish.FolderPopUpAdapter
+import com.umc.umc_6th_wit_android.wish.SelectionListener
+import com.umc.umc_6th_wit_android.wish.WishBoardItemResult
 import com.umc.umc_6th_wit_android.wish.WishBoardListDelRequest
 import com.umc.umc_6th_wit_android.wish.WishItem
+import com.umc.umc_6th_wit_android.wish.WishListAddRequest
 import com.umc.umc_6th_wit_android.wish.WishService
+import java.io.Serializable
 import java.text.NumberFormat
 import java.util.Locale
 
- class ProductDetailActivity : AppCompatActivity(), ProductView {
+ class ProductDetailActivity : AppCompatActivity(), SelectionListener, ProductView {
 
     lateinit var binding: ActivityProductDetailBinding
     private var isHelpIv = false
+     private lateinit var folderPopUpAdapter: FolderPopUpAdapter
+     private val ADD_FOLDER_REQUEST_CODE = 1
+     private var product_id = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +53,7 @@ import java.util.Locale
                 .replace(R.id.fragment_product_detail, ProductDetailFragment())
                 .commit()
         }*/
+        product_id = intent.getIntExtra("id", -1)
 
         // UI 초기화 부분
         binding.comparisonBtnIv.setOnClickListener {
@@ -51,7 +69,7 @@ import java.util.Locale
             // 하트 버튼 이미지 변경 로직
             if (!isHelpIv) {
                 val request = WishBoardListDelRequest(
-                    product_ids = listOf(intent.getIntExtra("id", -1))   //product_id 넣기
+                    product_ids = listOf(product_id)   //product_id 넣기
                 )
                 val productService = ProductService(this@ProductDetailActivity)
                 productService.setProductDetailView(this)
@@ -66,6 +84,10 @@ import java.util.Locale
             isHelpIv = !isHelpIv // 하트 버튼 상태 변경
 
             // DB 하트 숫자 변경 (여기에 DB 처리 로직 추가)
+        }
+
+        binding.keepBtnIv.setOnClickListener{
+            addToFolder()
         }
     }
 
@@ -103,11 +125,95 @@ import java.util.Locale
             .commit()
     }
 
+     fun loadMoreBoards(cursor: Int?, limit: Int?) {
+         val productService = ProductService(this@ProductDetailActivity)
+         productService.setProductDetailView(this)
+         productService.getWishBoardList(cursor, limit)
+     }
+
+     // 폴더에 추가하는 기능을 구현하는 함수
+     private fun addToFolder() {
+
+         val wishService = WishService()
+         // 폴더 담기 팝업 레이아웃을 인플레이트하고 다이얼로그를 생성
+         val dialogView = layoutInflater.inflate(R.layout.folder_select_popup, null)
+         val dialog = Dialog(this)
+         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+         dialog.setContentView(dialogView)
+
+         //다이얼로그 어댑터 연결
+         folderPopUpAdapter = FolderPopUpAdapter(mutableListOf(), this) { currentCursor, limit ->
+             loadMoreBoards(currentCursor, limit)
+         }
+         val recyclerView = dialogView.findViewById<RecyclerView>(R.id.folder_recyclerView)
+         recyclerView.layoutManager = LinearLayoutManager(this) // LayoutManager 설정
+         recyclerView.adapter = folderPopUpAdapter
+         // 처음 데이터 로드
+         folderPopUpAdapter.resetBoards()
+         loadMoreBoards(1, 20)
+
+         // 팝업 창을 중앙에 배치하고 가로 넓이를 300dp로 설정
+         val metrics = resources.displayMetrics
+         val width = (300 * metrics.density).toInt()
+
+         dialog.window?.setLayout(
+             width,
+             WindowManager.LayoutParams.WRAP_CONTENT
+         )
+         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+         dialog.window?.attributes?.gravity = Gravity.CENTER
+
+         // 새 폴더 버튼 클릭 이벤트 리스너 설정
+         dialogView.findViewById<Button>(R.id.btn_new_folder).setOnClickListener {
+             val intent = Intent(this, FolderActivity::class.java)
+
+             val selectedItemsList = arrayListOf(
+                 WishItem(product_id, binding.productNameTv.text.toString(), 0, 0, R.drawable.item_ex.toString(), 4.4, 1, true),
+             )
+             // getSelectedItems()의 리턴값을 ArrayList로 변환하여 추가
+             intent.putExtra("selected_items", selectedItemsList as Serializable)
+
+             startActivityForResult(intent, ADD_FOLDER_REQUEST_CODE)
+             dialog.dismiss()
+         }
+         // 담기 완료 버튼 클릭 이벤트 리스너 설정
+         dialogView.findViewById<Button>(R.id.btn_add_folder).setOnClickListener {
+             val request = WishListAddRequest(
+                 product_ids = arrayListOf(intent.getIntExtra("id", -1)),
+                 folder_id = folderPopUpAdapter.selectedFolders.map { it.folder_id }
+             )
+             val productService = ProductService(this@ProductDetailActivity)
+             productService.setProductDetailView(this)
+             productService.postWishtoBoard(request)
+
+             dialog.dismiss()
+         }
+         dialog.show()
+     }
+
     override fun onGetProductFailure(code: String, message: String) {
         Log.d("Product-FAILURE", code)
     }
 
-    override fun onPostAddCartSuccess(code: String, response: CartItem) {
+     override fun onGetWishBoardListSuccess(code: String, result: WishBoardItemResult) {
+         Log.d("board_popup", "Success")
+         folderPopUpAdapter.addBoards(result.folders)
+         folderPopUpAdapter.currentCursor = result.nextCursor
+     }
+
+     override fun onGetWishBoardListFailure(code: String, message: String) {
+         Log.d("board", "Fail")
+     }
+
+     override fun onPostWishtoBoardSuccess(code: String, result: WishBoardItemResult) {
+         TODO("Not yet implemented")
+     }
+
+     override fun onPostWishtoBoardFailure(code: String, message: String) {
+         TODO("Not yet implemented")
+     }
+
+     override fun onPostAddCartSuccess(code: String, response: CartItem) {
         TODO("Not yet implemented")
     }
 
@@ -153,4 +259,22 @@ import java.util.Locale
         binding.currencyWonTv.text = "${formattedWonPrice}"
     }
 
-}
+     override fun onSelectionItemChanged(count: Int) {
+         updateItemButtonState(count)
+     }
+
+     override fun onSelectionBoardChanged(count: Int) {
+         updateBoardButtonState(count)
+     }
+
+     private fun updateItemButtonState(selectedItemCount: Int) {
+         val isEnabled = selectedItemCount > 0
+     }
+
+     // 보드 선택 상태에 따라 버튼의 활성화를 업데이트하는 함수
+     private fun updateBoardButtonState(selectedBoardCount: Int) {
+         val isEnabled = selectedBoardCount > 0
+         val isEnabledOne = selectedBoardCount == 1
+     }
+
+ }
