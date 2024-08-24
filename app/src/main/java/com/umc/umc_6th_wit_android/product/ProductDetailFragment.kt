@@ -37,21 +37,19 @@ class ProductDetailFragment : Fragment() {
         val id = arguments?.getString("id")?.toIntOrNull() ?: -1
 
         binding.productReviewSelectTv.setOnClickListener {
+
             val fragment = if (reviewCount == 0) {
 
                 ReviewZeroFragment(id)  // ReviewZeroFragment로 이동
             } else {
-                ReviewMinFragment(id)  // ReviewMinFragment로 이동
+//                ReviewMinFragment.newInstance(id) // ReviewMinFragment로 이동
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_product_detail, ReviewMinFragment())
+                    .commit()
             }
 
-            if(fragment == ReviewMinFragment(id))
+            if(fragment == ReviewMinFragment())
                 ReviewMinFragment.newInstance(id) //리뷰 오버뷰 프레그먼트에 상품 id 전달e
-
-
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_product_detail, fragment)
-                .addToBackStack(null)
-                .commit()
         }
     }
 

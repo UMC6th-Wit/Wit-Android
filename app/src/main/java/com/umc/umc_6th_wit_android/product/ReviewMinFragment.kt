@@ -17,13 +17,29 @@ import com.umc.umc_6th_wit_android.databinding.FragmentReviewMinBinding
 import com.umc.umc_6th_wit_android.home.ProductDetailFragment
 import com.umc.umc_6th_wit_android.wish.CartItem
 
-class ReviewMinFragment(id: Int) : Fragment(), ProductView, ReviewOverviewView {
+class ReviewMinFragment() : Fragment(), ProductView, ReviewOverviewView {
 
     private var _binding: FragmentReviewMinBinding? = null
     private val binding get() = _binding!!
     private var id: Int? = null
     private lateinit var Reviewitems: List<Review>
     private lateinit var Imageitems: List<String>
+
+    companion object {
+        fun newInstance(id: Int): ReviewMinFragment {
+            val fragment = ReviewMinFragment()
+            val args = Bundle().apply {
+                putInt("id", id)
+            }
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        id = arguments?.getInt("id")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,15 +52,23 @@ class ReviewMinFragment(id: Int) : Fragment(), ProductView, ReviewOverviewView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Reviewitems가 초기화되지 않았을 경우 빈 리스트로 초기화
+        if (!::Reviewitems.isInitialized) {
+            Reviewitems = emptyList()
+        }
+
+        if (!::Imageitems.isInitialized) {
+            Imageitems = emptyList()
+        }
+
         binding.productDetailSelectTv.setOnClickListener {
             val fragment = ProductDetailFragment.newInstance(id.toString(), "", "", 0, "") // id를 넘기기
 
             parentFragmentManager.beginTransaction()
                 .replace(
                     R.id.fragment_product_detail,
-                    fragment
-                )  // fragment_container = 현재 프래그먼트를 표시하는 뷰의 ID
-                .addToBackStack(null)  // 뒤로 가기 버튼을 사용하여 이전 프래그먼트로 돌아가기
+                    ProductDetailFragment()
+                )
                 .commit()
         }
 
@@ -101,29 +125,18 @@ class ReviewMinFragment(id: Int) : Fragment(), ProductView, ReviewOverviewView {
         _binding = null
     }
 
-    companion object {
-        fun newInstance(id: Int): ReviewMinFragment {
-            val fragment = ReviewMinFragment(id)
-            val args = Bundle().apply {
-                putInt("id", id)
-            }
-            fragment.arguments = args
-            return fragment
-        }
-
-    }
-
     private fun getProductDetail() {
-        val id: Int? = null
-
-        if (id != -1) {
+        if (id != null && id != -1) {
             Log.d("ReviewMinFragment", "Ok id received")
-            val productService = ProductService(ProductDetailActivity())
+
+            // 올바른 Context를 사용하여 ProductService 초기화
+            val context = context ?: return // Context가 null이 아닌지 확인
+            val productService = ProductService(context)
+
             productService.setProductDetailView(this)
             productService.getProductDetail(id!!)
-
         } else {
-            Log.d("ReviewMinFragment", "No id received")
+            Log.d("ReviewMinFragment", "No valid id received")
         }
     }
 
