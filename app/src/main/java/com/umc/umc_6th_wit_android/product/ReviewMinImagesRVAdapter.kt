@@ -9,10 +9,11 @@ import com.umc.umc_6th_wit_android.data.remote.product.TopHelpfulReview
 import com.umc.umc_6th_wit_android.databinding.ItemProductImgMinBinding
 import com.umc.umc_6th_wit_android.databinding.ItemReviewBinding
 
-class ReviewMinImagesRVAdapter (val items: List<String>)
+class ReviewMinImagesRVAdapter (fragment: ReviewMinFragment)
     : RecyclerView.Adapter<ReviewMinImagesRVAdapter.ReviewMinImagesViewHolder>() {
 
     val TAG = "ReviewMinRVAdapter"
+    private var items: List<String> = listOf() // 초기에는 빈 리스트로 초기화
 
     override fun getItemCount(): Int = items.size
 

@@ -10,6 +10,7 @@ import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentProductDetailBinding
 import com.umc.umc_6th_wit_android.product.ReviewMinFragment
 import com.umc.umc_6th_wit_android.product.ReviewZeroFragment
+import java.util.Optional
 
 class ProductDetailFragment : Fragment() {
 
@@ -61,7 +62,7 @@ class ProductDetailFragment : Fragment() {
         _binding = null
     }
 
-    companion object {
+    companion object { //변수 옵션으로 사용 가능하게
         fun newInstance(
             id: String,
             name: String,

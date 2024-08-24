@@ -66,6 +66,7 @@ class ProductService(private val context: Context) { //매개변수에 , private
             val productServiceApi = retrofit.create(ProductRetrofitInterface::class.java)
             productServiceApi.getProductDetail("Bearer $accessToken", productId).enqueue(object : Callback<ProductResponse> {
                 override fun onResponse(call: Call<ProductResponse>, response: Response<ProductResponse>) {
+                    Log.d("TEMP", response.body().toString())
                     if (response.isSuccessful && response.body()?.message == "Product retrieved successfully") {
                         val productResponse: ProductResponse = response.body()!!
 
