@@ -22,6 +22,11 @@ class ReviewMinFragment(id: Int) : Fragment(), ProductView, ReviewOverviewView {
     private var _binding: FragmentReviewMinBinding? = null
     private val binding get() = _binding!!
     private var id: Int? = null
+    private var name: String = ""
+    private var product_type: String = ""
+    private var review_count: Int? = null
+    private var manufacturing_country: String = ""
+
     private lateinit var Reviewitems: List<Review>
     private lateinit var Imageitems: List<String>
 
@@ -37,7 +42,8 @@ class ReviewMinFragment(id: Int) : Fragment(), ProductView, ReviewOverviewView {
         super.onViewCreated(view, savedInstanceState)
 
         binding.productDetailSelectTv.setOnClickListener {
-            val fragment = ProductDetailFragment.newInstance(id.toString(), "", "", 0, "") // id를 넘기기
+
+            val fragment = ProductDetailFragment.newInstance(id.toString(), name, product_type, review_count!!, manufacturing_country) // id를 넘기기, 넘길때 0으로 넣어서 0으로 초기화됨
 
             parentFragmentManager.beginTransaction()
                 .replace(
@@ -76,6 +82,11 @@ class ReviewMinFragment(id: Int) : Fragment(), ProductView, ReviewOverviewView {
     override fun onGetProductSuccess(code: String, result: ProductResult) {
         Log.d("Product-SUCCESS", code + result.name)
         id = result.id
+        name = result.name
+        product_type = result.product_type
+        review_count = result.review_count
+        manufacturing_country = result.manufacturing_country
+
         Log.d("ReviewMinFragProduct_Id", result.id.toString())
 
         //정보 가져 오는데 성공 -> 뷰에 반영

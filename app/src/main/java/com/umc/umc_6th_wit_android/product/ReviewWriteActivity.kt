@@ -2,6 +2,7 @@ package com.umc.umc_6th_wit_android.product
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
@@ -16,7 +17,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatRatingBar
 import com.umc.umc_6th_wit_android.R
+import com.umc.umc_6th_wit_android.data.remote.product.ContentResponse
+import com.umc.umc_6th_wit_android.data.remote.product.ProductService
+import com.umc.umc_6th_wit_android.data.remote.product.RatingResponse
+import com.umc.umc_6th_wit_android.data.remote.product.ReviewCreationResult
 import com.umc.umc_6th_wit_android.databinding.ActivityReviewWriteBinding
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 
 class ReviewWriteActivity : AppCompatActivity(), ReviewCreationView {

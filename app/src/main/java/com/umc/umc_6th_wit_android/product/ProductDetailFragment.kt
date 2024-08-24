@@ -9,6 +9,7 @@ import com.umc.umc_6th_wit_android.R
 import com.umc.umc_6th_wit_android.databinding.FragmentProductDetailBinding
 import com.umc.umc_6th_wit_android.product.ReviewMinFragment
 import com.umc.umc_6th_wit_android.product.ReviewZeroFragment
+import java.util.Optional
 
 class ProductDetailFragment : Fragment() {
 
@@ -45,8 +46,7 @@ class ProductDetailFragment : Fragment() {
             }
 
             if(fragment == ReviewMinFragment(id))
-                ReviewMinFragment.newInstance(id) //리뷰 오버뷰 프레그먼트에 상품 id 전달e
-
+                ReviewMinFragment.newInstance(id) //리뷰 오버뷰 프레그먼트에 상품 id 전달
 
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_product_detail, fragment)
@@ -60,7 +60,7 @@ class ProductDetailFragment : Fragment() {
         _binding = null
     }
 
-    companion object {
+    companion object { //변수 옵션으로 사용 가능하게
         fun newInstance(
             id: String,
             name: String,
