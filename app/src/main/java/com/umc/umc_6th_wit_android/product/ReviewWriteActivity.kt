@@ -107,6 +107,10 @@ class ReviewWriteActivity : AppCompatActivity(), ReviewCreationView {
                 val emptyMultipartList: List<MultipartBody.Part> = emptyList()
                 rating.rating?.let { it1 -> productService.createReview(1, it1.toDouble(), RequestBody.create("text/plain".toMediaTypeOrNull(), editText.text.toString()), emptyMultipartList) }
             }
+
+            binding.backBtnIv.setOnClickListener{
+                finish() //액티비티라 종료로 가능
+            }
         }
 
     // 갤러리에서 이미지 선택 후 결과 처리

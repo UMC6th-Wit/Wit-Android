@@ -88,25 +88,29 @@ class ProductService(private val context: Context) { //매개변수에 , private
 
     // 제품 리뷰 목록 불러오기 (베스트순, 최신순)
     fun getProductReviews(productId: Int) {
-        val productServiceApi = getInstance().create(ProductRetrofitInterface::class.java)
-        productServiceApi.getProductReviews(productId).enqueue(object : Callback<ProductReviewsResponse> {
-            override fun onResponse(call: Call<ProductReviewsResponse>, response: Response<ProductReviewsResponse>) {
-                if (response.isSuccessful) {
-                    val productReviewsResponse: ProductReviewsResponse = response.body()!!
+        val accessToken = tokenManager.getAccessToken()
+        if (accessToken != null) {
+            val productServiceApi = getInstance().create(ProductRetrofitInterface::class.java)
+            productServiceApi.getProductReviews("Bearer $accessToken", productId).enqueue(object : Callback<ProductReviewsResponse> {
+                override fun onResponse(call: Call<ProductReviewsResponse>, response: Response<ProductReviewsResponse>) {
+                    if (response.isSuccessful) {
+                        val productReviewsResponse: ProductReviewsResponse = response.body()!!
 
-                    Log.d("PRODUCT_REVIEWS", productReviewsResponse.toString())
+                        Log.d("PRODUCT_REVIEWS", productReviewsResponse.toString())
 
-                    reviewView.onGetReviewsSuccess(response.code().toString(), productReviewsResponse.result)
-                } else {
-                    reviewView.onGetReviewsFailure(response.code().toString(), response.message())
+                        reviewView.onGetReviewsSuccess(response.code().toString(), productReviewsResponse.result)
+                    } else {
+                        reviewView.onGetReviewsFailure(response.code().toString(), response.message())
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<ProductReviewsResponse>, t: Throwable) {
-                Log.d("PRODUCT_REVIEWS_ERROR", t.message.toString())
-                reviewView.onGetReviewsFailure("500", t.message ?: "Unknown error")
-            }
-        })
+                override fun onFailure(call: Call<ProductReviewsResponse>, t: Throwable) {
+                    Log.d("PRODUCT_REVIEWS_ERROR", t.message.toString())
+                    reviewView.onGetReviewsFailure("500", t.message ?: "Unknown error")
+                }
+            })
+        }
+
     }
 
     //위시리스트 폴더 상품 담기
@@ -200,25 +204,29 @@ class ProductService(private val context: Context) { //매개변수에 , private
 
     // 상품 별점 불러오기 (별점별 리뷰 개수)
     fun getRatingStats(productId: Int) {
-        val productServiceApi = getInstance().create(ProductRetrofitInterface::class.java)
-        productServiceApi.getRatingStats(productId).enqueue(object : Callback<RatingStatsResponse> {
-            override fun onResponse(call: Call<RatingStatsResponse>, response: Response<RatingStatsResponse>) {
-                if (response.isSuccessful) {
-                    val ratingStatsResponse: RatingStatsResponse = response.body()!!
+        // TokenManager에서 저장된 액세스 토큰을 가져옴
+        val accessToken = tokenManager.getAccessToken()
+        if (accessToken != null) {
+            val productServiceApi = getInstance().create(ProductRetrofitInterface::class.java)
+            productServiceApi.getRatingStats("Bearer $accessToken", productId).enqueue(object : Callback<RatingStatsResponse> {
+                override fun onResponse(call: Call<RatingStatsResponse>, response: Response<RatingStatsResponse>) {
+                    if (response.isSuccessful) {
+                        val ratingStatsResponse: RatingStatsResponse = response.body()!!
 
-                    Log.d("RATING_STATS", ratingStatsResponse.toString())
+                        Log.d("RATING_STATS", ratingStatsResponse.toString())
 
-                    reviewView.onGetRatingStatsSuccess(response.body()?.code.toString(), ratingStatsResponse.result)
-                } else {
-                    reviewView.onGetRatingStatsFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
+                        reviewView.onGetRatingStatsSuccess(response.body()?.code.toString(), ratingStatsResponse.result)
+                    } else {
+                        reviewView.onGetRatingStatsFailure(response.body()?.code.toString(), response.body()?.message ?: "Unknown error")
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<RatingStatsResponse>, t: Throwable) {
-                Log.d("RATING_STATS_ERROR", t.message.toString())
-                reviewView.onGetRatingStatsFailure("500", t.message ?: "Unknown error")
-            }
-        })
+                override fun onFailure(call: Call<RatingStatsResponse>, t: Throwable) {
+                    Log.d("RATING_STATS_ERROR", t.message.toString())
+                    reviewView.onGetRatingStatsFailure("500", t.message ?: "Unknown error")
+                }
+            })
+        }
     }
 
     // 리뷰에 도움이 돼요 누르기

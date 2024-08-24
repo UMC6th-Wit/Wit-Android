@@ -53,18 +53,60 @@ class ReviewMinFragment(private val productId: Int) : Fragment(), ProductView, R
         return binding.root
 
         binding.goToReviewBtnIv.setOnClickListener {
-            val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
-            intent.putExtra("id", id)
-            startActivity(intent)
+            activity?.let {
+                val intent = Intent(it, ReviewOnlyActivity::class.java)
+                intent.putExtra("id", 1)
+                it.startActivity(intent)
+            }
         }
 
         binding.moreReviewBtnIv.setOnClickListener {
-            val intent = Intent(requireContext(), ReviewOnlyActivity::class.java)
-            intent.putExtra("id", id)
-            startActivity(intent)
+            activity?.let {
+                val intent = Intent(it, ReviewOnlyActivity::class.java)
+                intent.putExtra("id", 1)
+                it.startActivity(intent)
+            }
+        }
+        // Reviewitems가 초기화되지 않았을 경우 빈 리스트로 초기화
+        if (!::Reviewitems.isInitialized) {
+            Reviewitems = emptyList()
         }
 
-        binding.reviewMinImagesRv.layoutManager = LinearLayoutManager(context)
+        if (!::Imageitems.isInitialized) {
+            Imageitems = emptyList()
+        }
+
+        binding.productDetailSelectTv.setOnClickListener {
+            val fragment = ProductDetailFragment.newInstance(id.toString(), "", "", 0, "") // id를 넘기기
+
+            parentFragmentManager.beginTransaction()
+                .replace(
+                    R.id.fragment_product_detail,
+                    ProductDetailFragment()
+                )
+                .commit()
+        }
+
+
+        binding.goToReviewBtnIv.setOnClickListener {
+            activity?.let {
+                val intent = Intent(it, ReviewOnlyActivity::class.java)
+                intent.putExtra("id", 1)
+                it.startActivity(intent)
+            }
+        }
+
+        binding.moreReviewBtnIv.setOnClickListener {
+            activity?.let {
+                val intent = Intent(it, ReviewOnlyActivity::class.java)
+                intent.putExtra("id", 1)
+                it.startActivity(intent)
+            }
+        }
+
+        //binding.reviewMinImagesRv.layoutManager = LinearLayoutManager(context)
+
+        binding.reviewMinImagesRv.layoutManager = LinearLayoutManager(requireContext())
         // 어댑터 설정1
         val imageAdapter = ReviewMinImagesRVAdapter(this)
         binding.reviewMinRv.adapter = imageAdapter
@@ -99,6 +141,11 @@ class ReviewMinFragment(private val productId: Int) : Fragment(), ProductView, R
 //                .commit()
         }
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onGetProductSuccess(code: String, result: ProductResult) {
